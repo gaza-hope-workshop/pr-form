@@ -7,8 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/package/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
 <style>
 /* ===================== الأساسيات ===================== */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -253,17 +251,18 @@ body.admin-mode #admin{display:block}
 .search-box{position:relative;flex:1;min-width:220px}
 .search-box .ic{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--mut);pointer-events:none}
 .search-box .control{padding-right:44px}
-.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:auto;box-shadow:var(--sh)}
-table{width:100%;border-collapse:collapse;font:400 13.5px var(--f-body);min-width:860px}
-th{background:#F3E9D2;font:700 12px var(--f-body);color:var(--brown-2);padding:13px 15px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap}
-td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:middle}
+.table-wrap{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:auto;box-shadow:var(--sh);max-height:70vh}
+table{width:100%;border-collapse:collapse;font:400 12.5px var(--f-body);min-width:2950px}
+th{background:#F3E9D2;font:700 11.5px var(--f-body);color:var(--brown-2);padding:12px 13px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap;position:sticky;top:0;z-index:2}
+td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
 tbody tr{cursor:pointer;transition:background .15s}
 tbody tr:hover{background:#FBF3DE}
 tbody tr:last-child td{border-bottom:none}
 .td-name{font-weight:600}
-.ref-tag{font:600 11px var(--f-body);background:rgba(200,135,46,.1);color:var(--gold-d);border:1px solid rgba(200,135,46,.3);padding:3px 10px;border-radius:99px;direction:ltr;display:inline-block}
+.td-ltr{direction:ltr;text-align:right;font-weight:500;letter-spacing:.4px}
+.td-cut{max-width:200px;overflow:hidden;text-overflow:ellipsis}
+.ref-tag{font:600 10.5px var(--f-body);background:rgba(200,135,46,.1);color:var(--gold-d);border:1px solid rgba(200,135,46,.3);padding:3px 10px;border-radius:99px;direction:ltr;display:inline-block}
 .row-actions{display:flex;gap:7px}
-.td-num{font-weight:500;letter-spacing:.5px}
 .empty-state{text-align:center;padding:56px 20px;color:var(--mut)}
 .empty-state .ic{width:42px;height:42px;stroke-width:1.4;margin-bottom:14px;color:var(--line2)}
 .empty-state p{font:400 14.5px var(--f-body);margin-bottom:18px}
@@ -314,8 +313,10 @@ footer.site .foot-in{max-width:1120px;margin:0 auto;padding:24px;display:flex;ju
 footer.site b{color:#F0D9A6}
 .foot-tatreez{height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='6' viewBox='0 0 14 6'%3E%3Cpath d='M0 6L7 0l7 6z' fill='%23C8872E'/%3E%3C/svg%3E") repeat-x bottom/14px 6px}
 
-/* ===================== تقرير PDF ===================== */
-.pdf-doc{position:fixed;left:-9999px;top:0;width:760px;background:#fff;font-family:'IBM Plex Sans Arabic',sans-serif;color:#2A1F10;z-index:-1;direction:rtl}
+/* ===================== تقرير PDF =====================
+   ⚠️ موضع ثابت عند زاوية الصفحة (وليس خارج الشاشة) —
+   هذا هو الإصلاح الذي كان يسبب ملف PDF فارغًا */
+.pdf-doc{position:fixed;top:0;left:0;z-index:-9999;width:760px;background:#fff;font-family:'IBM Plex Sans Arabic',sans-serif;color:#2A1F10;direction:rtl}
 .pdf-doc *{box-sizing:border-box}
 .pdf-head{display:flex;align-items:center;gap:14px;border-bottom:4px solid #C8872E;padding-bottom:14px;margin-bottom:16px}
 .pdf-head img{width:64px;height:64px;object-fit:contain;border-radius:8px}
@@ -327,7 +328,7 @@ footer.site b{color:#F0D9A6}
 .pdf-stat b{display:block;font-size:21px;color:#A56A1B}
 .pdf-stat span{font-size:11px;color:#8A7A5C}
 .pdf-title{background:#3E2C17;color:#F5DFAE;padding:9px 14px;border-radius:9px;font-weight:700;font-size:14px;margin:0 0 12px}
-.pdf-card{border:1px solid #E6D9BC;border-radius:12px;margin-bottom:12px;overflow:hidden;page-break-inside:avoid;break-inside:avoid}
+.pdf-card{border:1px solid #E6D9BC;border-radius:12px;margin-bottom:12px;overflow:hidden}
 .pdf-card-head{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#F7E6BE,#F2CE83);padding:8px 14px;font-weight:700;font-size:13px;color:#3E2C17;gap:10px}
 .pdf-card-head .ref{direction:ltr;font-size:11px;background:#fff;border:1px solid #DCCCA4;padding:2px 9px;border-radius:99px;color:#A56A1B;white-space:nowrap}
 .pdf-grid{display:grid;grid-template-columns:1fr 1fr}
@@ -733,7 +734,7 @@ footer.site b{color:#F0D9A6}
       <div class="card reveal captcha-box" id="captcha-box">
         <div class="sec-head">
           <span class="sec-num"><span>٠٦</span></span>
-          <div><h2>التحقق الأمني</h2><p>أدخل ناتجَ العمليةِ الحسابيةِ لإثباتِ أنك لست روبوتًا</p></div>
+          <div><h2>التحقق الأمني</h2><p>أدخل ناتجَ العمليةِ الحسابيةِ — أرقامٌ من 1 إلى 9 فقط</p></div>
         </div>
         <div class="cap-wrap">
           <canvas id="cap-canvas" width="170" height="48" aria-label="سؤال التحقق الحسابي"></canvas>
@@ -761,7 +762,7 @@ footer.site b{color:#F0D9A6}
     <div class="admin-head">
       <div>
         <h1>لوحة الإدارة</h1>
-        <p>إدارةُ سجلاتِ الاستماراتِ الواردةِ من منسوبي القسم</p>
+        <p>إدارةُ سجلاتِ الاستماراتِ الواردةِ من منسوبي القسم — بكل البيانات كاملة</p>
       </div>
       <div class="admin-actions">
         <button class="btn btn-ghost sm" id="btn-cloud" type="button"><svg class="ic"><use href="#i-refresh"/></svg> سحب من قاعدة البيانات</button>
@@ -783,13 +784,12 @@ footer.site b{color:#F0D9A6}
     </div>
     <p class="results-line" id="ad-results"></p>
     <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>المرجع</th><th>الاسم الثلاثي</th><th>المدرسة</th><th>ساحة العمل</th><th>الجوال</th><th>تاريخ الإرسال</th><th>إجراءات</th></tr>
-        </thead>
+      <table id="ad-table">
+        <thead id="ad-thead"></thead>
         <tbody id="ad-tbody"></tbody>
       </table>
     </div>
+    <p style="font:300 11.5px var(--f-body);color:var(--mut);margin-top:10px">⬅️ اسحب الجدول أفقيًا لعرضِ جميعِ الأعمدةِ والبياناتِ كاملة</p>
   </div>
 </section>
 </main>
@@ -824,12 +824,65 @@ const CONFIG = {
   DRAFT_KEY: "pr_draft_v1"
 };
 
+/* مصادر متعددة للمكتبات — إذا فشل مصدر يجرّب التالي تلقائيًا */
+const CDN_XLSX = [
+  'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/package/dist/xlsx.full.min.js',
+  'https://unpkg.com/xlsx@0.18.5/package/dist/xlsx.full.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+  'https://cdn.sheetjs.com/xlsx-0.18.5/package/dist/xlsx.full.min.js'
+];
+const CDN_PDF = [
+  'https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js',
+  'https://unpkg.com/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js'
+];
+const libCache = {};
+function loadLib(key, urls, globalName){
+  if (window[globalName]) return Promise.resolve(true);
+  if (libCache[key]) return libCache[key];
+  libCache[key] = new Promise(res => {
+    let i = 0;
+    const next = () => {
+      if (i >= urls.length) return res(false);
+      const s = document.createElement('script');
+      s.src = urls[i++];
+      s.onload = () => res(true);
+      s.onerror = () => { s.remove(); next(); };
+      document.head.appendChild(s);
+    };
+    next();
+  });
+  return libCache[key];
+}
+
 const SCHOOLS = ['مدرسة القدس','مدرسة الزهراء','مدرسة رفح','مدرسة الأنوار التعليمية','مدرسة زهرة امل تمكين وتعليم','آمنة بنت وهب','مدرسة بسمة أمل','مدرسة أطفال غزة','مدرسة روافد الامل','مدرسة محمد صلاح قشطة','مدرسة بكرا إلنا','مدرسة أحمد المنسي','مدرسة بذور الخير','مدرسة اسطنبول','مدرسة الدوحة','مدرسة العباقرة','مدرسة الفردوس','مسقط رفح','مدرسة شمس الافق','مدرسة دير ياسين','مدرسة طلائع رفح','مدرسة فلسطين','مدرسة الرواد','مدرسة آفاق','أكاديمية مفتاح','حمامة السلام','مدرسة شفا عمرو','مدرسة البوسنة'];
 const ARENAS  = ['تدوير الذكور فقط','تدوير الإناث فقط','الاثنان معاً'];
 const DEGREES = ['دبلوم','بكالوريوس','ماجستير','دكتوراه'];
 const COURSES = ['مهارات التصوير بالجوال «فوتو وفيديو»','معايير كتابة الأخبار','مونتاج الفيديو','إدارة الاحتفالات والأنشطة'];
 const HEADERS = ['اسم المدرسة','ساحة العمل','الاسم الثلاثي','رقم الهوية','تاريخ التعيين','تاريخ الميلاد','المسمى الوظيفي','آخر شهادة جامعية','التخصص','عنوان النزوح بالتفصيل','رقم الجوال المعتمد','رقم الواتساب','رابط صفحة فيسبوك المدرسة','الدورات المطلوبة','دورات أخرى'];
 const KEYS = ['school','arena','name','nid','hire','birth','job','degree','major','address','phone','wa','fb','course','other'];
+
+/* أعمدة جدول لوحة الإدارة — كل البيانات كاملة */
+const COLS = [
+  {h:'#',                 v:(r,i)=>i+1},
+  {h:'المرجع',            tag:true,  v:r=>r.id},
+  {h:'الاسم الثلاثي',     name:true, v:r=>r.values[2]},
+  {h:'رقم الهوية',        ltr:true,  v:r=>r.values[3]},
+  {h:'المدرسة',                      v:r=>r.values[0]},
+  {h:'ساحة العمل',                   v:r=>r.values[1]},
+  {h:'تاريخ التعيين',                v:r=>r.values[4]},
+  {h:'تاريخ الميلاد',                v:r=>r.values[5]},
+  {h:'المسمى الوظيفي',               v:r=>r.values[6]},
+  {h:'الشهادة',                      v:r=>r.values[7]},
+  {h:'التخصص',                       v:r=>r.values[8]},
+  {h:'عنوان النزوح',      cut:true,  v:r=>r.values[9]},
+  {h:'الجوال',            ltr:true,  v:r=>r.values[10]},
+  {h:'الواتساب',          ltr:true,  v:r=>r.values[11]},
+  {h:'رابط فيسبوك',       cut:true, ltr:true, v:r=>r.values[12]},
+  {h:'الدورة المطلوبة',              v:r=>r.values[13]},
+  {h:'دورات أخرى',        cut:true,  v:r=>r.values[14]},
+  {h:'تاريخ الإرسال',                v:r=>fmtDateTime(parseSentAt(r.sentAt))}
+];
 
 /* ============ أدوات مساعدة ============ */
 const el = id => document.getElementById(id);
@@ -838,8 +891,18 @@ const $$ = s => Array.from(document.querySelectorAll(s));
 const icon = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad = n => String(n).padStart(2,'0');
-const fmtDateTime = iso => { const d = new Date(iso); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} - ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
-const relTime = iso => { const s = (Date.now() - new Date(iso).getTime())/1000;
+const fmtDateTime = iso => { const d = new Date(iso); if (isNaN(d)) return String(iso||'—'); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} - ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+/* توحيد صيغ التاريخ القادمة من قاعدة البيانات (ISO أو نص منسق أو Date) */
+function parseSentAt(s){
+  if (!s) return new Date().toISOString();
+  if (s instanceof Date) return s.toISOString();
+  let d = new Date(s);
+  if (!isNaN(d)) return d.toISOString();
+  const m = String(s).match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})\s*-\s*(\d{1,2}):(\d{2})/);
+  if (m) return new Date(+m[3], +m[2]-1, +m[1], +m[4], +m[5]).toISOString();
+  return new Date().toISOString();
+}
+const relTime = iso => { const s = (Date.now() - new Date(parseSentAt(iso)).getTime())/1000;
   if (s < 90) return 'قبل لحظات';
   if (s < 3600) return `قبل ${Math.floor(s/60)} دقيقة`;
   if (s < 86400) return `قبل ${Math.floor(s/3600)} ساعة`;
@@ -865,6 +928,17 @@ function closeModal(){
 el('modal-close').addEventListener('click', closeModal);
 el('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el('overlay').hidden) closeModal(); });
+
+function btnBusy(btn, on, label){
+  if (on){
+    btn.dataset.html = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spin" style="display:inline-block;border-color:rgba(58,39,8,.3);border-top-color:#3A2708"></span> ${esc(label||'جارٍ المعالجة…')}`;
+  } else {
+    btn.disabled = false;
+    if (btn.dataset.html){ btn.innerHTML = btn.dataset.html; delete btn.dataset.html; }
+  }
+}
 
 /* ============ الشعار الأصلي ============ */
 (() => {
@@ -1079,7 +1153,6 @@ async function nidExists(nid){
   }
   try { return (JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY))||[]).some(r => r.values && r.values[3] === nid); } catch(e){ return false; }
 }
-/* فحص فوري عند مغادرة حقل الهوية */
 el('f-nid').addEventListener('blur', async ()=> {
   const r = V.nid();
   if (r.error) return;
@@ -1096,16 +1169,25 @@ el('f-nid').addEventListener('blur', async ()=> {
   }
 });
 
-/* ============ الكابتشا الحسابية ============ */
+/* ============ الكابتشا — أرقام من 1 إلى 9 فقط، والناتج لا يتجاوز 9 ============ */
 let capAnswer = 0, capLastText = '';
 function newCaptcha(){
-  const ops = ['+','−','×'];
-  const op = ops[Math.floor(Math.random()*ops.length)];
+  const type = ['+','−','×'][Math.floor(Math.random()*3)];
   let a, b;
-  if (op === '+'){ a = 2 + Math.floor(Math.random()*38); b = 2 + Math.floor(Math.random()*38); capAnswer = a + b; }
-  else if (op === '−'){ a = 15 + Math.floor(Math.random()*45); b = 1 + Math.floor(Math.random()*(a-2)); capAnswer = a - b; }
-  else { a = 2 + Math.floor(Math.random()*7); b = 2 + Math.floor(Math.random()*7); capAnswer = a * b; }
-  capLastText = `${a} ${op} ${b} =`;
+  if (type === '+'){
+    a = 1 + Math.floor(Math.random()*8);            /* 1..8 */
+    b = 1 + Math.floor(Math.random()*(9-a));        /* الناتج ≤ 9 */
+    capAnswer = a + b;
+  } else if (type === '−'){
+    a = 2 + Math.floor(Math.random()*8);            /* 2..9 */
+    b = 1 + Math.floor(Math.random()*(a-1));        /* الناتج ≥ 1 */
+    capAnswer = a - b;
+  } else {
+    a = 1 + Math.floor(Math.random()*3);            /* 1..3 */
+    b = 2 + Math.floor(Math.random()*(Math.floor(9/a)-1)); /* الناتج ≤ 9 */
+    capAnswer = a * b;
+  }
+  capLastText = `${a} ${type} ${b} =`;
   drawCaptcha(capLastText);
   el('cap-input').value = '';
   el('captcha-box').classList.remove('invalid');
@@ -1150,7 +1232,6 @@ el('cap-refresh').addEventListener('click', ()=>{
   newCaptcha();
 });
 el('cap-input').addEventListener('input', ()=> el('captcha-box').classList.remove('invalid'));
-/* تجديد تلقائي كل دقيقتين إذا كان الحقل فارغًا */
 setInterval(()=> { if (!el('cap-input').value) newCaptcha(); }, 120000);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=> drawCaptcha(capLastText));
 newCaptcha();
@@ -1195,7 +1276,8 @@ function setSending(on, label){
 }
 function cloudSend(rec){
   if (!CONFIG.SCRIPT_URL) return Promise.resolve();
-  const payload = { row: [rec.id, fmtDateTime(rec.sentAt), ...rec.values] };
+  /* نرسل التاريخ بصيغة ISO ليتعامل معه الجدول والموقع بشكل موحد */
+  const payload = { row: [rec.id, rec.sentAt, ...rec.values] };
   const p = fetch(CONFIG.SCRIPT_URL, {
     method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1204,7 +1286,6 @@ function cloudSend(rec){
   return Promise.race([p, new Promise(r => setTimeout(r, 8000))]);
 }
 el('btn-submit').addEventListener('click', async ()=>{
-  /* ١) التحقق من الحقول */
   let firstBad = null;
   KEYS.forEach(k => {
     const r = V[k]();
@@ -1213,7 +1294,6 @@ el('btn-submit').addEventListener('click', async ()=>{
   });
   refreshLive(); updateProgress();
 
-  /* ٢) التحقق من الكابتشا */
   const capVal = el('cap-input').value.trim();
   const capOk = capVal !== '' && +capVal === capAnswer;
   const box = el('captcha-box');
@@ -1238,7 +1318,6 @@ el('btn-submit').addEventListener('click', async ()=>{
     return;
   }
 
-  /* ٣) فحص تكرار رقم الهوية قبل الإرسال */
   const rec = buildRecord();
   setSending(true, 'جارٍ التحقق من رقم الهوية…');
   const dup = await nidExists(rec.values[3]);
@@ -1253,7 +1332,6 @@ el('btn-submit').addEventListener('click', async ()=>{
     return;
   }
 
-  /* ٤) الإرسال */
   setSending(true, 'جارٍ إرسال البيانات…');
   await Promise.all([cloudSend(rec), new Promise(r => setTimeout(r, 700))]);
   const records = loadRecords();
@@ -1299,17 +1377,6 @@ form.addEventListener('keydown', e => {
 function loadRecords(){ try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)) || []; } catch { return []; } }
 function persistRecords(r){ localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(r)); }
 
-function btnBusy(btn, on, label){
-  if (on){
-    btn.dataset.html = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = `<span class="spin" style="display:inline-block;border-color:rgba(58,39,8,.3);border-top-color:#3A2708"></span> ${esc(label||'جارٍ المعالجة…')}`;
-  } else {
-    btn.disabled = false;
-    if (btn.dataset.html){ btn.innerHTML = btn.dataset.html; delete btn.dataset.html; }
-  }
-}
-
 el('btn-top').addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
 el('btn-admin').addEventListener('click', ()=> {
   if (sessionStorage.getItem('pr_admin') === '1') showAdmin();
@@ -1329,6 +1396,7 @@ function showAdmin(){
   document.body.classList.add('admin-mode');
   window.scrollTo(0, 0);
   renderAdmin();
+  syncCloud(true);   /* مزامنة تلقائية صامتة من قاعدة البيانات عند الفتح */
 }
 function openPassModal(){
   openModal(`<div class="pass-box">
@@ -1360,21 +1428,23 @@ el('ad-q').addEventListener('input', e => { filterQ = e.target.value.trim(); ren
 el('ad-school').addEventListener('change', e => { filterSchool = e.target.value; renderTable(); });
 
 function filteredRecords(){
-  return loadRecords().filter(r => {
-    if (filterSchool && r.values[0] !== filterSchool) return false;
-    if (filterQ){
-      const hay = [r.id, ...r.values].join(' ').toLowerCase();
-      if (!hay.includes(filterQ.toLowerCase())) return false;
-    }
-    return true;
-  });
+  return loadRecords()
+    .filter(r => {
+      if (filterSchool && r.values[0] !== filterSchool) return false;
+      if (filterQ){
+        const hay = [r.id, ...r.values].join(' ').toLowerCase();
+        if (!hay.includes(filterQ.toLowerCase())) return false;
+      }
+      return true;
+    })
+    .sort((a,b) => new Date(parseSentAt(b.sentAt)) - new Date(parseSentAt(a.sentAt)));  /* الأحدث أولًا */
 }
 function renderAdmin(){ renderStats(); renderTable(); }
 function renderStats(){
   const recs = loadRecords();
   const schools = new Set(recs.map(r => r.values[0])).size;
   const t = new Date(); const today0 = new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime();
-  const todayCount = recs.filter(r => new Date(r.sentAt).getTime() >= today0).length;
+  const todayCount = recs.filter(r => new Date(parseSentAt(r.sentAt)).getTime() >= today0).length;
   const last = recs.length ? relTime(recs[recs.length-1].sentAt) : '—';
   const card = (ic, val, lbl) => `<div class="stat"><span class="stat-ic">${icon(ic)}</span><div><b>${val}</b><span>${lbl}</span></div></div>`;
   el('ad-stats').innerHTML =
@@ -1383,26 +1453,28 @@ function renderStats(){
     card('cal','' + todayCount, 'سجلات اليوم') +
     card('clock', esc(last), 'آخر تسجيل');
 }
+/* بناء رأس الجدول بكل الأعمدة */
+function buildThead(){
+  el('ad-thead').innerHTML = '<tr>' + COLS.map(c => `<th>${esc(c.h)}</th>`).join('') + '<th>إجراءات</th></tr>';
+}
 function renderTable(){
   const list = filteredRecords();
-  el('ad-results').textContent = `عدد النتائج: ${list.length} من إجمالي ${loadRecords().length} سجل`;
+  el('ad-results').textContent = `عدد النتائج: ${list.length} من إجمالي ${loadRecords().length} سجل — بكل البيانات`;
   const tb = el('ad-tbody');
   if (!list.length){
-    tb.innerHTML = `<tr><td colspan="8"><div class="empty-state">
+    tb.innerHTML = `<tr><td colspan="${COLS.length+1}"><div class="empty-state">
       ${icon('db')}
-      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — اضغط «سحب من قاعدة البيانات» لجلب الاستمارات الواردة.'}</p>
+      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — سيتم السحب تلقائيًا من قاعدة البيانات.'}</p>
     </div></td></tr>`;
     return;
   }
   tb.innerHTML = list.map((r, i) => `
-    <tr data-id="${esc(r.id)}">
-      <td>${i+1}</td>
-      <td><span class="ref-tag">${esc(r.id)}</span></td>
-      <td class="td-name">${esc(r.values[2])}</td>
-      <td>${esc(r.values[0])}</td>
-      <td>${esc(r.values[1])}</td>
-      <td class="td-num" dir="ltr">${esc(r.values[10])}</td>
-      <td>${fmtDateTime(r.sentAt)}</td>
+    <tr data-id="${esc(r.id)}" title="اضغط لعرض التفاصيل">
+      ${COLS.map(c => {
+        const v = c.v(r, i);
+        const cls = c.tag ? 'ref-tag' : [c.name&&'td-name', c.ltr&&'td-ltr', c.cut&&'td-cut'].filter(Boolean).join(' ');
+        return `<td class="${c.tag ? '' : cls}">${c.tag ? `<span class="ref-tag">${esc(v)}</span>` : `<span class="${cls}" ${c.cut?`title="${esc(v)}"`:''}>${esc(v)}</span>`}</td>`;
+      }).join('')}
       <td><div class="row-actions">
         <button class="icon-btn" data-act="view" type="button" title="عرض التفاصيل">${icon('eye')}</button>
         <button class="icon-btn danger" data-act="del" type="button" title="حذف">${icon('trash')}</button>
@@ -1426,7 +1498,7 @@ function openRecord(r){
     <div class="modal-foot">
       <a class="btn btn-ghost sm" target="_blank" rel="noopener" href="https://wa.me/${esc(r.values[11].replace('+',''))}">${icon('whatsapp')} واتساب</a>
       <a class="btn btn-ghost sm" target="_blank" rel="noopener" href="${esc(r.values[12])}">${icon('fb')} فيسبوك</a>
-      <span class="meta">سُجِّل: ${fmtDateTime(r.sentAt)} · ${esc(r.id)}</span>
+      <span class="meta">سُجِّل: ${fmtDateTime(parseSentAt(r.sentAt))} · ${esc(r.id)}</span>
     </div>`);
 }
 function confirmDelete(rec){
@@ -1445,28 +1517,77 @@ function confirmDelete(rec){
   });
 }
 
-/* ============ تصدير Excel كامل (كل السجلات بكل البيانات) ============ */
-el('btn-export').addEventListener('click', ()=> {
-  if (typeof XLSX === 'undefined'){ toast('مكتبة Excel لم تُحمَّل — تحقق من الاتصال', 'error'); return; }
+/* ============ المزامنة مع قاعدة البيانات السحابية ============ */
+async function syncCloud(silent){
+  if (silent && !CONFIG.SCRIPT_URL) return;
+  if (!silent) btnBusy(el('btn-cloud'), true, 'جارٍ السحب…');
+  try {
+    const res = await fetch(CONFIG.SCRIPT_URL, { cache:'no-store' });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || '');
+    const records = loadRecords();
+    let added = 0;
+    (data.rows || []).forEach(r => {
+      if (r && r.id && Array.isArray(r.values) && r.values.length >= 15){
+        r.sentAt = parseSentAt(r.sentAt);
+        if (!records.some(x => x.id === r.id)){ records.push(r); added++; }
+      }
+    });
+    if (added) persistRecords(records);
+    renderAdmin();
+    if (!silent) toast(added ? `تمت إضافة ${added} سجل من قاعدة البيانات` : 'السجلات محدثة بالكامل', 'ok');
+    else if (added) toast(`تمت مزامنة ${added} سجل جديد من قاعدة البيانات`, 'ok');
+  } catch {
+    if (!silent) toast('تعذر الاتصال بقاعدة البيانات السحابية', 'error');
+  } finally {
+    if (!silent) btnBusy(el('btn-cloud'), false);
+  }
+}
+el('btn-cloud').addEventListener('click', ()=> syncCloud(false));
+
+/* ============ تصدير Excel كامل — مع تحميل المكتبة من عدة مصادر + بديل CSV ============ */
+function downloadBlob(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=> { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+}
+function exportCSV(list){
+  const q = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
+  const rows = [ ['م','رقم المرجع','تاريخ الإرسال', ...HEADERS], ...list.map((r,i)=>[i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), ...r.values]) ];
+  const csv = '\uFEFF' + rows.map(row => row.map(q).join(',')).join('\r\n');
+  downloadBlob(new Blob([csv], {type:'text/csv;charset=utf-8;'}), `سجلات_العلاقات_العامة_كاملة_${new Date().toISOString().slice(0,10)}.csv`);
+}
+el('btn-export').addEventListener('click', async ()=>{
   const list = loadRecords();
-  if (!list.length){ toast('لا توجد سجلات لتصديرها', 'error'); return; }
+  if (!list.length){ toast('لا توجد سجلات لتصديرها — اسحب من قاعدة البيانات أولًا', 'error'); return; }
+  btnBusy(el('btn-export'), true, 'جارٍ تجهيز الملف…');
+  const ok = await loadLib('xlsx', CDN_XLSX, 'XLSX');
+  btnBusy(el('btn-export'), false);
+  if (!ok){
+    /* بديل ذكي: CSV بترميز عربي سليم يفتح في Excel مباشرة */
+    exportCSV(list);
+    toast('تعذر تحميل مكتبة Excel — تم التصدير بصيغة CSV متوافقة مع Excel', 'info');
+    return;
+  }
   const header = ['م', 'رقم المرجع', 'تاريخ الإرسال', ...HEADERS];
-  const rows = list.map((r, i) => [i+1, r.id, fmtDateTime(r.sentAt), ...r.values]);
+  const rows = list.map((r, i) => [i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), ...r.values]);
   const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
   ws['!cols'] = [{ wch:5 }, { wch:15 }, { wch:19 }, ...HEADERS.map(() => ({ wch:24 }))];
   const wb = XLSX.utils.book_new();
   wb.Workbook = { Views: [{ RTL: true }] };
   XLSX.utils.book_append_sheet(wb, ws, 'سجلات العلاقات العامة');
   XLSX.writeFile(wb, `سجلات_العلاقات_العامة_كاملة_${new Date().toISOString().slice(0,10)}.xlsx`);
-  toast(`تم تصدير ${list.length} سجل بكل البيانات`, 'ok');
+  toast(`تم تصدير ${list.length} سجل بكل البيانات (${header.length} عمود)`, 'ok');
 });
 
-/* ============ تصدير PDF ملوّن منسّق ============ */
+/* ============ تصدير PDF ملوّن — مع إصلاح مشكلة الملف الفارغ ============ */
 function buildPdfDoc(list){
   const schools = new Set(list.map(r => r.values[0])).size;
   const d = new Date(); const t0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
-  const todayCount = list.filter(r => new Date(r.sentAt).getTime() >= t0).length;
-  const FULL = [9, 12, 14]; /* حقول بعرض كامل */
+  const todayCount = list.filter(r => new Date(parseSentAt(r.sentAt)).getTime() >= t0).length;
+  const FULL = [9, 12, 14];
   const kv = (h, v, full) => `<div class="pdf-kv${full ? ' full' : ''}"><span>${esc(h)}</span><b>${esc(v)}</b></div>`;
   const cards = list.map((r, i) => `
     <div class="pdf-card">
@@ -1477,7 +1598,7 @@ function buildPdfDoc(list){
       <div class="pdf-grid">
         ${HEADERS.map((h, idx) => kv(h, r.values[idx], FULL.includes(idx))).join('')}
       </div>
-      <div class="pdf-card-foot">سُجِّل بتاريخ: ${fmtDateTime(r.sentAt)} &nbsp;·&nbsp; واتساب: ${esc(r.values[11])} &nbsp;·&nbsp; جوال: ${esc(r.values[10])}</div>
+      <div class="pdf-card-foot">سُجِّل بتاريخ: ${fmtDateTime(parseSentAt(r.sentAt))} &nbsp;·&nbsp; واتساب: ${esc(r.values[11])} &nbsp;·&nbsp; جوال: ${esc(r.values[10])}</div>
     </div>`).join('');
   const node = document.createElement('div');
   node.className = 'pdf-doc';
@@ -1506,21 +1627,29 @@ function buildPdfDoc(list){
   return node;
 }
 el('btn-pdf').addEventListener('click', async ()=>{
-  if (typeof html2pdf === 'undefined'){ toast('مكتبة PDF لم تُحمَّل — تحقق من الاتصال', 'error'); return; }
   const list = loadRecords();
   if (!list.length){ toast('لا توجد سجلات لإنشاء التقرير — اسحب من قاعدة البيانات أولًا', 'error'); return; }
   btnBusy(el('btn-pdf'), true, 'جارٍ إنشاء ملف PDF…');
+  const ok = await loadLib('pdf', CDN_PDF, 'html2pdf');
+  if (!ok){
+    btnBusy(el('btn-pdf'), false);
+    toast('تعذر تحميل مكتبة PDF — تحقق من الاتصال بالإنترنت وحاول مجددًا', 'error');
+    return;
+  }
   let node = null;
   try {
-    await new Promise(r => setTimeout(r, 60));
+    /* انتظار تحميل الخطوط العربية قبل الالتقاط — يمنع النص الفارغ */
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    window.scrollTo(0, 0);
     node = buildPdfDoc(list);
+    await new Promise(r => setTimeout(r, 150));
     await html2pdf().set({
       margin: [8, 8, 10, 8],
       filename: `تقرير_العلاقات_العامة_${new Date().toISOString().slice(0,10)}.pdf`,
       image: { type:'jpeg', quality:.96 },
-      html2canvas: { scale:2, useCORS:true, backgroundColor:'#FFFFFF' },
+      html2canvas: { scale:2, useCORS:true, backgroundColor:'#FFFFFF', scrollY:0, windowWidth:800 },
       jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
-      pagebreak: { mode:['css','legacy'] }
+      pagebreak: { mode:['css','legacy'], avoid:'.pdf-card' }
     }).from(node).save();
     toast(`تم إنشاء تقرير PDF بـ ${list.length} سجل — جاهز للإرسال`, 'ok');
   } catch(err){
@@ -1531,29 +1660,14 @@ el('btn-pdf').addEventListener('click', async ()=>{
   }
 });
 
-/* ============ السحب من قاعدة البيانات السحابية ============ */
-el('btn-cloud').addEventListener('click', async ()=> {
-  btnBusy(el('btn-cloud'), true, 'جارٍ السحب…');
-  try {
-    const res = await fetch(CONFIG.SCRIPT_URL, { cache:'no-store' });
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.error || '');
-    const records = loadRecords();
-    let added = 0;
-    (data.rows || []).forEach(r => {
-      if (r && r.id && Array.isArray(r.values) && !records.some(x => x.id === r.id)){ records.push(r); added++; }
-    });
-    persistRecords(records); renderAdmin();
-    toast(added ? `تمت إضافة ${added} سجل من قاعدة البيانات` : 'السجلات محدثة بالكامل', 'ok');
-  } catch { toast('تعذر الاتصال بقاعدة البيانات السحابية', 'error'); }
-  finally { btnBusy(el('btn-cloud'), false); }
-});
-
 /* ============ الإقلاع ============ */
 el('year').textContent = '© ' + new Date().getFullYear() + ' — جميع الحقوق محفوظة';
+buildThead();
 applyDraft();
 refreshLive();
 updateProgress();
+/* تحميل المكتبات مسبقًا في الخلفية بعد فتح الصفحة — ليكون التصدير فوريًا */
+addEventListener('load', ()=> setTimeout(()=> { loadLib('xlsx', CDN_XLSX, 'XLSX'); loadLib('pdf', CDN_PDF, 'html2pdf'); }, 2000));
 </script>
 </body>
 </html>
