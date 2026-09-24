@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@200;300;400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
 <style>
 /* ===================== الأساسيات ===================== */
 *{margin:0;padding:0;box-sizing:border-box}
@@ -33,7 +34,6 @@ section{scroll-margin-top:84px}
 .ic{width:18px;height:18px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
-/* غبار ذهبي */
 #dust{position:fixed;inset:0;z-index:0;pointer-events:none}
 main,header,footer{position:relative;z-index:1}
 
@@ -60,10 +60,8 @@ main,header,footer{position:relative;z-index:1}
   background:radial-gradient(circle at 36% 30%,#FFFFFF 0%,#EDEDED 55%,#D5D5D5 100%);
   display:grid;place-items:center;
 }
-/* ✅ شعارك الأصلي — يُعرض كما هو تمامًا دون أي تعديل */
 .seal-face img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none}
 .seal.has-img .seal-face img{display:block}
-/* الرسم المؤقت — يظهر فقط إذا لم يوجد ملف الشعار */
 .arch-art{width:88%;height:88%;display:none}
 .seal:not(.has-img) .arch-art{display:block}
 .arch-art .arch{opacity:0;transform:translateY(16px) scale(.94);transform-box:fill-box;transform-origin:center;animation:archIn .75s cubic-bezier(.2,.85,.3,1.25) forwards}
@@ -79,11 +77,7 @@ main,header,footer{position:relative;z-index:1}
 .seal-caption small{display:block;font:500 12px var(--f-body);color:var(--mut);margin-top:4px}
 
 /* ===================== الشريط العلوي ===================== */
-.topbar{
-  position:sticky;top:0;z-index:60;
-  background:rgba(250,246,236,.88);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-}
+.topbar{position:sticky;top:0;z-index:60;background:rgba(250,246,236,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .topbar::after{content:'';display:block;height:3px;background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-l) 50%,var(--gold) 80%,transparent)}
 .top-in{max-width:1120px;margin:0 auto;padding:0 24px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .brand{display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;font-family:var(--f-body)}
@@ -176,11 +170,7 @@ main,header,footer{position:relative;z-index:1}
 .form-sec{padding:66px 0 80px}
 .form-head{text-align:center;margin-bottom:30px}
 .form-head .kicker{margin-bottom:4px}
-.progress{
-  position:sticky;top:82px;z-index:40;background:var(--card);border:1px solid var(--line);
-  border-radius:15px;padding:15px 20px;margin:0 auto 30px;max-width:800px;box-shadow:var(--sh);
-  display:flex;flex-direction:column;gap:10px;
-}
+.progress{position:sticky;top:82px;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px 20px;margin:0 auto 30px;max-width:800px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:10px}
 .fp-top{display:flex;justify-content:space-between;align-items:baseline;font:500 12.5px var(--f-body);color:var(--mut)}
 .fp-top b{font:800 15px var(--f-head);color:var(--brown)}
 .fp-done{color:var(--ok);font-weight:700;display:none}
@@ -201,19 +191,11 @@ main,header,footer{position:relative;z-index:1}
 .req{color:var(--err);font-weight:700}
 .lbl-extra{margin-inline-start:auto;font:600 11.5px var(--f-body);color:var(--ok)}
 .ctl-wrap{position:relative}
-.control{
-  width:100%;background:var(--face);border:1.6px solid var(--line2);border-radius:12px;
-  padding:13px 15px;font:400 15px/1.5 var(--f-body);color:var(--ink);outline:none;
-  transition:border-color .25s,box-shadow .25s,background .25s;
-}
+.control{width:100%;background:var(--face);border:1.6px solid var(--line2);border-radius:12px;padding:13px 15px;font:400 15px/1.5 var(--f-body);color:var(--ink);outline:none;transition:border-color .25s,box-shadow .25s,background .25s}
 .control:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 4px rgba(200,135,46,.14)}
 .control::placeholder{color:#C4B48C;font-weight:300}
 textarea.control{resize:vertical;min-height:64px}
-select.control{
-  appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C4326' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:left 14px center;padding-left:42px;
-}
+select.control{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235C4326' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left 14px center;padding-left:42px}
 select.control.ph{color:#C4B48C}
 select.control option{color:var(--ink)}
 .ok-ic{position:absolute;left:13px;top:50%;width:19px;height:19px;transform:translateY(-50%) scale(0);color:var(--ok);stroke-width:2.6;transition:transform .3s cubic-bezier(.3,1.6,.4,1)}
@@ -237,6 +219,17 @@ select.control option{color:var(--ink)}
 .wa-group{display:flex;gap:10px}
 .wa-cc{width:120px;flex:none;direction:ltr;text-align:center;font-weight:600}
 .wa-preview{margin-top:9px;display:inline-flex;align-items:center;gap:7px;font:500 12px var(--f-body);color:var(--gold-d);background:rgba(200,135,46,.08);border:1px dashed rgba(200,135,46,.4);padding:6px 13px;border-radius:9px;direction:ltr}
+
+/* ====== الكابتشا ====== */
+.cap-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+#cap-canvas{border-radius:11px;border:1.6px solid var(--line2);display:block;flex:none;box-shadow:inset 0 1px 4px rgba(90,62,20,.08)}
+.cap-input{width:130px;text-align:center;font-weight:700;letter-spacing:2px;font-size:16px}
+.cap-refresh{width:44px;height:44px;border-radius:11px}
+.cap-refresh .ic{transition:transform .5s cubic-bezier(.3,1,.4,1)}
+.cap-refresh.go .ic{transform:rotate(360deg)}
+.captcha-box.invalid #cap-canvas{border-color:var(--err);box-shadow:0 0 0 3px rgba(179,38,30,.1)}
+.captcha-box.invalid .cap-input{border-color:var(--err);background:#FFF8F6}
+.captcha-box .err{margin-top:0;width:100%}
 
 .form-foot{max-width:880px;margin:6px auto 0;text-align:center}
 .btn-submit{width:100%;padding:18px;font-size:16.5px;border-radius:15px}
@@ -321,6 +314,31 @@ footer.site .foot-in{max-width:1120px;margin:0 auto;padding:24px;display:flex;ju
 footer.site b{color:#F0D9A6}
 .foot-tatreez{height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='6' viewBox='0 0 14 6'%3E%3Cpath d='M0 6L7 0l7 6z' fill='%23C8872E'/%3E%3C/svg%3E") repeat-x bottom/14px 6px}
 
+/* ===================== تقرير PDF ===================== */
+.pdf-doc{position:fixed;left:-9999px;top:0;width:760px;background:#fff;font-family:'IBM Plex Sans Arabic',sans-serif;color:#2A1F10;z-index:-1;direction:rtl}
+.pdf-doc *{box-sizing:border-box}
+.pdf-head{display:flex;align-items:center;gap:14px;border-bottom:4px solid #C8872E;padding-bottom:14px;margin-bottom:16px}
+.pdf-head img{width:64px;height:64px;object-fit:contain;border-radius:8px}
+.pdf-head h1{font-size:20px;color:#3E2C17;margin:0;font-weight:800}
+.pdf-head p{margin:3px 0 0;font-size:12px;color:#6E5433}
+.pdf-date{margin-inline-start:auto;font-size:11px;color:#9A8A67;background:#FBF7EC;border:1px solid #EBDFC4;padding:5px 10px;border-radius:8px;white-space:nowrap}
+.pdf-stats{display:flex;gap:10px;margin-bottom:16px}
+.pdf-stat{flex:1;border:1px solid #EBDFC4;border-radius:10px;padding:10px;text-align:center;background:#FBF7EC}
+.pdf-stat b{display:block;font-size:21px;color:#A56A1B}
+.pdf-stat span{font-size:11px;color:#8A7A5C}
+.pdf-title{background:#3E2C17;color:#F5DFAE;padding:9px 14px;border-radius:9px;font-weight:700;font-size:14px;margin:0 0 12px}
+.pdf-card{border:1px solid #E6D9BC;border-radius:12px;margin-bottom:12px;overflow:hidden;page-break-inside:avoid;break-inside:avoid}
+.pdf-card-head{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#F7E6BE,#F2CE83);padding:8px 14px;font-weight:700;font-size:13px;color:#3E2C17;gap:10px}
+.pdf-card-head .ref{direction:ltr;font-size:11px;background:#fff;border:1px solid #DCCCA4;padding:2px 9px;border-radius:99px;color:#A56A1B;white-space:nowrap}
+.pdf-grid{display:grid;grid-template-columns:1fr 1fr}
+.pdf-kv{padding:7px 14px;border-bottom:1px solid #F0E9D9;font-size:12px}
+.pdf-kv:nth-child(odd){background:#FDFAF2}
+.pdf-kv span{display:block;color:#9A8A67;font-size:10px;margin-bottom:1px}
+.pdf-kv b{color:#2A1F10;font-weight:600;word-break:break-word}
+.pdf-kv.full{grid-column:1/-1}
+.pdf-card-foot{padding:7px 14px;font-size:10.5px;color:#8A7A5C;background:#FBF7EC}
+.pdf-foot{margin-top:16px;padding-top:10px;border-top:2px solid #C8872E;display:flex;justify-content:space-between;font-size:10px;color:#9A8A67}
+
 /* ===================== الظهور عند التمرير ===================== */
 .reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s cubic-bezier(.22,.7,.25,1)}
 .reveal.in{opacity:1;transform:none}
@@ -345,6 +363,7 @@ footer.site b{color:#F0D9A6}
   .kv-grid{grid-template-columns:1fr}
   .brand-txt small{display:none}
   .wrap{padding:0 16px}
+  .cap-wrap{justify-content:center}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important}
@@ -368,6 +387,7 @@ footer.site b{color:#F0D9A6}
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
   <symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
   <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
@@ -390,7 +410,6 @@ footer.site b{color:#F0D9A6}
 <header class="topbar">
   <div class="top-in">
     <button class="brand" id="btn-top" type="button" aria-label="العودة للأعلى">
-      <!-- شعارك الأصلي في الشريط العلوي (يظهر تلقائيًا عند وجود logo.png) -->
       <img class="brand-mark" id="top-logo" alt="" style="display:none">
       <svg class="brand-mark" id="top-fallback" viewBox="0 0 48 48" aria-hidden="true">
         <defs><linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2CE83"/><stop offset="1" stop-color="#A56A1B"/></linearGradient></defs>
@@ -424,7 +443,7 @@ footer.site b{color:#F0D9A6}
       </div>
       <div class="hero-meta">
         <span><svg class="ic"><use href="#i-shield"/></svg> جميع الحقول إلزامية</span>
-        <span><svg class="ic"><use href="#i-clock"/></svg> لا يستغرق أكثر من ٣ دقائق</span>
+        <span><svg class="ic"><use href="#i-lock"/></svg> حماية بالتحقق البشري</span>
         <span><svg class="ic"><use href="#i-check"/></svg> بياناتك تُحفظ بسرّية تامة</span>
       </div>
     </div>
@@ -433,9 +452,7 @@ footer.site b{color:#F0D9A6}
         <div class="seal-rays"></div>
         <div class="seal-body">
           <div class="seal-face">
-            <!-- ✅ شعارك الأصلي بالضبط — المصدر يُحدَّد من CONFIG.LOGO_URL في الأسفل -->
             <img id="hero-logo" alt="شعار مديرية التربية والتعليم — رفح">
-            <!-- رسم مؤقت يظهر فقط عند عدم وجود ملف الشعار -->
             <svg class="arch-art" viewBox="0 0 220 220" aria-hidden="true">
               <defs>
                 <linearGradient id="gGold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9B85C"/><stop offset="1" stop-color="#B97B1F"/></linearGradient>
@@ -522,7 +539,7 @@ footer.site b{color:#F0D9A6}
     </div>
 
     <form id="pr-form" novalidate>
-      <!-- ٠١ بيانات المدرسة -->
+      <!-- ٠١ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠١</span></span>
@@ -550,7 +567,7 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
-      <!-- ٠٢ البيانات الشخصية -->
+      <!-- ٠٢ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٢</span></span>
@@ -569,10 +586,11 @@ footer.site b{color:#F0D9A6}
           <div class="field" data-field="nid">
             <label for="f-nid">رقم الهوية <span class="req">*</span><span class="lbl-extra" id="cnt-nid"></span></label>
             <div class="ctl-wrap">
-              <input type="text" id="f-nid" class="control" data-dk="nid" data-digits="9" inputmode="numeric" placeholder="٩ أرقام كما في الهوية" dir="ltr" style="text-align:right">
+              <input type="text" id="f-nid" class="control" data-dk="nid" data-digits="9" inputmode="numeric" placeholder="٩ أرقام كما في الهوية" dir="ltr" style="text-align:right" autocomplete="off">
               <svg class="ok-ic"><use href="#i-check"/></svg>
             </div>
             <div class="err"></div>
+            <div class="hint">لا يمكنُ التسجيلِ مرتين بنفسِ رقمِ الهوية.</div>
           </div>
           <div class="field" data-field="birth">
             <label>تاريخ الميلاد <span class="req">*</span><span class="lbl-extra" id="cnt-birth"></span></label>
@@ -589,7 +607,7 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
-      <!-- ٠٣ المسار الوظيفي -->
+      <!-- ٠٣ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٣</span></span>
@@ -636,7 +654,7 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
-      <!-- ٠٤ التواصل والسكن -->
+      <!-- ٠٤ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٤</span></span>
@@ -684,7 +702,7 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
-      <!-- ٠٥ التطوير المهني -->
+      <!-- ٠٥ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٥</span></span>
@@ -711,6 +729,20 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
+      <!-- ٠٦ الكابتشا -->
+      <div class="card reveal captcha-box" id="captcha-box">
+        <div class="sec-head">
+          <span class="sec-num"><span>٠٦</span></span>
+          <div><h2>التحقق الأمني</h2><p>أدخل ناتجَ العمليةِ الحسابيةِ لإثباتِ أنك لست روبوتًا</p></div>
+        </div>
+        <div class="cap-wrap">
+          <canvas id="cap-canvas" width="170" height="48" aria-label="سؤال التحقق الحسابي"></canvas>
+          <input type="text" id="cap-input" class="control cap-input" inputmode="numeric" placeholder="الناتج =" autocomplete="off">
+          <button type="button" class="icon-btn cap-refresh" id="cap-refresh" title="سؤال جديد" aria-label="تحديث السؤال"><svg class="ic"><use href="#i-refresh"/></svg></button>
+        </div>
+        <div class="err" id="cap-err"></div>
+      </div>
+
       <div class="form-foot reveal">
         <button class="btn btn-brown btn-submit btn-shine" id="btn-submit" type="button">
           <span class="spin"></span>
@@ -732,8 +764,9 @@ footer.site b{color:#F0D9A6}
         <p>إدارةُ سجلاتِ الاستماراتِ الواردةِ من منسوبي القسم</p>
       </div>
       <div class="admin-actions">
-        <button class="btn btn-ghost sm" id="btn-cloud" type="button" hidden><svg class="ic"><use href="#i-refresh"/></svg> سحب من قاعدة البيانات</button>
-        <button class="btn btn-gold sm" id="btn-export" type="button"><svg class="ic"><use href="#i-download"/></svg> تصدير Excel</button>
+        <button class="btn btn-ghost sm" id="btn-cloud" type="button"><svg class="ic"><use href="#i-refresh"/></svg> سحب من قاعدة البيانات</button>
+        <button class="btn btn-gold sm" id="btn-export" type="button"><svg class="ic"><use href="#i-download"/></svg> تصدير Excel (كامل)</button>
+        <button class="btn btn-brown sm" id="btn-pdf" type="button"><svg class="ic"><use href="#i-file"/></svg> تصدير PDF ملوّن</button>
         <button class="btn btn-ghost sm" id="btn-back-site" type="button"><svg class="ic"><use href="#i-arrow"/></svg> الموقع</button>
         <button class="btn btn-ghost sm" id="btn-logout" type="button"><svg class="ic"><use href="#i-logout"/></svg> خروج</button>
       </div>
@@ -781,19 +814,12 @@ footer.site b{color:#F0D9A6}
 
 <script>
 /* =========================================================
-   الإعدادات — عدّل هنا قبل الرفع على GitHub
+   الإعدادات — الرابط وكلمة المرور مُدمجان
    ========================================================= */
 const CONFIG = {
-  /* ✅ شعار المديرية (يظهر كما هو بالضبط) — ثلاث طرق:
-     1) "logo.png"                 ← ارفع صورة الشعار بجوار index.html بهذا الاسم بالضبط (الأسهل)
-     2) "https://i.imgur.com/…png" ← أي رابط صورة مباشر
-     3) "data:image/png;base64,…"  ← الشعار مدمج داخل الملف نفسه (ملف واحد بدون صور خارجية)
-     اتركه "" لإظهار الرسم المؤقت فقط */
   LOGO_URL: "logo.png",
-
-  // رابط "تطبيق الويب" من Google Apps Script لقاعدة البيانات على Google Drive (اتركه فارغًا إن لم تستخدمه)
-    SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwpu7JAozgVX9ruzvsF3I5PT9aONRRnSo6leOFO4E_YTSjlSEMDnD2o4rFz_l9bwZE/exec",
-    ADMIN_PASS: "Rafah-PR@2025#Admin",     // ⚠️ غيّر كلمة المرور قبل النشر
+  SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwpu7JAozgVX9ruzvsF3I5PT9aONRRnSo6leOFO4E_YTSjlSEMDnD2o4rFz_l9bwZE/exec",
+  ADMIN_PASS: "Rafah-PR@2025#Admin",
   STORAGE_KEY: "pr_records_v1",
   DRAFT_KEY: "pr_draft_v1"
 };
@@ -806,9 +832,9 @@ const HEADERS = ['اسم المدرسة','ساحة العمل','الاسم ال�
 const KEYS = ['school','arena','name','nid','hire','birth','job','degree','major','address','phone','wa','fb','course','other'];
 
 /* ============ أدوات مساعدة ============ */
+const el = id => document.getElementById(id);
 const $  = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-const el = id => document.getElementById(id);
 const icon = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad = n => String(n).padStart(2,'0');
@@ -824,7 +850,7 @@ function toast(msg, type='info'){
   t.className = `toast ${type}`;
   t.innerHTML = icon(type==='ok' ? 'check' : type==='error' ? 'alert' : 'info') + `<span>${esc(msg)}</span>`;
   el('toasts').appendChild(t);
-  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3600);
+  setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3800);
 }
 function openModal(html){
   el('modal-body').innerHTML = html;
@@ -840,7 +866,7 @@ el('modal-close').addEventListener('click', closeModal);
 el('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el('overlay').hidden) closeModal(); });
 
-/* ============ الشعار الأصلي — يُعرض كما هو تمامًا ============ */
+/* ============ الشعار الأصلي ============ */
 (() => {
   if (!CONFIG.LOGO_URL) return;
   const hero = el('hero-logo'), top = el('top-logo');
@@ -851,11 +877,11 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape' && !el('overl
     top.style.display = 'block';
     el('top-fallback').style.display = 'none';
   };
-  hero.onerror = () => hero.remove();   // لا يوجد ملف شعار → يبقى الرسم المؤقت
+  hero.onerror = () => hero.remove();
   hero.src = CONFIG.LOGO_URL;
 })();
 
-/* ============ حركة الدخول + تفاعل الشعار ============ */
+/* ============ حركة الدخول ============ */
 document.body.classList.add('play');
 (() => {
   const seal = el('seal'), heroSec = el('hero');
@@ -898,7 +924,6 @@ document.body.classList.add('play');
   $$('.reveal').forEach(x => io.observe(x));
 })();
 
-/* الشريط المتحرك: مضاعفة المحتوى لحلقة سلسة */
 (() => { const t = el('mq-track'); t.innerHTML += t.innerHTML; })();
 
 /* ============ بناء القوائم ============ */
@@ -1043,6 +1068,93 @@ function updateProgress(){
   el('fp-done').classList.toggle('show', done === 15);
 }
 
+/* ============ فحص تكرار رقم الهوية ============ */
+async function nidExists(nid){
+  if (CONFIG.SCRIPT_URL){
+    try {
+      const res = await fetch(`${CONFIG.SCRIPT_URL}?action=checkId&nid=${encodeURIComponent(nid)}`, { cache:'no-store' });
+      const data = await res.json();
+      if (data && typeof data.exists === 'boolean') return data.exists;
+    } catch(e){}
+  }
+  try { return (JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY))||[]).some(r => r.values && r.values[3] === nid); } catch(e){ return false; }
+}
+/* فحص فوري عند مغادرة حقل الهوية */
+el('f-nid').addEventListener('blur', async ()=> {
+  const r = V.nid();
+  if (r.error) return;
+  const lbl = el('cnt-nid');
+  lbl.textContent = 'جارٍ التحقق من التكرار…'; lbl.style.color = 'var(--gold-d)';
+  const ex = await nidExists(r.value);
+  if (ex){
+    setErr('nid','لقد تم التسجيل مسبقًا بهذا الرقم — تواصل مع إدارة القسم عند وجود خطأ');
+    lbl.textContent = '';
+  } else {
+    setOk('nid');
+    lbl.textContent = '✓ الرقم غير مسجل مسبقًا';
+    lbl.style.color = 'var(--ok)';
+  }
+});
+
+/* ============ الكابتشا الحسابية ============ */
+let capAnswer = 0, capLastText = '';
+function newCaptcha(){
+  const ops = ['+','−','×'];
+  const op = ops[Math.floor(Math.random()*ops.length)];
+  let a, b;
+  if (op === '+'){ a = 2 + Math.floor(Math.random()*38); b = 2 + Math.floor(Math.random()*38); capAnswer = a + b; }
+  else if (op === '−'){ a = 15 + Math.floor(Math.random()*45); b = 1 + Math.floor(Math.random()*(a-2)); capAnswer = a - b; }
+  else { a = 2 + Math.floor(Math.random()*7); b = 2 + Math.floor(Math.random()*7); capAnswer = a * b; }
+  capLastText = `${a} ${op} ${b} =`;
+  drawCaptcha(capLastText);
+  el('cap-input').value = '';
+  el('captcha-box').classList.remove('invalid');
+  el('cap-err').innerHTML = '';
+}
+function drawCaptcha(text){
+  const cv = el('cap-canvas'), cx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const g = cx.createLinearGradient(0,0,W,H);
+  g.addColorStop(0,'#FBF3DE'); g.addColorStop(1,'#F1E2BE');
+  cx.fillStyle = g; cx.fillRect(0,0,W,H);
+  for (let i=0;i<4;i++){
+    cx.strokeStyle = `rgba(165,106,27,${.18+Math.random()*.22})`; cx.lineWidth = 1;
+    cx.beginPath();
+    cx.moveTo(Math.random()*W, Math.random()*H);
+    cx.quadraticCurveTo(Math.random()*W, Math.random()*H, Math.random()*W, Math.random()*H);
+    cx.stroke();
+  }
+  for (let i=0;i<32;i++){
+    cx.fillStyle = `rgba(62,44,23,${.08+Math.random()*.16})`;
+    cx.beginPath(); cx.arc(Math.random()*W, Math.random()*H, Math.random()*1.6+.4, 0, 7); cx.fill();
+  }
+  cx.textBaseline = 'middle';
+  let x = 14;
+  for (const ch of text){
+    if (ch === ' '){ x += 7; continue; }
+    cx.save();
+    cx.translate(x, H/2 + (Math.random()*8 - 4));
+    cx.rotate(Math.random()*.44 - .22);
+    cx.font = `700 ${19 + Math.floor(Math.random()*5)}px 'IBM Plex Sans Arabic', 'Alexandria', sans-serif`;
+    cx.fillStyle = ['#3E2C17','#A56A1B','#5C4326'][Math.floor(Math.random()*3)];
+    cx.fillText(ch, 0, 0);
+    x += cx.measureText(ch).width + 4;
+    cx.restore();
+  }
+  cx.fillStyle = 'rgba(255,255,255,.28)';
+  for (let y = Math.floor(Math.random()*6); y < H; y += 7) cx.fillRect(0, y, W, 1);
+}
+el('cap-refresh').addEventListener('click', ()=>{
+  const b = el('cap-refresh');
+  b.classList.remove('go'); void b.offsetWidth; b.classList.add('go');
+  newCaptcha();
+});
+el('cap-input').addEventListener('input', ()=> el('captcha-box').classList.remove('invalid'));
+/* تجديد تلقائي كل دقيقتين إذا كان الحقل فارغًا */
+setInterval(()=> { if (!el('cap-input').value) newCaptcha(); }, 120000);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=> drawCaptcha(capLastText));
+newCaptcha();
+
 /* المسودة التلقائية */
 let draftTimer;
 form.addEventListener('input', ()=> {
@@ -1075,10 +1187,10 @@ function buildRecord(){
     ]
   };
 }
-function setSending(on){
+function setSending(on, label){
   const b = el('btn-submit');
   b.disabled = on;
-  b.querySelector('.btn-txt').textContent = on ? 'جارٍ إرسال البيانات…' : 'إرسال الاستمارة';
+  b.querySelector('.btn-txt').textContent = label || (on ? 'جارٍ إرسال البيانات…' : 'إرسال الاستمارة');
   b.querySelector('.spin').style.display = on ? 'inline-block' : 'none';
 }
 function cloudSend(rec){
@@ -1091,7 +1203,8 @@ function cloudSend(rec){
   }).catch(()=>{});
   return Promise.race([p, new Promise(r => setTimeout(r, 8000))]);
 }
-el('btn-submit').addEventListener('click', ()=> {
+el('btn-submit').addEventListener('click', async ()=>{
+  /* ١) التحقق من الحقول */
   let firstBad = null;
   KEYS.forEach(k => {
     const r = V[k]();
@@ -1099,24 +1212,57 @@ el('btn-submit').addEventListener('click', ()=> {
     else setOk(k);
   });
   refreshLive(); updateProgress();
+
+  /* ٢) التحقق من الكابتشا */
+  const capVal = el('cap-input').value.trim();
+  const capOk = capVal !== '' && +capVal === capAnswer;
+  const box = el('captcha-box');
+  if (!capOk){
+    box.classList.add('invalid');
+    el('cap-err').innerHTML = icon('alert') + `<span>${capVal === '' ? 'إجابةُ التحققِ مطلوبة' : 'إجابةُ التحققِ غيرُ صحيحة — أُنشئ سؤالٌ جديد، حاول مجددًا'}</span>`;
+  }
+
   if (firstBad){
     const f = fieldEl(firstBad);
     f.scrollIntoView({ behavior:'smooth', block:'center' });
     f.classList.add('shake'); setTimeout(()=> f.classList.remove('shake'), 500);
-    toast('يرجى إكمال الحقول المظللة بالأحمر قبل الإرسال', 'error');
+    if (!capOk) newCaptcha();
+    toast('يرجى إكمال الحقول المطلوبة قبل الإرسال', 'error');
     return;
   }
+  if (!capOk){
+    box.scrollIntoView({ behavior:'smooth', block:'center' });
+    box.classList.add('shake'); setTimeout(()=> box.classList.remove('shake'), 500);
+    newCaptcha();
+    toast('أجب عن سؤال التحقق الأمني أولًا', 'error');
+    return;
+  }
+
+  /* ٣) فحص تكرار رقم الهوية قبل الإرسال */
   const rec = buildRecord();
-  setSending(true);
-  Promise.all([cloudSend(rec), new Promise(r => setTimeout(r, 700))]).then(()=> {
-    const records = loadRecords();
-    records.push(rec);
-    persistRecords(records);
-    localStorage.removeItem(CONFIG.DRAFT_KEY);
+  setSending(true, 'جارٍ التحقق من رقم الهوية…');
+  const dup = await nidExists(rec.values[3]);
+  if (dup){
     setSending(false);
-    openSuccess(rec.id);
-    toast('تم استلام استمارتك بنجاح', 'ok');
-  });
+    setErr('nid','لقد تم التسجيل مسبقًا بهذا الرقم — تواصل مع إدارة القسم عند وجود خطأ');
+    const f = fieldEl('nid');
+    f.scrollIntoView({ behavior:'smooth', block:'center' });
+    f.classList.add('shake'); setTimeout(()=> f.classList.remove('shake'), 500);
+    newCaptcha();
+    toast('لقد تم التسجيل مسبقًا بهذا الرقم', 'error');
+    return;
+  }
+
+  /* ٤) الإرسال */
+  setSending(true, 'جارٍ إرسال البيانات…');
+  await Promise.all([cloudSend(rec), new Promise(r => setTimeout(r, 700))]);
+  const records = loadRecords();
+  records.push(rec);
+  persistRecords(records);
+  localStorage.removeItem(CONFIG.DRAFT_KEY);
+  setSending(false);
+  openSuccess(rec.id);
+  toast('تم استلام استمارتك بنجاح', 'ok');
 });
 function openSuccess(ref){
   openModal(`
@@ -1139,10 +1285,11 @@ function openSuccess(ref){
     $$('select.control').forEach(s => s.classList.add('ph'));
     el('wa-preview').textContent = 'سيُسجَّل الرقم مع المقدمة التي تختارها';
     refreshLive(); updateProgress();
+    newCaptcha();
     closeModal();
     document.getElementById('form').scrollIntoView({ behavior:'smooth' });
   });
-  el('m-close2').addEventListener('click', closeModal);
+  el('m-close2').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
 }
 form.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA'){ e.preventDefault(); el('btn-submit').click(); }
@@ -1151,6 +1298,17 @@ form.addEventListener('keydown', e => {
 /* ============ لوحة الإدارة ============ */
 function loadRecords(){ try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)) || []; } catch { return []; } }
 function persistRecords(r){ localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(r)); }
+
+function btnBusy(btn, on, label){
+  if (on){
+    btn.dataset.html = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spin" style="display:inline-block;border-color:rgba(58,39,8,.3);border-top-color:#3A2708"></span> ${esc(label||'جارٍ المعالجة…')}`;
+  } else {
+    btn.disabled = false;
+    if (btn.dataset.html){ btn.innerHTML = btn.dataset.html; delete btn.dataset.html; }
+  }
+}
 
 el('btn-top').addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
 el('btn-admin').addEventListener('click', ()=> {
@@ -1227,12 +1385,12 @@ function renderStats(){
 }
 function renderTable(){
   const list = filteredRecords();
-  el('ad-results').textContent = `عدد النتائج: ${list.length}`;
+  el('ad-results').textContent = `عدد النتائج: ${list.length} من إجمالي ${loadRecords().length} سجل`;
   const tb = el('ad-tbody');
   if (!list.length){
     tb.innerHTML = `<tr><td colspan="8"><div class="empty-state">
       ${icon('db')}
-      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — ستظهر هنا الاستمارات فور وصولها.'}</p>
+      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — اضغط «سحب من قاعدة البيانات» لجلب الاستمارات الواردة.'}</p>
     </div></td></tr>`;
     return;
   }
@@ -1274,10 +1432,10 @@ function openRecord(r){
 function confirmDelete(rec){
   openModal(`
     <h3>حذف السجل</h3>
-    <p>سيتم حذف سجل «<b>${esc(rec.values[2])}</b>» نهائيًا من هذا الجهاز. لا يمكن التراجع عن هذه الخطوة.</p>
+    <p>سيتم حذف سجل «<b>${esc(rec.values[2])}</b>» من هذا الجهاز فقط. ملاحظة: احذف الصف المقابل من ملف Google Sheets يدويًا عند الحاجة.</p>
     <div class="modal-btns">
       <button class="btn btn-ghost sm" id="m-cancel" type="button">إلغاء</button>
-      <button class="btn btn-danger sm" id="m-del" type="button">${icon('trash')} حذف نهائي</button>
+      <button class="btn btn-danger sm" id="m-del" type="button">${icon('trash')} حذف</button>
     </div>`);
   el('m-cancel').addEventListener('click', closeModal);
   el('m-del').addEventListener('click', ()=> {
@@ -1287,10 +1445,10 @@ function confirmDelete(rec){
   });
 }
 
-/* تصدير Excel */
+/* ============ تصدير Excel كامل (كل السجلات بكل البيانات) ============ */
 el('btn-export').addEventListener('click', ()=> {
   if (typeof XLSX === 'undefined'){ toast('مكتبة Excel لم تُحمَّل — تحقق من الاتصال', 'error'); return; }
-  const list = filteredRecords();
+  const list = loadRecords();
   if (!list.length){ toast('لا توجد سجلات لتصديرها', 'error'); return; }
   const header = ['م', 'رقم المرجع', 'تاريخ الإرسال', ...HEADERS];
   const rows = list.map((r, i) => [i+1, r.id, fmtDateTime(r.sentAt), ...r.values]);
@@ -1299,13 +1457,83 @@ el('btn-export').addEventListener('click', ()=> {
   const wb = XLSX.utils.book_new();
   wb.Workbook = { Views: [{ RTL: true }] };
   XLSX.utils.book_append_sheet(wb, ws, 'سجلات العلاقات العامة');
-  XLSX.writeFile(wb, `سجلات_العلاقات_العامة_${new Date().toISOString().slice(0,10)}.xlsx`);
-  toast(`تم تصدير ${list.length} سجل بنجاح`, 'ok');
+  XLSX.writeFile(wb, `سجلات_العلاقات_العامة_كاملة_${new Date().toISOString().slice(0,10)}.xlsx`);
+  toast(`تم تصدير ${list.length} سجل بكل البيانات`, 'ok');
 });
 
-/* السحب من قاعدة البيانات السحابية */
+/* ============ تصدير PDF ملوّن منسّق ============ */
+function buildPdfDoc(list){
+  const schools = new Set(list.map(r => r.values[0])).size;
+  const d = new Date(); const t0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+  const todayCount = list.filter(r => new Date(r.sentAt).getTime() >= t0).length;
+  const FULL = [9, 12, 14]; /* حقول بعرض كامل */
+  const kv = (h, v, full) => `<div class="pdf-kv${full ? ' full' : ''}"><span>${esc(h)}</span><b>${esc(v)}</b></div>`;
+  const cards = list.map((r, i) => `
+    <div class="pdf-card">
+      <div class="pdf-card-head">
+        <span>${i+1}. ${esc(r.values[2])} — ${esc(r.values[0])}</span>
+        <span class="ref">${esc(r.id)}</span>
+      </div>
+      <div class="pdf-grid">
+        ${HEADERS.map((h, idx) => kv(h, r.values[idx], FULL.includes(idx))).join('')}
+      </div>
+      <div class="pdf-card-foot">سُجِّل بتاريخ: ${fmtDateTime(r.sentAt)} &nbsp;·&nbsp; واتساب: ${esc(r.values[11])} &nbsp;·&nbsp; جوال: ${esc(r.values[10])}</div>
+    </div>`).join('');
+  const node = document.createElement('div');
+  node.className = 'pdf-doc';
+  node.innerHTML = `
+    <div class="pdf-head">
+      <img src="${CONFIG.LOGO_URL}" onerror="this.style.display='none'">
+      <div>
+        <h1>مديرية التربية والتعليم — رفح</h1>
+        <p>قسم العلاقات العامة · النقاط التعليمية — السجل الكامل لمنسوبي القسم</p>
+      </div>
+      <div class="pdf-date">${fmtDateTime(new Date().toISOString())}</div>
+    </div>
+    <div class="pdf-stats">
+      <div class="pdf-stat"><b>${list.length}</b><span>إجمالي السجلات</span></div>
+      <div class="pdf-stat"><b>${schools}</b><span>مدارس مشاركة</span></div>
+      <div class="pdf-stat"><b>${todayCount}</b><span>سجلات اليوم</span></div>
+      <div class="pdf-stat"><b>${ARENAS.length}</b><span>ساحات العمل</span></div>
+    </div>
+    <div class="pdf-title">قائمة المنسوبين المسجلين — بيانات كاملة (${list.length} سجل)</div>
+    ${cards}
+    <div class="pdf-foot">
+      <span>مديرية التربية والتعليم — رفح · قسم العلاقات العامة</span>
+      <span>تم إنشاء هذا التقرير آليًا من قاعدة البيانات الرسمية</span>
+    </div>`;
+  document.body.appendChild(node);
+  return node;
+}
+el('btn-pdf').addEventListener('click', async ()=>{
+  if (typeof html2pdf === 'undefined'){ toast('مكتبة PDF لم تُحمَّل — تحقق من الاتصال', 'error'); return; }
+  const list = loadRecords();
+  if (!list.length){ toast('لا توجد سجلات لإنشاء التقرير — اسحب من قاعدة البيانات أولًا', 'error'); return; }
+  btnBusy(el('btn-pdf'), true, 'جارٍ إنشاء ملف PDF…');
+  let node = null;
+  try {
+    await new Promise(r => setTimeout(r, 60));
+    node = buildPdfDoc(list);
+    await html2pdf().set({
+      margin: [8, 8, 10, 8],
+      filename: `تقرير_العلاقات_العامة_${new Date().toISOString().slice(0,10)}.pdf`,
+      image: { type:'jpeg', quality:.96 },
+      html2canvas: { scale:2, useCORS:true, backgroundColor:'#FFFFFF' },
+      jsPDF: { unit:'mm', format:'a4', orientation:'portrait' },
+      pagebreak: { mode:['css','legacy'] }
+    }).from(node).save();
+    toast(`تم إنشاء تقرير PDF بـ ${list.length} سجل — جاهز للإرسال`, 'ok');
+  } catch(err){
+    toast('تعذر إنشاء ملف PDF — حاول مجددًا', 'error');
+  } finally {
+    if (node) node.remove();
+    btnBusy(el('btn-pdf'), false);
+  }
+});
+
+/* ============ السحب من قاعدة البيانات السحابية ============ */
 el('btn-cloud').addEventListener('click', async ()=> {
-  toast('جارٍ السحب من قاعدة البيانات…', 'info');
+  btnBusy(el('btn-cloud'), true, 'جارٍ السحب…');
   try {
     const res = await fetch(CONFIG.SCRIPT_URL, { cache:'no-store' });
     const data = await res.json();
@@ -1316,13 +1544,13 @@ el('btn-cloud').addEventListener('click', async ()=> {
       if (r && r.id && Array.isArray(r.values) && !records.some(x => x.id === r.id)){ records.push(r); added++; }
     });
     persistRecords(records); renderAdmin();
-    toast(added ? `تمت إضافة ${added} سجل من قاعدة البيانات السحابية` : 'السجلات محدثة بالكامل', 'ok');
+    toast(added ? `تمت إضافة ${added} سجل من قاعدة البيانات` : 'السجلات محدثة بالكامل', 'ok');
   } catch { toast('تعذر الاتصال بقاعدة البيانات السحابية', 'error'); }
+  finally { btnBusy(el('btn-cloud'), false); }
 });
 
 /* ============ الإقلاع ============ */
 el('year').textContent = '© ' + new Date().getFullYear() + ' — جميع الحقوق محفوظة';
-if (CONFIG.SCRIPT_URL) el('btn-cloud').hidden = false;
 applyDraft();
 refreshLive();
 updateProgress();
