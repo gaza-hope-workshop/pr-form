@@ -31,33 +31,24 @@ body{
 section{scroll-margin-top:84px}
 .ic{width:18px;height:18px;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-
 #dust{position:fixed;inset:0;z-index:0;pointer-events:none}
 main,header,footer{position:relative;z-index:1}
 
 /* ===================== الشعار (الختم) ===================== */
 .seal{position:relative;width:min(380px,76vw);aspect-ratio:1;margin-inline:auto;will-change:transform}
-.seal-rays{
-  position:absolute;inset:-4.5%;border-radius:50%;
+.seal-rays{position:absolute;inset:-4.5%;border-radius:50%;
   background:repeating-conic-gradient(from 2deg,#EDBE6A 0deg 4.6deg,#B97B1F 4.6deg 6deg,transparent 6deg 10deg);
   -webkit-mask:radial-gradient(closest-side,transparent 60%,#000 61%);
   mask:radial-gradient(closest-side,transparent 60%,#000 61%);
-  animation:rays 90s linear infinite;
-  filter:drop-shadow(0 14px 30px rgba(150,100,20,.28));
-}
+  animation:rays 90s linear infinite;filter:drop-shadow(0 14px 30px rgba(150,100,20,.28))}
 @keyframes rays{to{transform:rotate(360deg)}}
-.seal-body{
-  position:absolute;inset:6.5%;border-radius:50%;padding:11px;
+.seal-body{position:absolute;inset:6.5%;border-radius:50%;padding:11px;
   background:linear-gradient(145deg,#F2CE83 0%,#D89A3B 45%,#A8691A 100%);
   box-shadow:0 24px 50px rgba(110,72,18,.30), inset 0 2px 6px rgba(255,240,200,.7);
-  animation:float 7s ease-in-out infinite;
-}
+  animation:float 7s ease-in-out infinite}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.seal-face{
-  width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;
-  background:radial-gradient(circle at 36% 30%,#FFFFFF 0%,#EDEDED 55%,#D5D5D5 100%);
-  display:grid;place-items:center;
-}
+.seal-face{width:100%;height:100%;border-radius:50%;overflow:hidden;position:relative;
+  background:radial-gradient(circle at 36% 30%,#FFFFFF 0%,#EDEDED 55%,#D5D5D5 100%);display:grid;place-items:center}
 .seal-face img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:none}
 .seal.has-img .seal-face img{display:block}
 .arch-art{width:88%;height:88%;display:none}
@@ -86,6 +77,7 @@ main,header,footer{position:relative;z-index:1}
 .top-nav{display:flex;align-items:center;gap:4px}
 .top-nav a{font:600 13.5px var(--f-body);color:var(--ink2);text-decoration:none;padding:9px 14px;border-radius:9px;transition:.2s}
 .top-nav a:hover{color:var(--gold-d);background:rgba(200,135,46,.1)}
+.top-nav a.active{color:var(--gold-d);background:rgba(200,135,46,.12);box-shadow:inset 0 -2px 0 var(--gold)}
 
 /* ===================== الأزرار ===================== */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:none;cursor:pointer;font:700 15px var(--f-body);border-radius:13px;padding:14px 26px;transition:transform .2s,box-shadow .25s,background .25s,color .25s;text-decoration:none;position:relative;overflow:hidden}
@@ -140,11 +132,7 @@ main,header,footer{position:relative;z-index:1}
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 8px}}
 
 /* ===================== العدّاد الحي ===================== */
-.live-strip{
-  background:linear-gradient(90deg,#FBF3DE,#F7E6BE 50%,#FBF3DE);
-  border-block:1px solid var(--line2);padding:14px 24px;text-align:center;
-  font:600 15.5px var(--f-body);color:var(--brown);display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
-}
+.live-strip{background:linear-gradient(90deg,#FBF3DE,#F7E6BE 50%,#FBF3DE);border-block:1px solid var(--line2);padding:14px 24px;text-align:center;font:600 15.5px var(--f-body);color:var(--brown);display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
 .live-strip b{font:800 24px var(--f-head);color:var(--gold-d);min-width:34px;display:inline-block}
 .pulse-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);position:relative;flex:none}
 .pulse-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--ok);animation:pulse 1.6s ease-out infinite}
@@ -157,49 +145,62 @@ main,header,footer{position:relative;z-index:1}
 .mq-track span::after{content:'';width:8px;height:8px;background:var(--gold-l);transform:rotate(45deg);flex:none}
 @keyframes mq{to{transform:translateX(50%)}}
 
-/* ===================== دور المنسق ===================== */
-.about{padding:70px 0 30px}
+/* ===================== عناوين الأقسام ===================== */
 .sec-tag{display:inline-flex;align-items:center;gap:9px;font:700 12px var(--f-body);color:var(--gold-d);letter-spacing:.4px}
 .sec-tag::before{content:'';width:26px;height:2px;background:var(--gold)}
 .sec-title{font:800 clamp(23px,3.2vw,34px)/1.6 var(--f-head);color:var(--brown);margin:10px 0 8px}
 .sec-sub{font:300 15px/1.9 var(--f-body);color:var(--ink2);max-width:68ch}
-.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:34px}
+
+/* ===================== بطاقات المرجعية + أهداف النشر ===================== */
+.about{padding:64px 0 20px}
+.about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}
 .about-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 26px;box-shadow:var(--sh);transition:transform .3s,box-shadow .3s;position:relative;overflow:hidden}
 .about-card::after{content:'';position:absolute;top:0;inset-inline:0;height:4px;background:linear-gradient(90deg,var(--gold-l),var(--gold))}
 .about-card:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(120,82,22,.16)}
 .about-ic{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#F2CE83,#C8872E);color:#3A2708;margin-bottom:18px;transform:rotate(45deg)}
 .about-ic .ic{transform:rotate(-45deg);width:23px;height:23px}
-.about-card h3{font:700 16.5px var(--f-head);color:var(--brown);margin-bottom:10px}
+.about-card h3{font:700 16px var(--f-head);color:var(--brown);margin-bottom:10px;line-height:1.7}
 .about-card p{font:400 13.5px/1.95 var(--f-body);color:var(--ink2)}
-.about-chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);color:var(--brown);font:600 13px var(--f-body);padding:9px 17px;border-radius:99px}
-.chip b{color:var(--gold-d);font:800 15px var(--f-head)}
-
-/* صندوق أهداف النشر */
-.goals-strip{max-width:920px;margin:34px auto 0;background:linear-gradient(135deg,#3E2C17,#5C4326);border-radius:20px;padding:30px 32px;color:#F0D9A6;position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(62,44,23,.25)}
+.about-card p b{color:var(--brown)}
+.goals-strip{max-width:1120px;margin:26px auto 0;background:linear-gradient(135deg,#3E2C17,#5C4326);border-radius:20px;padding:30px 32px;color:#F0D9A6;position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(62,44,23,.25)}
 .goals-strip::before{content:'';position:absolute;top:-40px;left:-40px;width:180px;height:180px;background:rgba(200,135,46,.12);transform:rotate(45deg)}
 .goals-strip h3{font:800 19px var(--f-head);color:#F5DFAE;margin-bottom:6px;position:relative}
 .goals-strip>p{font:300 13px/1.8 var(--f-body);color:#D8C39A;position:relative}
 .goals-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;position:relative}
 .goals-grid span{display:flex;gap:10px;align-items:flex-start;background:rgba(255,253,247,.06);border:1px solid rgba(233,184,92,.25);border-radius:12px;padding:12px 15px;font:500 13px/1.8 var(--f-body);color:#F0D9A6}
 .goals-grid span::before{content:'';width:8px;height:8px;background:var(--gold-l);transform:rotate(45deg);flex:none;margin-top:8px}
+.goals-more{position:relative;margin-top:20px;text-align:center}
 
-/* أكورديون المهام */
-.accordion{max-width:920px;margin:34px auto 0;display:flex;flex-direction:column;gap:12px}
-.acc-item{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh);transition:border-color .3s}
-.acc-item.open{border-color:var(--gold)}
-.acc-head{display:flex;align-items:center;gap:14px;padding:17px 20px;cursor:pointer;user-select:none}
-.acc-head h3{font:700 15.5px var(--f-head);color:var(--brown);flex:1;line-height:1.5}
-.acc-ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,#F2CE83,#C8872E);color:#3A2708;transform:rotate(45deg);flex:none}
-.acc-ic .ic{transform:rotate(-45deg)}
-.acc-chev{color:var(--gold-d);transition:transform .3s;flex:none}
-.acc-item.open .acc-chev{transform:rotate(180deg)}
-.acc-body{max-height:0;overflow:hidden;transition:max-height .45s ease}
-.acc-item.open .acc-body{max-height:1400px}
-.acc-list{padding:2px 24px 20px 20px;list-style:none;display:flex;flex-direction:column;gap:11px}
-.acc-list li{display:flex;gap:11px;font:400 13.5px/1.9 var(--f-body);color:var(--ink2)}
-.acc-list li::before{content:'';width:8px;height:8px;background:var(--gold);transform:rotate(45deg);flex:none;margin-top:10px}
-.acc-list li b{color:var(--brown)}
+/* ===================== صفحة دور ومهام المنسق (وثيقة رسمية) ===================== */
+#duties{display:none;padding:48px 0 80px}
+body.duties-mode #hero,body.duties-mode .marquee,body.duties-mode .live-strip,body.duties-mode .about,body.duties-mode .form-sec{display:none}
+body.duties-mode #duties{display:block}
+.doc{max-width:900px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:46px 48px;box-shadow:var(--sh);position:relative;overflow:hidden}
+.doc::before{content:'';position:absolute;top:0;inset-inline:0;height:6px;background:linear-gradient(90deg,var(--gold-l),var(--gold),var(--gold-l))}
+.doc-head{text-align:center;border-bottom:4px double var(--gold);padding:10px 0 26px;margin-bottom:32px}
+.doc-head img{width:84px;height:84px;object-fit:cover;border-radius:50%;border:3px solid var(--gold);box-shadow:0 6px 16px rgba(150,100,20,.25);margin-bottom:14px}
+.doc-head h1{font:800 clamp(19px,2.9vw,26px)/1.8 var(--f-head);color:var(--brown)}
+.doc-head p{font:600 13px var(--f-body);color:var(--gold-d);margin-top:6px}
+.doc-count{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:var(--face);border:1px dashed var(--line2);color:var(--brown-2);font:600 12px var(--f-body);padding:6px 14px;border-radius:99px}
+.doc-list{display:flex;flex-direction:column;gap:12px}
+.doc-item{display:flex;align-items:flex-start;gap:15px;background:var(--face);border:1px solid var(--line);border-radius:14px;padding:16px 18px;transition:border-color .25s,box-shadow .25s,transform .25s}
+.doc-item:hover{border-color:var(--gold);box-shadow:0 8px 20px rgba(150,100,20,.10);transform:translateY(-2px)}
+.d-num{width:42px;height:42px;flex:none;display:grid;place-items:center;font:800 12.5px var(--f-head);color:#3A2708;background:linear-gradient(135deg,#F2CE83,#C8872E);transform:rotate(45deg);border-radius:10px;box-shadow:0 5px 12px rgba(180,120,30,.28);margin-top:2px}
+.d-num span{transform:rotate(-45deg)}
+.doc-item p{font:400 14.5px/2 var(--f-body);color:var(--ink2);flex:1}
+.doc-item p b{color:var(--brown)}
+.doc-foot{margin-top:30px;padding-top:16px;border-top:1px dashed var(--line2);text-align:center;font:500 12px var(--f-body);color:var(--mut)}
+.doc-actions{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap}
+@media (max-width:640px){.doc{padding:32px 20px}.doc-item{padding:14px}.doc-item p{font-size:13.5px}.d-num{width:36px;height:36px;border-radius:9px}}
+@media print{
+  body.duties-mode .topbar,body.duties-mode footer.site,#dust,#toasts,.overlay,.doc-actions{display:none !important}
+  body.duties-mode #duties{display:block !important}
+  body{background:#fff}
+  .doc{box-shadow:none;border:1px solid #bbb;border-radius:0;max-width:100%}
+  .doc-item{break-inside:avoid;page-break-inside:avoid;border-color:#ddd}
+  .doc-item:hover{transform:none;box-shadow:none}
+  .reveal{opacity:1 !important;transform:none !important}
+}
 
 /* ===================== الاستمارة ===================== */
 .form-sec{padding:56px 0 80px}
@@ -212,7 +213,6 @@ main,header,footer{position:relative;z-index:1}
 .fp-done.show{display:inline}
 .track{height:7px;background:var(--paper);border:1px solid var(--line);border-radius:5px;overflow:hidden}
 .fill{height:100%;width:0%;border-radius:5px;background:linear-gradient(90deg,var(--gold),var(--gold-l));transition:width .5s cubic-bezier(.3,.8,.3,1)}
-
 .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px 34px;margin:0 auto 24px;max-width:880px;box-shadow:var(--sh)}
 .sec-head{display:flex;align-items:center;gap:17px;padding-bottom:20px;margin-bottom:26px;border-bottom:1px dashed var(--line2)}
 .sec-num{width:48px;height:48px;flex:none;display:grid;place-items:center;font:800 15px var(--f-head);color:#3A2708;background:linear-gradient(135deg,#F2CE83,#C8872E);transform:rotate(45deg);border-radius:11px;box-shadow:0 6px 14px rgba(180,120,30,.3)}
@@ -221,7 +221,6 @@ main,header,footer{position:relative;z-index:1}
 .sec-head p{font:400 12.5px var(--f-body);color:var(--mut);margin-top:3px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 26px}
 .span-2{grid-column:1/-1}
-
 .field label{display:flex;align-items:baseline;gap:6px;font:600 13.5px var(--f-body);color:var(--brown);margin-bottom:9px}
 .req{color:var(--err);font-weight:700}
 .lbl-extra{margin-inline-start:auto;font:600 11.5px var(--f-body);color:var(--ok)}
@@ -243,19 +242,14 @@ select.control option{color:var(--ink)}
 .field.invalid .hint{display:none}
 .shake{animation:shake .45s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
-
-/* التواريخ — ثلاث خانات: يوم / شهر / سنة */
 .date-group{display:flex;align-items:center;gap:8px}
 .d-part{width:100%;text-align:center;padding:13px 6px;font-weight:600;letter-spacing:1px}
 .d-part.d,.d-part.m{max-width:76px}.d-part.y{max-width:100px}
 .d-sep{font:800 20px var(--f-head);color:var(--gold);flex:none}
-
-/* الواتساب */
 .wa-group{display:flex;gap:10px}
 .wa-cc{width:120px;flex:none;direction:ltr;text-align:center;font-weight:600}
 .wa-preview{margin-top:9px;display:inline-flex;align-items:center;gap:7px;font:500 12px var(--f-body);color:var(--gold-d);background:rgba(200,135,46,.08);border:1px dashed rgba(200,135,46,.4);padding:6px 13px;border-radius:9px;direction:ltr}
-
-/* الدورات — قائمة منسدلة متعددة الاختيار بشيك بوكس */
+/* الدورات — قائمة منسدلة متعددة بشيك بوكس */
 .msel{position:relative}
 .msel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;text-align:right;width:100%}
 .msel-btn .ph-label{color:#C4B48C;font-weight:300}
@@ -263,12 +257,7 @@ select.control option{color:var(--ink)}
 .msel-btn .chev{transition:transform .25s;flex:none;color:var(--brown-2)}
 .msel.open .msel-btn .chev{transform:rotate(180deg)}
 .msel.open .msel-btn{border-color:var(--gold);background:#fff;box-shadow:0 0 0 4px rgba(200,135,46,.14)}
-.msel-panel{
-  position:absolute;top:calc(100% + 8px);inset-inline:0;z-index:50;
-  background:var(--card);border:1.6px solid var(--gold);border-radius:13px;
-  box-shadow:0 18px 40px rgba(90,62,20,.22);overflow:hidden;
-  animation:mselIn .22s cubic-bezier(.3,1.2,.4,1);
-}
+.msel-panel{position:absolute;top:calc(100% + 8px);inset-inline:0;z-index:50;background:var(--card);border:1.6px solid var(--gold);border-radius:13px;box-shadow:0 18px 40px rgba(90,62,20,.22);overflow:hidden;animation:mselIn .22s cubic-bezier(.3,1.2,.4,1)}
 @keyframes mselIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 .msel-opt{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;transition:background .15s;font:500 14px var(--f-body);color:var(--ink);border-bottom:1px solid var(--line)}
 .msel-opt:last-child{border-bottom:none}
@@ -277,8 +266,7 @@ select.control option{color:var(--ink)}
 .msel-opt.sel{background:rgba(200,135,46,.09);color:var(--gold-d);font-weight:600}
 .msel-opt .chk-mark{margin-inline-start:auto;width:19px;height:19px;color:var(--gold-d);opacity:0;transform:scale(.4);transition:.2s}
 .msel-opt.sel .chk-mark{opacity:1;transform:scale(1)}
-
-/* ====== الكابتشا ====== */
+/* الكابتشا */
 .cap-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 #cap-canvas{border-radius:11px;border:1.6px solid var(--line2);display:block;flex:none;box-shadow:inset 0 1px 4px rgba(90,62,20,.08)}
 .cap-input{width:130px;text-align:center;font-weight:700;letter-spacing:2px;font-size:16px}
@@ -288,14 +276,13 @@ select.control option{color:var(--ink)}
 .captcha-box.invalid #cap-canvas{border-color:var(--err);box-shadow:0 0 0 3px rgba(179,38,30,.1)}
 .captcha-box.invalid .cap-input{border-color:var(--err);background:#FFF8F6}
 .captcha-box .err{margin-top:0;width:100%}
-
 .form-foot{max-width:880px;margin:6px auto 0;text-align:center}
 .btn-submit{width:100%;padding:18px;font-size:16.5px;border-radius:15px}
 .form-note{margin-top:15px;font:300 12px/1.8 var(--f-body);color:var(--mut)}
 
 /* ===================== لوحة الإدارة ===================== */
 #admin{display:none;padding:44px 0 70px}
-body.admin-mode #hero,body.admin-mode .marquee,body.admin-mode .live-strip,body.admin-mode .about,body.admin-mode .form-sec,body.admin-mode footer.site{display:none}
+body.admin-mode #hero,body.admin-mode .marquee,body.admin-mode .live-strip,body.admin-mode .about,body.admin-mode #duties,body.admin-mode .form-sec,body.admin-mode footer.site{display:none}
 body.admin-mode #admin{display:block}
 .admin-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:26px}
 .admin-head h1{font:800 clamp(24px,3vw,32px) var(--f-head);color:var(--brown)}
@@ -361,7 +348,7 @@ tbody tr:last-child td{border-bottom:none}
 .modal-foot{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}
 .modal-foot .meta{margin-inline-start:auto;font:400 11.5px var(--f-body);color:var(--mut)}
 .modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
-
+.chip{display:inline-flex;align-items:center;gap:8px;background:var(--face);border:1px solid var(--line2);color:var(--brown);font:600 13px var(--f-body);padding:8px 16px;border-radius:99px}
 .status-row{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
 .st-btn{cursor:pointer;border:1.6px solid var(--line2);background:var(--face);border-radius:99px;padding:8px 16px;font:700 12.5px var(--f-body);color:var(--brown-2);transition:.2s}
 .st-btn:hover{border-color:var(--gold)}
@@ -381,7 +368,6 @@ tbody tr:last-child td{border-bottom:none}
 .qr-box{text-align:center;padding:8px 4px}
 .qr-box img{width:280px;height:280px;border-radius:14px;border:2px solid var(--gold);background:#FBF7EC;margin:10px auto;display:block}
 .qr-box .url{font:500 12px var(--f-body);color:var(--gold-d);direction:ltr;word-break:break-all;background:var(--face);border:1px dashed var(--line2);border-radius:9px;padding:9px 12px;margin:12px 0}
-
 #toasts{position:fixed;bottom:22px;inset-inline-start:22px;z-index:400;display:flex;flex-direction:column;gap:10px}
 .toast{display:flex;gap:11px;align-items:center;background:var(--brown);color:#F5EFE2;padding:13px 19px;border-radius:12px;box-shadow:0 14px 34px rgba(30,20,5,.3);font:500 13.5px var(--f-body);max-width:340px;animation:tIn .35s cubic-bezier(.3,1.3,.4,1)}
 .toast.error{background:var(--err)}
@@ -424,7 +410,7 @@ footer.site b{color:#F0D9A6}
 .pdf-foot{margin-top:16px;padding-top:10px;border-top:2px solid #C8872E;display:flex;justify-content:space-between;font-size:10px;color:#9A8A67}
 
 /* ===================== الظهور عند التمرير ===================== */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .65s ease,transform .65s cubic-bezier(.22,.7,.25,1)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.22,.7,.25,1)}
 .reveal.in{opacity:1;transform:none}
 
 /* ===================== التجاوب ===================== */
@@ -436,9 +422,9 @@ footer.site b{color:#F0D9A6}
   .lead{margin-inline:auto}
   .scroll-hint{display:none}
   .about-grid{grid-template-columns:1fr}
+  .goals-grid{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,1fr)}
   .top-nav a{display:none}
-  .goals-grid{grid-template-columns:1fr}
 }
 @media (max-width:640px){
   .grid{grid-template-columns:1fr}
@@ -454,7 +440,6 @@ footer.site b{color:#F0D9A6}
   *,*::before,*::after{animation:none !important;transition:none !important}
   .reveal,.hero h1 .w,.lead,.hero-cta,.hero-meta,.flourish,.arch-art .arch{opacity:1 !important;transform:none !important}
   .arch-art .swoosh{stroke-dashoffset:0 !important}
-  .acc-body{max-height:none !important}
 }
 </style>
 </head>
@@ -466,7 +451,6 @@ footer.site b{color:#F0D9A6}
   <symbol id="i-chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></symbol>
   <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
   <symbol id="i-radio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/></symbol>
-  <symbol id="i-trend" viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></symbol>
@@ -491,6 +475,7 @@ footer.site b{color:#F0D9A6}
   <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="17" y1="14" x2="17" y2="14.01"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="14" y1="17" x2="14" y2="17.01"/><line x1="17" y1="17" x2="17" y2="17.01"/><line x1="21" y1="17" x2="21" y2="17.01"/><line x1="14" y1="21" x2="14" y2="21.01"/><line x1="17" y1="21" x2="17" y2="21.01"/><line x1="21" y1="21" x2="21" y2="21.01"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
   <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
 </svg>
 
 <canvas id="dust" aria-hidden="true"></canvas>
@@ -498,7 +483,7 @@ footer.site b{color:#F0D9A6}
 <!-- ===================== الشريط العلوي ===================== -->
 <header class="topbar">
   <div class="top-in">
-    <button class="brand" id="btn-top" type="button" aria-label="العودة للأعلى">
+    <button class="brand" id="btn-top" type="button" aria-label="العودة للرئيسية">
       <img class="brand-mark" id="top-logo" alt="" style="display:none">
       <svg class="brand-mark" id="top-fallback" viewBox="0 0 48 48" aria-hidden="true">
         <defs><linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2CE83"/><stop offset="1" stop-color="#A56A1B"/></linearGradient></defs>
@@ -509,31 +494,31 @@ footer.site b{color:#F0D9A6}
       <span class="brand-txt"><b>مديرية التربية والتعليم — رفح</b><small>قسم العلاقات العامة</small></span>
     </button>
     <nav class="top-nav">
-      <a href="#hero">الرئيسية</a>
-      <a href="#about">دور ومهام المنسق</a>
-      <a href="#form">الاستمارة</a>
+      <a href="#hero" id="nav-home">الرئيسية</a>
+      <a href="#duties" id="nav-duties">دور ومهام المنسق</a>
+      <a href="#form" id="nav-form">الاستمارة</a>
       <button class="btn btn-ghost sm" id="btn-admin" type="button"><svg class="ic"><use href="#i-lock"/></svg> لوحة الإدارة</button>
     </nav>
   </div>
 </header>
 
 <main>
-<!-- ===================== الهيرو ===================== -->
+<!-- ===================== الرئيسية: الهيرو ===================== -->
 <section class="hero" id="hero">
   <div class="wrap hero-grid">
     <div>
       <span class="kicker">استمارة انتساب رسمية · منسقي الإعلام — مدارس رفح</span>
       <h1><span class="w">منسقُ</span> <span class="w">الإعلامِ</span> <span class="w accent">المدرسي</span></h1>
       <div class="flourish"><span></span></div>
-      <p class="lead">حلقةُ الوصلِ الإعلاميةِ بين مدرستِك والمديريةِ والمجتمعِ المحلي؛ توثيقٌ وتغطيةٌ وتنسيقٌ لكلِّ ما يحدثُ في المدرسةِ بالصورةِ والفيديوِ والخبرِ المكتوب. مرجعيتُه الأولى مديرُ المدرسةِ، ومرجعيتُه الأعلى قسمُ العلاقاتِ العامةِ والإعلامِ بالمديرية، وهدفُه الأسمى إيصالُ «الرسالةِ التربويةِ» بجميعِ مجالاتِها إلى المجتمع.</p>
+      <p class="lead">حلقةُ الوصلِ الإعلاميةِ بين مدرستِك والمديريةِ والمجتمعِ المحلي؛ توثيقٌ وتغطيةٌ وتنسيقٌ بالصورةِ والفيديوِ والخبرِ المكتوب، لإيصالِ «الرسالةِ التربويةِ» بجميعِ مجالاتِها إلى المجتمع. سجّلْ بياناتك الآن لتنضمَّ إلى شبكةِ منسقي الإعلامِ في النقاطِ التعليمية.</p>
       <div class="hero-cta">
         <a href="#form" class="btn btn-gold btn-shine">ابدأ تعبئة الاستمارة <svg class="ic arrow"><use href="#i-arrow"/></svg></a>
-        <a href="#about" class="btn btn-ghost">تعرّف على دورك ومهامك</a>
+        <a href="#duties" id="btn-cta-duties" class="btn btn-ghost">دور ومهام المنسق</a>
       </div>
       <div class="hero-meta">
         <span><svg class="ic"><use href="#i-shield"/></svg> جميع الحقول إلزامية</span>
         <span><svg class="ic"><use href="#i-lock"/></svg> حماية بالتحقق البشري</span>
-        <span><svg class="ic"><use href="#i-cal"/></svg> تقرير شهري · اليوم الأول من كل شهر</span>
+        <span><svg class="ic"><use href="#i-check"/></svg> رقم مرجعي لكل طلب</span>
       </div>
     </div>
     <div>
@@ -567,7 +552,7 @@ footer.site b{color:#F0D9A6}
       <div class="seal-caption">مديرية التربية والتعليم — رفح<small>قسم العلاقات العامة · النقاط التعليمية</small></div>
     </div>
   </div>
-  <a class="scroll-hint" href="#about" aria-label="انزل للأسفل"><svg class="ic" style="width:26px;height:26px"><use href="#i-chev"/></svg></a>
+  <a class="scroll-hint" href="#form" aria-label="انزل للاستمارة"><svg class="ic" style="width:26px;height:26px"><use href="#i-chev"/></svg></a>
 </section>
 
 <!-- العدّاد الحي -->
@@ -583,16 +568,14 @@ footer.site b{color:#F0D9A6}
   </div>
 </div>
 
-<!-- ===================== دور ومهام ومرجعية منسق الإعلام ===================== -->
+<!-- ===================== بطاقات المرجعية + أهداف النشر ===================== -->
 <section class="about" id="about">
   <div class="wrap">
-    <div class="reveal">
-      <span class="sec-tag">الإطار المرجعي</span>
-      <h2 class="sec-title">دور ومهام ومرجعية «منسق الإعلام» في المدرسة</h2>
-      <p class="sec-sub">عضوٌ إعلاميٌّ فاعلٌ في المدرسة، يعملُ تحتَ إشرافِ مديرِها مباشرةً، وينفّذُ سياساتِ وتعليماتِ قسمِ العلاقاتِ العامةِ والإعلامِ بالمديرية — لنقلُ صورةِ المدرسةِ إلى المجتمعِ بمهنيةٍ ومصداقية.</p>
+    <div class="reveal" style="text-align:center">
+      <span class="sec-tag" style="justify-content:center">الإطار المرجعي</span>
+      <h2 class="sec-title">مرجعيةُ منسقِ الإعلامِ وهدفُه الأسمى</h2>
+      <p class="sec-sub" style="margin-inline:auto">ثلاثُ ركائزٍ تحكمُ عملَ المنسقِ في المدرسة — والوثيقةُ الرسميةُ الكاملةُ في تبويبِ «دور ومهام المنسق».</p>
     </div>
-
-    <!-- المرجعية الثلاث -->
     <div class="about-grid">
       <article class="about-card reveal">
         <span class="about-ic"><svg class="ic"><use href="#i-shield"/></svg></span>
@@ -610,8 +593,6 @@ footer.site b{color:#F0D9A6}
         <p>كلُّ ما يقومُ به المنسقُ من أنشطةٍ يهدفُ إلى إيصالِ <b>«الرسالةِ التربويةِ»</b> بمجالاتِها العلميةِ والدينيةِ والوطنيةِ والأخلاقيةِ والإنسانيةِ للمجتمعِ المحلي، وغرسِها في نفوسِ الطلبةِ والعاملين.</p>
       </article>
     </div>
-
-    <!-- أهداف النشر -->
     <div class="goals-strip reveal">
       <h3>أهدافُ عمليةِ النشر</h3>
       <p>لماذا ننشر؟ لأن كلَّ خبرٍ وصورةٍ وتقريرٍ يخرجُ من المدرسةِ له غايةٌ تربويةٌ ومجتمعيةٌ واضحة:</p>
@@ -621,126 +602,58 @@ footer.site b{color:#F0D9A6}
         <span>إطلاعُ الأهاليِ على أنشطةِ أبنائِهم داخلَ المدرسة.</span>
         <span>تحفيزُ المعلمينَ بنشرِ فعالياتِهم وجهودِهم.</span>
       </div>
-    </div>
-
-    <!-- مهام المنسق التفصيلية -->
-    <div class="reveal" style="text-align:center;margin-top:52px">
-      <span class="sec-tag" style="justify-content:center">المهام التفصيلية</span>
-      <h2 class="sec-title">ماذا يفعل منسقُ الإعلامِ فعليًا؟</h2>
-      <p class="sec-sub" style="margin-inline:auto">ستةُ مجالاتٍ رئيسةٍ تغطي كلَّ ما يتوقعهُ القسمُ من المنسق — اضغط على أي مجالٍ لعرضِ مهامِه كاملة:</p>
-    </div>
-
-    <div class="accordion reveal" id="tasks-accordion">
-      <!-- ١ التوثيق والتغطية -->
-      <div class="acc-item open">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-camera"/></svg></span>
-          <h3>التوثيقُ والتغطيةُ الإعلامية «فيديو وفوتو»</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>تغطيةُ ونشرُ كلِّ أنشطةِ المدرسةِ والطلبةِ التي تهمُّ المجتمعَ المحلي.</li>
-            <li>التصويرُ «فيديو وفوتو» والتوثيقُ والنشرُ وإعدادُ الأخبارِ والتقاريرِ عن: <b>جهدِ المعلمينَ داخلَ الحصةِ المدرسية</b>.</li>
-            <li>توثيقُ <b>الطابورِ المدرسي</b> و<b>أعمالِ الإدارةِ المدرسية</b>.</li>
-            <li>تغطيةُ فعالياتِ <b>الإرشادِ والتربيةِ الخاصةِ والحدِّ من الكوارثِ والصحةِ المدرسية</b>.</li>
-            <li>توثيقُ <b>الأذنةِ والحراسِ والكثافةِ الصفيةِ ومعاناةِ المواصلات</b>.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ٢ التقارير -->
-      <div class="acc-item">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-file"/></svg></span>
-          <h3>التقاريرُ الميدانية بالصورةِ والفيديو</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>إعدادُ التقاريرِ ونشرُها «فيديو وفوتو» عن <b>احتياجاتِ المدرسةِ</b> من أثاثٍ وقرطاسيةٍ وحماماتٍ ومياهٍ حلوةٍ ومالحةٍ وغيرِها.</li>
-            <li>إعدادُ التقاريرِ ونشرُها عن <b>الطلبةِ من ذوي الاحتياجاتِ الخاصة</b>، وذوي <b>قصصِ النجاح</b>.</li>
-            <li>إعدادُ التقاريرِ ونشرُها عن <b>جهودِ المعلمينَ والموظفينَ المتميزين</b>.</li>
-            <li>تفضيلُ تدوينِ كلِّ أعمالِ المنسقِ اليوميةِ في <b>سجلٍّ خاصٍّ به</b>.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ٣ العلاقات المجتمعية -->
-      <div class="acc-item">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-users"/></svg></span>
-          <h3>العلاقاتُ المجتمعيةُ والإعلاميون</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>تكوينُ <b>شبكةِ علاقاتٍ</b> مع المؤسساتِ والمبادرينَ والمجتمعِ المحليِ لخدمةِ المدرسة.</li>
-            <li>حصرُ هذهِ الجهاتِ، وإنشاءُ مجموعةِ واتسابِ للتواصلِ معها ونشرِ أخبارِ المدرسةِ فيها تسمى <b>«اللجنةُ المجتمعيةُ لإسنادِ المدرسة»</b>.</li>
-            <li>نسجُ علاقاتٍ مع <b>الإعلاميينَ والصحفيينَ</b> وإرسالُ أخبارِ المدرسةِ المهمةِ لهم لنشرِها، والتنسيقُ معهم لزيارةِ المدرسةِ وإعدادِ التقاريرِ عنها.</li>
-            <li>الانضمامُ إلى <b>مجموعةِ الواتسابِ الرسميةِ لمنسقي الإعلام</b> في مديريةِ التربيةِ والتعليمِ رفح.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ٤ الاحتفالات والمواهب -->
-      <div class="acc-item">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-cal"/></svg></span>
-          <h3>الاحتفالاتُ والأنشطةُ والمواهب</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>أن يكونَ <b>جزءًا رئيسيًا في إدارةِ الاحتفالاتِ والأنشطةِ اللاصفيةِ</b> في المدرسة.</li>
-            <li>متابعةُ معلمِ الأنشطةِ في صناعةِ <b>«عريفٍ للاحتفالاتِ»</b> (أكثرَ من طالبٍ)، وتتبُّعِ تدريبهِ وتنميةِ موهبته، وتجهيزِه لاحتفالاتِ المديريةِ المركزية.</li>
-            <li>متابعةُ صناعةِ <b>المواهبِ</b> من: تأليفٍ وإلقاءِ شعرٍ وإنشادٍ ومسرحٍ واستعراض، وتدريبِهم وتنميةِ مواهبِهم مع المعلمينَ المختصين، وتجهيزِهم لاحتفالاتِ وأنشطةِ المدرسةِ والمديريةِ المركزية.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ٥ صفحة المدرسة والنشر -->
-      <div class="acc-item">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-fb"/></svg></span>
-          <h3>صفحةُ المدرسةِ والنشرُ الإلكتروني</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li><b>إدارةُ صفحةِ الفيسبوكِ للمدرسة</b>.</li>
-            <li>تكليفُ معلمٍ مساندٍ <b>«منسقِ إعلامٍ ثانٍ»</b> بالتنسيقِ مع مديرِ المدرسة؛ يعينُ محررًا في الصفحةِ ليساعدَ في نشرِ الأخبار، مع تعيينِ مديرِ المدرسةِ <b>مشرفًا</b> في الصفحة.</li>
-            <li><b>المنسقُ الثاني:</b> يقومُ بكلِّ أعمالِ منسقِ الإعلام.</li>
-            <li>تنفيذُ كلِّ مهامِ منسقي الإعلامِ <b>دونَ أيِّ تأثيرٍ سلبيٍّ على سيرِ الحصةِ الدراسية</b>.</li>
-            <li>نشرُ الأخبارِ والتقاريرِ المدرسيةِ <b>المهمةِ</b> في المجموعاتِ وصفحاتِ التواصلِ الاجتماعي.</li>
-            <li>ستكونُ صفحةُ المدرسةِ بمثابةِ <b>أداةِ تقييمٍ وتواصلٍ</b> بين المديريةِ والمدرسة.</li>
-            <li>ابتكارُ <b>الأفكارِ التطويريةِ</b> وتنفيذُها وخلقُ مساحاتٍ جديدةٍ للعملِ بما يخدمُ الرسالةَ التربوية.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- ٦ الالتزامات والمتابعة -->
-      <div class="acc-item">
-        <div class="acc-head">
-          <span class="acc-ic"><svg class="ic"><use href="#i-clock"/></svg></span>
-          <h3>الالتزاماتُ والمتابعة</h3>
-          <svg class="ic acc-chev"><use href="#i-chev"/></svg>
-        </div>
-        <div class="acc-body">
-          <ul class="acc-list">
-            <li>إعدادُ <b>تقريرٍ شهريٍّ</b> عن عملِ الشهرِ السابقِ وإرسالُه لواتسِ قسمِ العلاقاتِ العامةِ <b dir="ltr">+970 599 323 581</b> في <b>اليومِ الأولِ من الشهر</b>.</li>
-            <li><b>الجهوزيةُ للمشاركةِ الإلزاميةِ</b> في اللقاءِ الأولِ مع قيادةِ المديريةِ والقسم، وتلقيِ الدورةِ التدريبيةِ المرتقبة.</li>
-            <li>سيقومُ القسمُ <b>ميدانيًا وإلكترونيًا</b> بمتابعةِ تنفيذِ كلِّ ما وردَ من مهام.</li>
-          </ul>
-        </div>
+      <div class="goals-more">
+        <a href="#duties" id="btn-goals-duties" class="btn btn-gold sm">اقرأ الوثيقة الرسمية كاملة: دور ومهام المنسق <svg class="ic arrow"><use href="#i-arrow"/></svg></a>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="about-chips reveal" style="justify-content:center">
-      <span class="chip"><b>29</b> مدرسة مشاركة</span>
-      <span class="chip"><b>3</b> ساحات عمل</span>
-      <span class="chip"><b>6</b> مجالات للمهام</span>
-      <span class="chip"><b>1</b> تقرير شهري إلزامي</span>
+<!-- ===================== صفحة: دور ومهام ومرجعية منسق الإعلام ===================== -->
+<section id="duties">
+  <div class="wrap">
+    <div class="doc">
+      <div class="doc-head">
+        <img id="doc-logo" src="logo.png" alt="" onerror="this.style.display='none'">
+        <h1>دور ومهام ومرجعية " منسق الإعلام " في المدرسة</h1>
+        <p>مديرية التربية والتعليم — رفح · قسم العلاقات العامة والإعلام</p>
+        <span class="doc-count">وثيقة رسمية · <b style="color:var(--gold-d)">28</b> بندًا ملزمًا</span>
+      </div>
+      <div class="doc-list">
+        <div class="doc-item reveal"><span class="d-num"><span>٠١</span></span><p><b>المرجعية الأولى هي مدير المدرسة</b>، فلا يجوز النشر أو إتباع سياسة عمل معينة إلا بموافقة مدير المدرسة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٢</span></span><p><b>المرجعية الأعلى هي قسم العلاقات العامة والإعلام بالمديرية</b>، ضرورة تنفيذ التعليمات والسياسات الصادرة عن القسم.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٣</span></span><p>الهدف: كل ما يقوم به منسق الإعلام من أنشطة يهدف إلى إيصال <b>" الرسالة التربوية "</b> بمجلاتها المختلفة: العلمية والدينية والوطنية والأخلاقية والإنسانية للمجتمع المحلي، وغرسها في نفوس الطلبة والعاملين.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٤</span></span><p>أن يشكل شبكة علاقات مع المؤسسات والمبادرين والمجتمع المحلي لخدمة المدرسة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٥</span></span><p>حصر هذه الجهات، وإنشاء مجموعة واتس أب للتواصل معهم ونشر أخبار المدرسة فيها تسمى <b>" اللجنة المجتمعية لإسناد مدرسة شفا عمرو _ رفح "</b> ( كمثال ).</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٦</span></span><p>أن يكون جزءاً رئيسياً في <b>إدارة الاحتفالات والأنشطة اللا صفية</b> في المدرسة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٧</span></span><p>أن يتابع مع معلم الأنشطة صناعة <b>" عريف للاحتفالات "</b> ( أكثر من طالب ) ويتابع تدريبه وتنمية موهبته، وتجهيزه لاحتفالات المديرية المركزية.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٨</span></span><p>أن يتابع مع معلم الأنشطة صناعة <b>المواهب</b> من: تأليف وإلقاء شعر وإنشاد ومسرح واستعراض، ويتابع تدريبهم وتنمية موهبتهم مع المعلمين المختصين، وتجهيزهم لاحتفالات وأنشطة المدرسة والمديرية المركزية.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٠٩</span></span><p><b>إدارة صفحة الفيس بوك للمدرسة</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٠</span></span><p>تكليف معلم مساند <b>" منسق إعلامي ثاني "</b> بتنسيق مع مدير المدرسة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١١</span></span><p>تعينه <b>محرراً في صفحة الفيس بوك</b>، ليساعد في نشر الأخبار، وكذلك تعيين مدير المدرسة <b>مشرفاً</b> في الصفحة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٢</span></span><p><b>المنسق الثاني:</b> يقوم بكل أعمال منسق الإعلام.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٣</span></span><p>تنفذ كل مهام منسقي الإعلام <b>دون أي تأثير سلبي على سير الحصة الدراسية</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٤</span></span><p>يقوم منسق الإعلام بتغطية ونشر كل أنشطة المدرسة والطلبة التي تهم المجتمع المحلي.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٥</span></span><p>تهدف عملية النشر: لزيادة التواصل مع المجتمع المحلي، وتسليط الضوء على الجهد العظيم المبذول من المعلمين وإدارة المدرسة، وإطلاع الأهالي على أنشطة أبنائهم، وتحفيز المعلمين بنشر فعالياتهم وجهودهم.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٦</span></span><p>يقوم المنسق بتصوير <b>" فيديو وفوتو "</b> وتوثيق ونشر وإعداد الأخبار والتقارير عن: جهد المعلمين داخل الحصة المدرسية، الطابور المدرسي، أعمال الإدارة المدرسية، فعاليات الإرشاد والتربية الخاصة والحد من الكوارث والصحة المدرسية، والأذنة والحراس، الكثافة الصفية، معاناة المواصلات.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٧</span></span><p>يقوم المنسق بإعداد التقارير ونشرها " فيديو وفوتو " عن <b>احتياجات المدرسة</b> من أثاث وقرطاسية وحمامات ومياه حلوة ومالحة ... إلخ.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٨</span></span><p>يقوم المنسق بإعداد التقارير ونشرها " فيديو وفوتو " عن <b>الطلبة من ذوي الاحتياجات الخاصة، وذوي قصص النجاح</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>١٩</span></span><p>يقوم المنسق بإعداد التقارير ونشرها " فيديو وفوتو " عن <b>جهود المعلمين والموظفين المتميزين</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٠</span></span><p>ينشر المنسق الأخبار والتقارير المدرسية <b>" المهمة "</b> في مجموعات وصفحات التواصل الاجتماعي.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢١</span></span><p>نسج علاقات مع <b>الإعلاميين والصحفيين</b> وإرسال أخبار المدرسة المهمة لهم لنشرها، والتنسيق معهم لزيارة المدرسة وإعداد التقارير عنها.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٢</span></span><p>ستكون صفحة المدرسة بمثابة <b>أداة تقييم وتواصل بين المديرية والمدرسة</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٣</span></span><p>يفضل أن يدون منسق الإعلام كل أعماله اليومية في <b>سجل خاص به</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٤</span></span><p><b>ابتكار الأفكار التطويرية</b> وتنفيذها وخلق مساحات جديدة للعمل بما يخدم الرسالة التربوية.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٥</span></span><p>الانضمام لمجموعة الواتس الرسمية لمنسقي الإعلام في مديرية التربية والتعليم رفح، والتي ستشكل لاحقاً.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٦</span></span><p><b>الجهوزية للمشاركة الإلزامية</b> في اللقاء الأول مع قيادة المديرية والقسم، وتلقي الدورة التدريبية المرتقبة.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٧</span></span><p>يلزم المنسق بإعداد <b>تقرير شهري</b> عن عمله الشهر السابق وإرساله لواتس قسم العلاقات العامة <b dir="ltr">00970599323581</b> في <b>اليوم الأول من الشهر</b>.</p></div>
+        <div class="doc-item reveal"><span class="d-num"><span>٢٨</span></span><p>سيقوم القسم <b>ميدانياً وإلكترونياً</b> بمتابعة تنفيذ كل ما ورد من مهام.</p></div>
+      </div>
+      <div class="doc-foot">صدر عن قسم العلاقات العامة والإعلام — مديرية التربية والتعليم رفح</div>
+      <div class="doc-actions">
+        <a href="#form" id="doc-to-form" class="btn btn-gold">التالي: تعبئة الاستمارة <svg class="ic arrow"><use href="#i-arrow"/></svg></a>
+        <button class="btn btn-ghost" id="doc-print" type="button"><svg class="ic"><use href="#i-print"/></svg> طباعة الوثيقة</button>
+      </div>
     </div>
   </div>
 </section>
@@ -753,7 +666,6 @@ footer.site b{color:#F0D9A6}
       <h2 class="sec-title">بيانات منسقي الإعلام في مدارس رفح</h2>
       <p class="sec-sub" style="margin-inline:auto">جميعُ الحقولِ إلزامية، وستُعرض لك شاشةُ مراجعةٍ قبلَ الإرسال النهائي — بياناتُك تُحفظُ تلقائيًا أثناءَ الكتابة.</p>
     </div>
-
     <div class="progress reveal">
       <div class="fp-top">
         <span><b id="fp-count">0 / 15</b> حقلًا مكتملًا <span class="fp-done" id="fp-done">· الاستمارة مكتملة ✓</span></span>
@@ -761,7 +673,6 @@ footer.site b{color:#F0D9A6}
       </div>
       <div class="track"><div class="fill" id="fp-fill"></div></div>
     </div>
-
     <form id="pr-form" novalidate>
       <!-- ٠١ -->
       <div class="card reveal">
@@ -790,7 +701,6 @@ footer.site b{color:#F0D9A6}
           </div>
         </div>
       </div>
-
       <!-- ٠٢ -->
       <div class="card reveal">
         <div class="sec-head">
@@ -830,7 +740,6 @@ footer.site b{color:#F0D9A6}
           </div>
         </div>
       </div>
-
       <!-- ٠٣ -->
       <div class="card reveal">
         <div class="sec-head">
@@ -877,7 +786,6 @@ footer.site b{color:#F0D9A6}
           </div>
         </div>
       </div>
-
       <!-- ٠٤ -->
       <div class="card reveal">
         <div class="sec-head">
@@ -925,8 +833,7 @@ footer.site b{color:#F0D9A6}
           </div>
         </div>
       </div>
-
-      <!-- ٠٥ التطوير المهني -->
+      <!-- ٠٥ -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٥</span></span>
@@ -955,8 +862,7 @@ footer.site b{color:#F0D9A6}
           </div>
         </div>
       </div>
-
-      <!-- ٠٦ الكابتشا -->
+      <!-- ٠٦ -->
       <div class="card reveal captcha-box" id="captcha-box">
         <div class="sec-head">
           <span class="sec-num"><span>٠٦</span></span>
@@ -969,7 +875,6 @@ footer.site b{color:#F0D9A6}
         </div>
         <div class="err" id="cap-err"></div>
       </div>
-
       <div class="form-foot reveal">
         <button class="btn btn-brown btn-submit btn-shine" id="btn-submit" type="button">
           <span class="spin"></span>
@@ -1130,8 +1035,8 @@ const WA_TEMPLATES = {
 
 const COLS = [
   {h:'#',                 v:(r,i)=>i+1},
-  {h:'المرجع',            tag:true,  v:r=>r.id},
-  {h:'الحالة',            st:true,   v:r=>r.id},
+  {h:'المرجع',            tag:true},
+  {h:'الحالة',            st:true},
   {h:'الاسم الثلاثي',     name:true, v:r=>r.values[2]},
   {h:'رقم الهوية',        ltr:true,  v:r=>r.values[3]},
   {h:'المدرسة',                      v:r=>r.values[0]},
@@ -1242,7 +1147,7 @@ function downloadBlob(blob, name){
   hero.src = CONFIG.LOGO_URL;
 })();
 
-/* ============ حركة الدخول ============ */
+/* ============ حركة الدخول + تفاعل الختم ============ */
 document.body.classList.add('play');
 (() => {
   const seal = el('seal'), heroSec = el('hero');
@@ -1277,23 +1182,50 @@ document.body.classList.add('play');
   })();
 })();
 
-/* ظهور العناصر عند التمرير */
+/* ظهور العناصر عند التمرير (يشمل بنود الوثيقة) */
 (() => {
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => { if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-  }, { threshold:.12 });
+  }, { threshold:.1 });
   $$('.reveal').forEach(x => io.observe(x));
 })();
 
+/* مضاعفة الشريط المتحرك لحلقة سلسة */
 (() => { const t = el('mq-track'); t.innerHTML += t.innerHTML; })();
 
-/* أكورديون المهام */
- $$('.acc-head').forEach(h => h.addEventListener('click', () => {
-  const item = h.parentElement;
-  const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.acc-item.open').forEach(x => x.classList.remove('open'));
-  if (!wasOpen) item.classList.add('open');
-}));
+/* ============ التنقل بين الواجهات: الرئيسية / دور ومهام المنسق / الاستمارة ============ */
+function updateNav(){
+  const isAdmin  = document.body.classList.contains('admin-mode');
+  const isDuties = document.body.classList.contains('duties-mode');
+  el('nav-home').classList.toggle('active', !isAdmin && !isDuties);
+  el('nav-duties').classList.toggle('active', isDuties);
+  el('nav-form').classList.remove('active');
+}
+function goHome(){
+  document.body.classList.remove('duties-mode','admin-mode');
+  window.scrollTo({ top:0, behavior:'smooth' });
+  updateNav();
+}
+function goDuties(){
+  document.body.classList.remove('admin-mode');
+  document.body.classList.add('duties-mode');
+  window.scrollTo({ top:0, behavior:'smooth' });
+  updateNav();
+}
+function goForm(){
+  document.body.classList.remove('duties-mode','admin-mode');
+  updateNav();
+  requestAnimationFrame(()=> el('form').scrollIntoView({ behavior:'smooth' }));
+}
+el('btn-top').addEventListener('click', goHome);
+el('nav-home').addEventListener('click', e => { e.preventDefault(); goHome(); });
+el('nav-duties').addEventListener('click', e => { e.preventDefault(); goDuties(); });
+el('nav-form').addEventListener('click', e => { e.preventDefault(); goForm(); });
+el('btn-cta-duties').addEventListener('click', e => { e.preventDefault(); goDuties(); });
+el('btn-goals-duties').addEventListener('click', e => { e.preventDefault(); goDuties(); });
+el('doc-to-form').addEventListener('click', e => { e.preventDefault(); goForm(); });
+el('doc-print').addEventListener('click', ()=> window.print());
+updateNav();
 
 /* ============ بناء القوائم ============ */
 function fillSelect(sel, items){
@@ -1319,8 +1251,7 @@ const CourseSel = {
   clear(){ this.list.clear(); this.render(); },
   render(){
     $$('#msel-panel .msel-opt').forEach(o => {
-      const v = o.dataset.v;
-      const on = this.list.has(v);
+      const on = this.list.has(o.dataset.v);
       o.classList.toggle('sel', on);
       o.querySelector('input').checked = on;
     });
@@ -1356,8 +1287,7 @@ const msel = el('course-msel'), mselBtn = el('msel-btn'), mselPanel = el('msel-p
 function closeMsel(){ msel.classList.remove('open'); mselPanel.hidden = true; mselBtn.setAttribute('aria-expanded','false'); }
 mselBtn.addEventListener('click', e => {
   e.stopPropagation();
-  const willOpen = mselPanel.hidden;
-  if (willOpen){ msel.classList.add('open'); mselPanel.hidden = false; mselBtn.setAttribute('aria-expanded','true'); }
+  if (mselPanel.hidden){ msel.classList.add('open'); mselPanel.hidden = false; mselBtn.setAttribute('aria-expanded','true'); }
   else closeMsel();
 });
 document.addEventListener('click', e => { if (!msel.contains(e.target)) closeMsel(); });
@@ -1750,7 +1680,7 @@ function openSuccess(rec){
     const ok = await copyText(rec.id);
     toast(ok ? 'تم نسخ الرقم المرجعي' : 'تعذر النسخ', ok ? 'ok' : 'error');
   });
-  el('m-new').addEventListener('click', ()=> { resetFormAll(); newCaptcha(); closeModal(); document.getElementById('form').scrollIntoView({ behavior:'smooth' }); });
+  el('m-new').addEventListener('click', ()=> { resetFormAll(); newCaptcha(); closeModal(); goForm(); });
   el('m-close2').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
 }
 
@@ -1815,7 +1745,6 @@ function mergeCloudRows(rows){
   return added;
 }
 
-el('btn-top').addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
 el('btn-admin').addEventListener('click', ()=> {
   if (sessionStorage.getItem('pr_admin') === '1') showAdmin();
   else openPassModal();
@@ -1824,15 +1753,18 @@ el('btn-logout').addEventListener('click', ()=> {
   sessionStorage.removeItem('pr_admin');
   document.body.classList.remove('admin-mode');
   window.scrollTo({ top:0, behavior:'smooth' });
+  updateNav();
   toast('تم تسجيل الخروج من لوحة الإدارة', 'info');
 });
 el('btn-back-site').addEventListener('click', ()=> {
   document.body.classList.remove('admin-mode');
   window.scrollTo({ top:0, behavior:'smooth' });
+  updateNav();
 });
 function showAdmin(){
   document.body.classList.add('admin-mode');
   window.scrollTo(0, 0);
+  updateNav();
   renderAdmin();
   syncCloud(true);
 }
@@ -2082,7 +2014,7 @@ el('btn-backup').addEventListener('click', ()=>{
     </div>`);
   el('m-bk-dl').addEventListener('click', ()=>{
     const data = { app:'pr-form', version:1, exportedAt:new Date().toISOString(), records:loadRecords(), meta:META };
-    downloadBlob(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), `نسخة_احتياطية_العلاقات_العامة_${new Date().toISOString().slice(0,10)}.json`);
+    downloadBlob(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), `نسخة_احتياطية_منسقي_الإعلام_${new Date().toISOString().slice(0,10)}.json`);
     toast('تم تنزيل النسخة الاحتياطية — احفظها في مكان آمن', 'ok');
   });
   el('m-bk-rs').addEventListener('click', ()=> el('restore-file').click());
