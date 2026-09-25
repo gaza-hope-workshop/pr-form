@@ -16,7 +16,7 @@
   --paper:#FAF6EC; --card:#FFFDF7; --face:#FBF7EC;
   --ink:#2A1F10; --ink2:#5C4A2E; --mut:#9A8A67;
   --line:#EBDFC4; --line2:#DCCCA4;
-  --ok:#5F7A46; --err:#B3261E;
+  --ok:#5F7A46; --err:#B3261E; --blue:#3D6B8E;
   --f-head:'Alexandria',sans-serif; --f-body:'IBM Plex Sans Arabic',sans-serif;
   --sh:0 12px 34px rgba(90,62,20,.10);
 }
@@ -139,6 +139,17 @@ main,header,footer{position:relative;z-index:1}
 .play .scroll-hint{animation:bob 1.8s ease-in-out infinite,fadeUp .6s 1.4s forwards}
 @keyframes bob{0%,100%{translate:0 0}50%{translate:0 8px}}
 
+/* ===================== العدّاد الحي ===================== */
+.live-strip{
+  background:linear-gradient(90deg,#FBF3DE,#F7E6BE 50%,#FBF3DE);
+  border-block:1px solid var(--line2);padding:14px 24px;text-align:center;
+  font:600 15.5px var(--f-body);color:var(--brown);display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;
+}
+.live-strip b{font:800 24px var(--f-head);color:var(--gold-d);min-width:34px;display:inline-block}
+.pulse-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);position:relative;flex:none}
+.pulse-dot::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid var(--ok);animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.4);opacity:0}}
+
 /* ===================== الشريط المتحرك ===================== */
 .marquee{background:var(--brown);padding:13px 0;overflow:hidden;border-block:1px solid #6B4F2A}
 .mq-track{display:flex;width:max-content;animation:mq 28s linear infinite}
@@ -165,7 +176,7 @@ main,header,footer{position:relative;z-index:1}
 .chip b{color:var(--gold-d);font:800 15px var(--f-head)}
 
 /* ===================== الاستمارة ===================== */
-.form-sec{padding:66px 0 80px}
+.form-sec{padding:56px 0 80px}
 .form-head{text-align:center;margin-bottom:30px}
 .form-head .kicker{margin-bottom:4px}
 .progress{position:sticky;top:82px;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px 20px;margin:0 auto 30px;max-width:800px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:10px}
@@ -207,16 +218,41 @@ select.control option{color:var(--ink)}
 .shake{animation:shake .45s}
 @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
-/* التواريخ */
+/* ✅ التواريخ — ثلاث خانات: يوم / شهر / سنة */
 .date-group{display:flex;align-items:center;gap:8px}
-.d-part{width:100%;text-align:center;padding:13px 6px;font-weight:500;letter-spacing:1px}
-.d-part.d,.d-part.m{max-width:74px}.d-part.y{max-width:98px}
+.d-part{width:100%;text-align:center;padding:13px 6px;font-weight:600;letter-spacing:1px}
+.d-part.d,.d-part.m{max-width:76px}.d-part.y{max-width:100px}
 .d-sep{font:800 20px var(--f-head);color:var(--gold);flex:none}
 
 /* الواتساب */
 .wa-group{display:flex;gap:10px}
 .wa-cc{width:120px;flex:none;direction:ltr;text-align:center;font-weight:600}
 .wa-preview{margin-top:9px;display:inline-flex;align-items:center;gap:7px;font:500 12px var(--f-body);color:var(--gold-d);background:rgba(200,135,46,.08);border:1px dashed rgba(200,135,46,.4);padding:6px 13px;border-radius:9px;direction:ltr}
+
+/* ✅ الدورات — قائمة منسدلة متعددة الاختيار بشيك بوكس */
+.msel{position:relative}
+.msel-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;text-align:right;width:100%}
+.msel-btn .ph-label{color:#C4B48C;font-weight:300}
+.msel-btn.has-sel .ph-label{color:var(--gold-d);font-weight:600}
+.msel-btn .chev{transition:transform .25s;flex:none;color:var(--brown-2)}
+.msel.open .msel-btn .chev{transform:rotate(180deg)}
+.msel.open .msel-btn{border-color:var(--gold);background:#fff;box-shadow:0 0 0 4px rgba(200,135,46,.14)}
+.msel-panel{
+  position:absolute;top:calc(100% + 8px);inset-inline:0;z-index:50;
+  background:var(--card);border:1.6px solid var(--gold);border-radius:13px;
+  box-shadow:0 18px 40px rgba(90,62,20,.22);overflow:hidden;
+  animation:mselIn .22s cubic-bezier(.3,1.2,.4,1);
+}
+@keyframes mselIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.msel-opt{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;transition:background .15s;font:500 14px var(--f-body);color:var(--ink);border-bottom:1px solid var(--line)}
+.msel-opt:last-child{border-bottom:none}
+.msel-opt:hover{background:#FBF3DE}
+.msel-opt input[type=checkbox]{
+  width:19px;height:19px;flex:none;accent-color:var(--gold);cursor:pointer;
+}
+.msel-opt.sel{background:rgba(200,135,46,.09);color:var(--gold-d);font-weight:600}
+.msel-opt .chk-mark{margin-inline-start:auto;width:19px;height:19px;color:var(--gold-d);opacity:0;transform:scale(.4);transition:.2s}
+.msel-opt.sel .chk-mark{opacity:1;transform:scale(1)}
 
 /* ====== الكابتشا ====== */
 .cap-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
@@ -235,7 +271,7 @@ select.control option{color:var(--ink)}
 
 /* ===================== لوحة الإدارة ===================== */
 #admin{display:none;padding:44px 0 70px}
-body.admin-mode #hero,body.admin-mode .marquee,body.admin-mode .about,body.admin-mode .form-sec,body.admin-mode footer.site{display:none}
+body.admin-mode #hero,body.admin-mode .marquee,body.admin-mode .live-strip,body.admin-mode .about,body.admin-mode .form-sec,body.admin-mode footer.site{display:none}
 body.admin-mode #admin{display:block}
 .admin-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:26px}
 .admin-head h1{font:800 clamp(24px,3vw,32px) var(--f-head);color:var(--brown)}
@@ -252,7 +288,7 @@ body.admin-mode #admin{display:block}
 .search-box .ic{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--mut);pointer-events:none}
 .search-box .control{padding-right:44px}
 .table-wrap{background:var(--card);border:1px solid var(--line);border-radius:17px;overflow:auto;box-shadow:var(--sh);max-height:70vh}
-table{width:100%;border-collapse:collapse;font:400 12.5px var(--f-body);min-width:2950px}
+table{width:100%;border-collapse:collapse;font:400 12.5px var(--f-body);min-width:3300px}
 th{background:#F3E9D2;font:700 11.5px var(--f-body);color:var(--brown-2);padding:12px 13px;text-align:right;border-bottom:1px solid var(--line2);white-space:nowrap;position:sticky;top:0;z-index:2}
 td{padding:11px 13px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
 tbody tr{cursor:pointer;transition:background .15s}
@@ -262,6 +298,10 @@ tbody tr:last-child td{border-bottom:none}
 .td-ltr{direction:ltr;text-align:right;font-weight:500;letter-spacing:.4px}
 .td-cut{max-width:200px;overflow:hidden;text-overflow:ellipsis}
 .ref-tag{font:600 10.5px var(--f-body);background:rgba(200,135,46,.1);color:var(--gold-d);border:1px solid rgba(200,135,46,.3);padding:3px 10px;border-radius:99px;direction:ltr;display:inline-block}
+.st-badge{font:700 10.5px var(--f-body);padding:4px 11px;border-radius:99px;display:inline-block;white-space:nowrap}
+.st-new{background:rgba(200,135,46,.14);color:var(--gold-d);border:1px solid rgba(200,135,46,.35)}
+.st-review{background:rgba(61,107,142,.12);color:var(--blue);border:1px solid rgba(61,107,142,.35)}
+.st-contact{background:rgba(95,122,70,.13);color:var(--ok);border:1px solid rgba(95,122,70,.4)}
 .row-actions{display:flex;gap:7px}
 .empty-state{text-align:center;padding:56px 20px;color:var(--mut)}
 .empty-state .ic{width:42px;height:42px;stroke-width:1.4;margin-bottom:14px;color:var(--line2)}
@@ -271,7 +311,7 @@ tbody tr:last-child td{border-bottom:none}
 /* ===================== النوافذ والتنبيهات ===================== */
 .overlay{position:fixed;inset:0;background:rgba(40,27,10,.55);backdrop-filter:blur(5px);z-index:100;display:grid;place-items:center;padding:20px;opacity:0;transition:opacity .2s}
 .overlay.show{opacity:1}
-.modal{background:var(--card);border-radius:20px;max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:32px;position:relative;transform:translateY(14px) scale(.97);transition:transform .25s cubic-bezier(.3,1.3,.4,1);border-top:5px solid var(--gold)}
+.modal{background:var(--card);border-radius:20px;max-width:660px;width:100%;max-height:88vh;overflow:auto;padding:32px;position:relative;transform:translateY(14px) scale(.97);transition:transform .25s cubic-bezier(.3,1.3,.4,1);border-top:5px solid var(--gold)}
 .overlay.show .modal{transform:none}
 .modal-close{position:absolute;top:16px;left:16px;width:34px;height:34px;border:1.5px solid var(--line2);background:var(--face);border-radius:9px;cursor:pointer;display:grid;place-items:center;color:var(--brown-2)}
 .modal-close:hover{border-color:var(--err);color:var(--err)}
@@ -296,9 +336,29 @@ tbody tr:last-child td{border-bottom:none}
 .kv b{font:600 13.5px/1.6 var(--f-body);word-break:break-word}
 .modal-foot{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}
 .modal-foot .meta{margin-inline-start:auto;font:400 11.5px var(--f-body);color:var(--mut)}
-.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;flex-wrap:wrap}
 
-#toasts{position:fixed;bottom:22px;inset-inline-start:22px;z-index:200;display:flex;flex-direction:column;gap:10px}
+.status-row{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 4px}
+.st-btn{cursor:pointer;border:1.6px solid var(--line2);background:var(--face);border-radius:99px;padding:8px 16px;font:700 12.5px var(--f-body);color:var(--brown-2);transition:.2s}
+.st-btn:hover{border-color:var(--gold)}
+.st-btn.on.st-new{background:rgba(200,135,46,.16);border-color:var(--gold);color:var(--gold-d)}
+.st-btn.on.st-review{background:rgba(61,107,142,.14);border-color:var(--blue);color:var(--blue)}
+.st-btn.on.st-contact{background:rgba(95,122,70,.16);border-color:var(--ok);color:var(--ok)}
+.notes-box{margin-top:16px;background:var(--face);border:1px solid var(--line);border-radius:13px;padding:14px}
+.notes-box>b{font:700 13px var(--f-body);color:var(--brown);display:block;margin-bottom:10px}
+.note-item{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:8px 12px;margin-bottom:7px;font:400 12.5px/1.7 var(--f-body)}
+.note-item small{color:var(--mut);font-size:10.5px;display:block}
+.note-row{display:flex;gap:8px;margin-top:10px}
+.note-row .control{flex:1;padding:9px 13px;font-size:13px}
+.wa-tools{margin-top:16px;background:rgba(95,122,70,.06);border:1px solid rgba(95,122,70,.25);border-radius:13px;padding:14px}
+.wa-tools>b{font:700 13px var(--f-body);color:var(--ok);display:block;margin-bottom:10px}
+.wa-tools-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.wa-tools-row select{flex:1;min-width:200px}
+.qr-box{text-align:center;padding:8px 4px}
+.qr-box img{width:280px;height:280px;border-radius:14px;border:2px solid var(--gold);background:#FBF7EC;margin:10px auto;display:block}
+.qr-box .url{font:500 12px var(--f-body);color:var(--gold-d);direction:ltr;word-break:break-all;background:var(--face);border:1px dashed var(--line2);border-radius:9px;padding:9px 12px;margin:12px 0}
+
+#toasts{position:fixed;bottom:22px;inset-inline-start:22px;z-index:400;display:flex;flex-direction:column;gap:10px}
 .toast{display:flex;gap:11px;align-items:center;background:var(--brown);color:#F5EFE2;padding:13px 19px;border-radius:12px;box-shadow:0 14px 34px rgba(30,20,5,.3);font:500 13.5px var(--f-body);max-width:340px;animation:tIn .35s cubic-bezier(.3,1.3,.4,1)}
 .toast.error{background:var(--err)}
 .toast.ok{background:var(--gold-d)}
@@ -313,9 +373,7 @@ footer.site .foot-in{max-width:1120px;margin:0 auto;padding:24px;display:flex;ju
 footer.site b{color:#F0D9A6}
 .foot-tatreez{height:10px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='6' viewBox='0 0 14 6'%3E%3Cpath d='M0 6L7 0l7 6z' fill='%23C8872E'/%3E%3C/svg%3E") repeat-x bottom/14px 6px}
 
-/* ===================== تقرير PDF =====================
-   ⚠️ موضع ثابت عند زاوية الصفحة (وليس خارج الشاشة) —
-   هذا هو الإصلاح الذي كان يسبب ملف PDF فارغًا */
+/* ===================== تقرير PDF ===================== */
 .pdf-doc{position:fixed;top:0;left:0;z-index:-9999;width:760px;background:#fff;font-family:'IBM Plex Sans Arabic',sans-serif;color:#2A1F10;direction:rtl}
 .pdf-doc *{box-sizing:border-box}
 .pdf-head{display:flex;align-items:center;gap:14px;border-bottom:4px solid #C8872E;padding-bottom:14px;margin-bottom:16px}
@@ -331,6 +389,7 @@ footer.site b{color:#F0D9A6}
 .pdf-card{border:1px solid #E6D9BC;border-radius:12px;margin-bottom:12px;overflow:hidden}
 .pdf-card-head{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,#F7E6BE,#F2CE83);padding:8px 14px;font-weight:700;font-size:13px;color:#3E2C17;gap:10px}
 .pdf-card-head .ref{direction:ltr;font-size:11px;background:#fff;border:1px solid #DCCCA4;padding:2px 9px;border-radius:99px;color:#A56A1B;white-space:nowrap}
+.pdf-card-head .st{font-size:10.5px;background:#fff;border:1px solid #DCCCA4;padding:2px 9px;border-radius:99px;color:#5C4326;white-space:nowrap}
 .pdf-grid{display:grid;grid-template-columns:1fr 1fr}
 .pdf-kv{padding:7px 14px;border-bottom:1px solid #F0E9D9;font-size:12px}
 .pdf-kv:nth-child(odd){background:#FDFAF2}
@@ -403,6 +462,10 @@ footer.site b{color:#F0D9A6}
   <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
   <symbol id="i-fb" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><line x1="14" y1="14" x2="14" y2="14.01"/><line x1="17" y1="14" x2="17" y2="14.01"/><line x1="21" y1="14" x2="21" y2="14.01"/><line x1="14" y1="17" x2="14" y2="17.01"/><line x1="17" y1="17" x2="17" y2="17.01"/><line x1="21" y1="17" x2="21" y2="17.01"/><line x1="14" y1="21" x2="14" y2="21.01"/><line x1="17" y1="21" x2="17" y2="21.01"/><line x1="21" y1="21" x2="21" y2="21.01"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.5 13l1.5 8-5-3-5 3 1.5-8"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
 </svg>
 
 <canvas id="dust" aria-hidden="true"></canvas>
@@ -445,7 +508,7 @@ footer.site b{color:#F0D9A6}
       <div class="hero-meta">
         <span><svg class="ic"><use href="#i-shield"/></svg> جميع الحقول إلزامية</span>
         <span><svg class="ic"><use href="#i-lock"/></svg> حماية بالتحقق البشري</span>
-        <span><svg class="ic"><use href="#i-check"/></svg> بياناتك تُحفظ بسرّية تامة</span>
+        <span><svg class="ic"><use href="#i-award"/></svg> شهادة انتساب فورية</span>
       </div>
     </div>
     <div>
@@ -481,6 +544,12 @@ footer.site b{color:#F0D9A6}
   </div>
   <a class="scroll-hint" href="#about" aria-label="انزل للأسفل"><svg class="ic" style="width:26px;height:26px"><use href="#i-chev"/></svg></a>
 </section>
+
+<!-- العدّاد الحي -->
+<div class="live-strip" aria-live="polite">
+  <span class="pulse-dot"></span>
+  انضمّ حتى الآن <b id="live-count">—</b> منسوبًا من <b id="live-schools">—</b> مدرسة في النقاط التعليمية
+</div>
 
 <!-- شريط متحرك -->
 <div class="marquee" aria-hidden="true">
@@ -528,7 +597,7 @@ footer.site b{color:#F0D9A6}
     <div class="form-head reveal">
       <span class="kicker">استمارة البيانات الرسمية</span>
       <h2 class="sec-title">بيانات منسوبي قسم العلاقات العامة</h2>
-      <p class="sec-sub" style="margin-inline:auto">جميعُ الحقولِ إلزامية، وتُعتمدُ البياناتُ المدخلةُ للتواصلِ الرسمي — راجعْ كلَّ حقلٍ قبلَ الإرسال.</p>
+      <p class="sec-sub" style="margin-inline:auto">جميعُ الحقولِ إلزامية، وستُعرض لك شاشةُ مراجعةٍ قبلَ الإرسال النهائي — بياناتُك تُحفظُ تلقائيًا أثناءَ الكتابة.</p>
     </div>
 
     <div class="progress reveal">
@@ -603,7 +672,7 @@ footer.site b{color:#F0D9A6}
               <input type="text" class="control d-part y" id="birth-y" data-dk="birth-y" data-digits="4" maxlength="4" inputmode="numeric" placeholder="سنة">
             </div>
             <div class="err"></div>
-            <div class="hint">يوم / شهر / سنة — كتابة يدوية بتنسيق DD/MM/YYYY.</div>
+            <div class="hint">يوم / شهر / سنة — تُضاف الأصفارُ تلقائيًا عند الخروجِ من الخانة (1 ← 01).</div>
           </div>
         </div>
       </div>
@@ -625,7 +694,7 @@ footer.site b{color:#F0D9A6}
               <input type="text" class="control d-part y" id="hire-y" data-dk="hire-y" data-digits="4" maxlength="4" inputmode="numeric" placeholder="سنة">
             </div>
             <div class="err"></div>
-            <div class="hint">يوم / شهر / سنة — كتابة يدوية بتنسيق DD/MM/YYYY.</div>
+            <div class="hint">يوم / شهر / سنة — تُضاف الأصفارُ تلقائيًا عند الخروجِ من الخانة (1 ← 01).</div>
           </div>
           <div class="field" data-field="job">
             <label for="f-job">المسمى الوظيفي <span class="req">*</span></label>
@@ -703,23 +772,26 @@ footer.site b{color:#F0D9A6}
         </div>
       </div>
 
-      <!-- ٠٥ -->
+      <!-- ٠٥ التطوير المهني — قائمة منسدلة متعددة بشيك بوكس -->
       <div class="card reveal">
         <div class="sec-head">
           <span class="sec-num"><span>٠٥</span></span>
-          <div><h2>التطوير المهني</h2><p>الدورات التي تحتاجُها وترغبُ بها من القسم</p></div>
+          <div><h2>التطوير المهني</h2><p>افتح القائمةَ وفعّل مربعَ الاختيارِ بجانب كل دورةٍ ترغبُ بها</p></div>
         </div>
         <div class="grid">
-          <div class="field" data-field="course">
-            <label for="f-course">الدورات المطلوبة <span class="req">*</span></label>
-            <div class="ctl-wrap">
-              <select id="f-course" class="control ph" data-dk="course" required>
-                <option value="" disabled selected>اختر الدورة…</option>
-              </select>
+          <div class="field span-2" data-field="course">
+            <label>الدورات المطلوبة <span class="req">*</span><span class="lbl-extra" id="cnt-course"></span></label>
+            <div class="msel" id="course-msel">
+              <button type="button" class="control msel-btn" id="msel-btn" aria-haspopup="listbox" aria-expanded="false">
+                <span class="ph-label" id="msel-label">اختر الدورات من القائمة…</span>
+                <svg class="ic chev"><use href="#i-chev"/></svg>
+              </button>
+              <div class="msel-panel" id="msel-panel" role="listbox" hidden></div>
             </div>
             <div class="err"></div>
+            <div class="hint">يمكنك اختيار دورةٍ واحدةٍ أو أكثر — حتى جميعِها — من نفس القائمة.</div>
           </div>
-          <div class="field" data-field="other">
+          <div class="field span-2" data-field="other">
             <label for="f-other">دورات أخرى <span class="req">*</span></label>
             <div class="ctl-wrap">
               <input type="text" id="f-other" class="control" data-dk="other" placeholder="اكتبها هنا، أو اكتب: لا يوجد">
@@ -747,10 +819,10 @@ footer.site b{color:#F0D9A6}
       <div class="form-foot reveal">
         <button class="btn btn-brown btn-submit btn-shine" id="btn-submit" type="button">
           <span class="spin"></span>
-          <svg class="ic"><use href="#i-send"/></svg>
-          <span class="btn-txt">إرسال الاستمارة</span>
+          <svg class="ic"><use href="#i-eye"/></svg>
+          <span class="btn-txt">مراجعة البيانات ثم الإرسال</span>
         </button>
-        <p class="form-note">بالمَرسال، أنت تؤكدُ صحةَ البياناتِ وموافقتَك على استخدامِها لأغراضِ القسمِ الرسمية.</p>
+        <p class="form-note">سيُعرض عليك ملخّصٌ كاملٌ لبياناتك للتأكيد قبلَ الإرسال النهائي.</p>
       </div>
     </form>
   </div>
@@ -762,12 +834,14 @@ footer.site b{color:#F0D9A6}
     <div class="admin-head">
       <div>
         <h1>لوحة الإدارة</h1>
-        <p>إدارةُ سجلاتِ الاستماراتِ الواردةِ من منسوبي القسم — بكل البيانات كاملة</p>
+        <p>إدارةُ سجلاتِ الاستماراتِ — حالات، ملاحظات، تقارير، وأدوات متابعة</p>
       </div>
       <div class="admin-actions">
-        <button class="btn btn-ghost sm" id="btn-cloud" type="button"><svg class="ic"><use href="#i-refresh"/></svg> سحب من قاعدة البيانات</button>
-        <button class="btn btn-gold sm" id="btn-export" type="button"><svg class="ic"><use href="#i-download"/></svg> تصدير Excel (كامل)</button>
-        <button class="btn btn-brown sm" id="btn-pdf" type="button"><svg class="ic"><use href="#i-file"/></svg> تصدير PDF ملوّن</button>
+        <button class="btn btn-ghost sm" id="btn-cloud" type="button"><svg class="ic"><use href="#i-refresh"/></svg> مزامنة</button>
+        <button class="btn btn-gold sm" id="btn-export" type="button"><svg class="ic"><use href="#i-download"/></svg> Excel (كامل)</button>
+        <button class="btn btn-brown sm" id="btn-pdf" type="button"><svg class="ic"><use href="#i-file"/></svg> PDF ملوّن</button>
+        <button class="btn btn-ghost sm" id="btn-qr" type="button"><svg class="ic"><use href="#i-qr"/></svg> رمز QR</button>
+        <button class="btn btn-ghost sm" id="btn-backup" type="button"><svg class="ic"><use href="#i-save"/></svg> نسخة احتياطية</button>
         <button class="btn btn-ghost sm" id="btn-back-site" type="button"><svg class="ic"><use href="#i-arrow"/></svg> الموقع</button>
         <button class="btn btn-ghost sm" id="btn-logout" type="button"><svg class="ic"><use href="#i-logout"/></svg> خروج</button>
       </div>
@@ -778,8 +852,14 @@ footer.site b{color:#F0D9A6}
         <svg class="ic"><use href="#i-search"/></svg>
         <input type="text" id="ad-q" class="control" placeholder="بحث بالاسم أو المدرسة أو رقم الهوية أو الجوال…">
       </div>
-      <select id="ad-school" class="control" style="max-width:250px">
+      <select id="ad-school" class="control" style="max-width:230px">
         <option value="">كل المدارس</option>
+      </select>
+      <select id="ad-status" class="control" style="max-width:180px">
+        <option value="">كل الحالات</option>
+        <option value="new">جديد</option>
+        <option value="reviewed">تمت المراجعة</option>
+        <option value="contacted">تم التواصل</option>
       </select>
     </div>
     <p class="results-line" id="ad-results"></p>
@@ -789,7 +869,7 @@ footer.site b{color:#F0D9A6}
         <tbody id="ad-tbody"></tbody>
       </table>
     </div>
-    <p style="font:300 11.5px var(--f-body);color:var(--mut);margin-top:10px">⬅️ اسحب الجدول أفقيًا لعرضِ جميعِ الأعمدةِ والبياناتِ كاملة</p>
+    <p style="font:300 11.5px var(--f-body);color:var(--mut);margin-top:10px">⬅️ اسحب الجدول أفقيًا لعرضِ جميعِ الأعمدة · اضغط على أي سجلٍ لعرضِ تفاصيله وإدارةِ حالته وملاحظاتِه</p>
   </div>
 </section>
 </main>
@@ -811,6 +891,7 @@ footer.site b{color:#F0D9A6}
 </div>
 
 <div id="toasts"></div>
+<input type="file" id="restore-file" accept=".json,application/json" hidden>
 
 <script>
 /* =========================================================
@@ -821,10 +902,10 @@ const CONFIG = {
   SCRIPT_URL: "https://script.google.com/macros/s/AKfycbwpu7JAozgVX9ruzvsF3I5PT9aONRRnSo6leOFO4E_YTSjlSEMDnD2o4rFz_l9bwZE/exec",
   ADMIN_PASS: "Rafah-PR@2025#Admin",
   STORAGE_KEY: "pr_records_v1",
-  DRAFT_KEY: "pr_draft_v1"
+  DRAFT_KEY: "pr_draft_v1",
+  META_KEY: "pr_meta_v1"
 };
 
-/* مصادر متعددة للمكتبات — إذا فشل مصدر يجرّب التالي تلقائيًا */
 const CDN_XLSX = [
   'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/package/dist/xlsx.full.min.js',
   'https://unpkg.com/xlsx@0.18.5/package/dist/xlsx.full.min.js',
@@ -862,16 +943,47 @@ const COURSES = ['مهارات التصوير بالجوال «فوتو وفيد
 const HEADERS = ['اسم المدرسة','ساحة العمل','الاسم الثلاثي','رقم الهوية','تاريخ التعيين','تاريخ الميلاد','المسمى الوظيفي','آخر شهادة جامعية','التخصص','عنوان النزوح بالتفصيل','رقم الجوال المعتمد','رقم الواتساب','رابط صفحة فيسبوك المدرسة','الدورات المطلوبة','دورات أخرى'];
 const KEYS = ['school','arena','name','nid','hire','birth','job','degree','major','address','phone','wa','fb','course','other'];
 
-/* أعمدة جدول لوحة الإدارة — كل البيانات كاملة */
+const STATUS = {
+  new:      {t:'جديد',              c:'st-new'},
+  reviewed: {t:'تمت المراجعة',      c:'st-review'},
+  contacted:{t:'تم التواصل',        c:'st-contact'}
+};
+const STATUS_ORDER = ['new','reviewed','contacted'];
+
+const WA_TEMPLATES = {
+  received: {t:'إشعار استلام الطلب', f: r =>
+`أهلًا بك أ. ${r.values[2]} 🌟
+تم استلام طلب انتسابك لقسم العلاقات العامة بنجاح.
+📌 رقمك المرجعي: ${r.id}
+🏫 المدرسة: ${r.values[0]}
+
+سنتواصل معك قريبًا عبر هذا الرقم.
+مديرية التربية والتعليم – رفح · قسم العلاقات العامة`},
+  contact: {t:'دعوة للتواصل', f: r =>
+`أهلًا أ. ${r.values[2]} 👋
+معك فريق قسم العلاقات العامة – مديرية التربية والتعليم رفح.
+
+بخصوص طلبك رقم ${r.id}، نودّ التواصل معك لإتمام بعض التفاصيل.
+متى يناسبك التحدث؟`},
+  welcome: {t:'تهنئة بالانتساب', f: r =>
+`مبروك أ. ${r.values[2]} 🎉
+تم اعتماد انتسابك لفريق قسم العلاقات العامة في النقاط التعليمية.
+📌 رقمك المرجعي: ${r.id}
+
+أهلًا بك ضمن فريق التوثيق والإعلام، ونسعد بوجودك معنا 🇵🇸
+مديرية التربية والتعليم – رفح`}
+};
+
 const COLS = [
   {h:'#',                 v:(r,i)=>i+1},
   {h:'المرجع',            tag:true,  v:r=>r.id},
+  {h:'الحالة',            st:true,   v:r=>r.id},
   {h:'الاسم الثلاثي',     name:true, v:r=>r.values[2]},
   {h:'رقم الهوية',        ltr:true,  v:r=>r.values[3]},
   {h:'المدرسة',                      v:r=>r.values[0]},
   {h:'ساحة العمل',                   v:r=>r.values[1]},
-  {h:'تاريخ التعيين',                v:r=>r.values[4]},
-  {h:'تاريخ الميلاد',                v:r=>r.values[5]},
+  {h:'تاريخ التعيين',     ltr:true,  v:r=>r.values[4]},
+  {h:'تاريخ الميلاد',     ltr:true,  v:r=>r.values[5]},
   {h:'المسمى الوظيفي',               v:r=>r.values[6]},
   {h:'الشهادة',                      v:r=>r.values[7]},
   {h:'التخصص',                       v:r=>r.values[8]},
@@ -879,7 +991,7 @@ const COLS = [
   {h:'الجوال',            ltr:true,  v:r=>r.values[10]},
   {h:'الواتساب',          ltr:true,  v:r=>r.values[11]},
   {h:'رابط فيسبوك',       cut:true, ltr:true, v:r=>r.values[12]},
-  {h:'الدورة المطلوبة',              v:r=>r.values[13]},
+  {h:'الدورة المطلوبة',   cut:true,  v:r=>r.values[13]},
   {h:'دورات أخرى',        cut:true,  v:r=>r.values[14]},
   {h:'تاريخ الإرسال',                v:r=>fmtDateTime(parseSentAt(r.sentAt))}
 ];
@@ -892,7 +1004,6 @@ const icon = n => `<svg class="ic"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad = n => String(n).padStart(2,'0');
 const fmtDateTime = iso => { const d = new Date(iso); if (isNaN(d)) return String(iso||'—'); return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} - ${pad(d.getHours())}:${pad(d.getMinutes())}`; };
-/* توحيد صيغ التاريخ القادمة من قاعدة البيانات (ISO أو نص منسق أو Date) */
 function parseSentAt(s){
   if (!s) return new Date().toISOString();
   if (s instanceof Date) return s.toISOString();
@@ -938,6 +1049,23 @@ function btnBusy(btn, on, label){
     btn.disabled = false;
     if (btn.dataset.html){ btn.innerHTML = btn.dataset.html; delete btn.dataset.html; }
   }
+}
+async function copyText(t){
+  try { await navigator.clipboard.writeText(t); return true; }
+  catch {
+    const ta = document.createElement('textarea');
+    ta.value = t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch {}
+    ta.remove(); return ok;
+  }
+}
+function downloadBlob(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=> { URL.revokeObjectURL(a.href); a.remove(); }, 400);
 }
 
 /* ============ الشعار الأصلي ============ */
@@ -1006,14 +1134,69 @@ function fillSelect(sel, items){
 }
 fillSelect(el('f-arena'), ARENAS);
 fillSelect(el('f-degree'), DEGREES);
-fillSelect(el('f-course'), COURSES);
 SCHOOLS.forEach(v => {
   el('f-school').insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`);
   el('ad-school').insertAdjacentHTML('beforeend', `<option value="${esc(v)}">${esc(v)}</option>`);
 });
  $$('select.control').forEach(s => {
-  s.addEventListener('change', ()=> s.classList.toggle('ph', !s.value));
+  if (s.id !== 'ad-school' && s.id !== 'ad-status')
+    s.addEventListener('change', ()=> s.classList.toggle('ph', !s.value));
 });
+
+/* ============ الدورات — قائمة منسدلة متعددة الاختيار بشيك بوكس ============ */
+const CourseSel = {
+  list: new Set(),
+  toggle(v){ this.list.has(v) ? this.list.delete(v) : this.list.add(v); this.render(); },
+  get(){ return Array.from(this.list); },
+  set(arr){ this.list = new Set(arr || []); this.render(); },
+  clear(){ this.list.clear(); this.render(); },
+  render(){
+    $$('#msel-panel .msel-opt').forEach(o => {
+      const v = o.dataset.v;
+      const on = this.list.has(v);
+      o.classList.toggle('sel', on);
+      o.querySelector('input').checked = on;
+    });
+    const n = this.list.size;
+    const lbl = el('msel-label');
+    const btn = el('msel-btn');
+    if (n === 0){
+      lbl.textContent = 'اختر الدورات من القائمة…';
+      lbl.classList.add('ph-label'); lbl.style.color = ''; lbl.style.fontWeight = '';
+      btn.classList.remove('has-sel');
+    } else {
+      lbl.textContent = n === COURSES.length ? `تم اختيار جميع الدورات (${n})` : `تم اختيار ${n} ${n===1?'دورة':'دورات'} — انقر للتعديل`;
+      lbl.classList.remove('ph-label');
+      lbl.style.color = 'var(--gold-d)'; lbl.style.fontWeight = '600';
+      btn.classList.add('has-sel');
+    }
+    const cnt = el('cnt-course');
+    cnt.textContent = n > 0 ? `${n} / ${COURSES.length} دورة` : '';
+    cnt.style.color = n > 0 ? 'var(--ok)' : '';
+    const f = fieldEl('course');
+    if (f.classList.contains('invalid') && n > 0){ f.classList.remove('invalid'); f.querySelector('.err').innerHTML=''; }
+    updateProgress();
+  }
+};
+/* بناء خيارات القائمة بشيك بوكس */
+COURSES.forEach(v => {
+  const o = document.createElement('div');
+  o.className = 'msel-opt'; o.dataset.v = v; o.setAttribute('role','option');
+  o.innerHTML = `<input type="checkbox" tabindex="-1"><span>${esc(v)}</span><svg class="ic chk-mark"><use href="#i-check"/></svg>`;
+  o.addEventListener('click', e => { e.preventDefault(); CourseSel.toggle(v); });
+  el('msel-panel').appendChild(o);
+});
+/* فتح/إغلاق القائمة */
+const msel = el('course-msel'), mselBtn = el('msel-btn'), mselPanel = el('msel-panel');
+function closeMsel(){ msel.classList.remove('open'); mselPanel.hidden = true; mselBtn.setAttribute('aria-expanded','false'); }
+mselBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const willOpen = mselPanel.hidden;
+  if (willOpen){ msel.classList.add('open'); mselPanel.hidden = false; mselBtn.setAttribute('aria-expanded','true'); }
+  else closeMsel();
+});
+document.addEventListener('click', e => { if (!msel.contains(e.target)) closeMsel(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !mselPanel.hidden) closeMsel(); });
 
 /* ============ منطق الاستمارة ============ */
 const form = el('pr-form');
@@ -1021,26 +1204,50 @@ const form = el('pr-form');
  $$('input[data-digits]').forEach(inp => {
   inp.addEventListener('input', ()=> { inp.value = inp.value.replace(/\D/g,'').slice(0, +inp.dataset.digits); });
 });
+
+/* ✅✅ التواريخ — ثلاث خانات (يوم/شهر/سنة) + أصفار عند الخروج فقط (بلا أي تدخل أثناء الكتابة) */
  $$('.date-group').forEach(g => {
   const parts = Array.from(g.querySelectorAll('input'));
   parts.forEach((inp, i) => {
-    inp.addEventListener('input', ()=> { if (inp.value.length === +inp.maxLength && i < 2) parts[i+1].focus(); });
+    inp.addEventListener('input', ()=> {
+      /* لا نعدّل القيمة هنا إطلاقًا سوى فلترة الأرقام (تتم عبر data-digits) */
+      if (inp.value.length === +inp.maxLength && i < 2) parts[i+1].focus();
+    });
     inp.addEventListener('keydown', e => { if (e.key === 'Backspace' && !inp.value && i > 0) parts[i-1].focus(); });
+    /* ✅ الأصفار الاحترافية: تُضاف عند مغادرة الخانة فقط — اكتب 1 واخرج ← 01 */
+    inp.addEventListener('blur', ()=> {
+      const v = inp.value.replace(/\D/g,'');
+      if (v) inp.value = v.padStart(+inp.maxLength, '0');
+    });
   });
+  /* لصق تاريخ كامل في أول خانة بأي صيغة */
   parts[0].addEventListener('paste', e => {
     const t = (e.clipboardData.getData('text')||'').trim();
-    const m = t.match(/^(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{4})$/);
-    if (m){ e.preventDefault(); parts[0].value=m[1]; parts[1].value=m[2]; parts[2].value=m[3]; refreshLive(); }
+    let m;
+    if (m = t.match(/^(\d{1,2})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{4})$/)){
+      e.preventDefault();
+      parts[0].value = m[1].padStart(2,'0');
+      parts[1].value = m[2].padStart(2,'0');
+      parts[2].value = m[3];
+      refreshLive(); updateProgress();
+    } else if (m = t.match(/^(\d{4})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{1,2})$/)){
+      e.preventDefault();
+      parts[0].value = m[3].padStart(2,'0');
+      parts[1].value = m[2].padStart(2,'0');
+      parts[2].value = m[1];
+      refreshLive(); updateProgress();
+    }
   });
 });
 
 const today = new Date(); today.setHours(23,59,59,999);
+/* ⚠️ تحقق قراءة فقط — لا يعدّل القيم إطلاقًا (هذا كان سبب الخطأ الفادح سابقًا) */
 function dateCheck(p, opt){
   const d = el(p+'-d').value, m = el(p+'-m').value, y = el(p+'-y').value;
   if (!d || !m || !y) return { error: 'إكمالُ التاريخِ إلزامي (يوم / شهر / سنة)' };
   const dd = +d, mm = +m, yy = +y;
-  if (mm < 1 || mm > 12) return { error: 'الشهرُ يجبُ أن يكونَ بين 1 و 12' };
-  if (dd < 1 || dd > 31) return { error: 'اليومُ يجبُ أن يكونَ بين 1 و 31' };
+  if (mm < 1 || mm > 12) return { error: 'الشهرُ يجبُ أن يكونَ بين 01 و 12' };
+  if (dd < 1 || dd > 31) return { error: 'اليومُ يجبُ أن يكونَ بين 01 و 31' };
   const dt = new Date(yy, mm-1, dd);
   if (dt.getFullYear() !== yy || dt.getMonth() !== mm-1 || dt.getDate() !== dd)
     return { error: 'هذا التاريخُ غيرَ صحيح — تحقق من اليومِ والشهرِ والسنة' };
@@ -1097,7 +1304,11 @@ const V = {
       return { value: v };
     } catch { return { error: 'أدخلِ رابطًا صحيحًا يبدأُ بـ https:// مثل https://facebook.com/school' }; }
   },
-  course: () => el('f-course').value ? { value: el('f-course').value } : { error: 'اختيارُ الدورةِ إلزامي' },
+  course: () => {
+    const arr = CourseSel.get();
+    if (!arr.length) return { error: 'افتحِ القائمةَ واخترِ دورةً واحدةً على الأقل' };
+    return { value: arr.join('، ') };
+  },
   other: () => { const v = el('f-other').value.trim(); return v.length >= 2 ? { value: v } : { error: 'هذا الحقلُ إلزامي — اكتبِ الدوراتِ أو اكتب: لا يوجد' }; }
 };
 
@@ -1169,22 +1380,22 @@ el('f-nid').addEventListener('blur', async ()=> {
   }
 });
 
-/* ============ الكابتشا — أرقام من 1 إلى 9 فقط، والناتج لا يتجاوز 9 ============ */
+/* ============ الكابتشا — أرقام من 1 إلى 9 فقط ============ */
 let capAnswer = 0, capLastText = '';
 function newCaptcha(){
   const type = ['+','−','×'][Math.floor(Math.random()*3)];
   let a, b;
   if (type === '+'){
-    a = 1 + Math.floor(Math.random()*8);            /* 1..8 */
-    b = 1 + Math.floor(Math.random()*(9-a));        /* الناتج ≤ 9 */
+    a = 1 + Math.floor(Math.random()*8);
+    b = 1 + Math.floor(Math.random()*(9-a));
     capAnswer = a + b;
   } else if (type === '−'){
-    a = 2 + Math.floor(Math.random()*8);            /* 2..9 */
-    b = 1 + Math.floor(Math.random()*(a-1));        /* الناتج ≥ 1 */
+    a = 2 + Math.floor(Math.random()*8);
+    b = 1 + Math.floor(Math.random()*(a-1));
     capAnswer = a - b;
   } else {
-    a = 1 + Math.floor(Math.random()*3);            /* 1..3 */
-    b = 2 + Math.floor(Math.random()*(Math.floor(9/a)-1)); /* الناتج ≤ 9 */
+    a = 1 + Math.floor(Math.random()*3);
+    b = 2 + Math.floor(Math.random()*(Math.floor(9/a)-1));
     capAnswer = a * b;
   }
   capLastText = `${a} ${type} ${b} =`;
@@ -1243,6 +1454,7 @@ form.addEventListener('input', ()=> {
   draftTimer = setTimeout(()=> {
     const d = {};
     $$('[data-dk]').forEach(x => d[x.dataset.dk] = x.value);
+    d.course_multi = CourseSel.get();
     localStorage.setItem(CONFIG.DRAFT_KEY, JSON.stringify(d));
   }, 500);
 });
@@ -1252,10 +1464,11 @@ function applyDraft(){
   if (!d) return;
   let has = false;
   $$('[data-dk]').forEach(x => { if (d[x.dataset.dk]) { x.value = d[x.dataset.dk]; if (x.tagName === 'SELECT') x.classList.remove('ph'); has = true; } });
+  if (Array.isArray(d.course_multi) && d.course_multi.length){ CourseSel.set(d.course_multi); has = true; }
   if (has){ refreshLive(); updateProgress(); toast('استعدنا مسودتك المحفوظة — أكمل من حيث توقفت', 'info'); }
 }
 
-/* بناء السجل والإرسال */
+/* بناء السجل */
 function buildRecord(){
   return {
     id: 'PR-' + Date.now().toString(36).toUpperCase(),
@@ -1268,15 +1481,103 @@ function buildRecord(){
     ]
   };
 }
-function setSending(on, label){
-  const b = el('btn-submit');
-  b.disabled = on;
-  b.querySelector('.btn-txt').textContent = label || (on ? 'جارٍ إرسال البيانات…' : 'إرسال الاستمارة');
-  b.querySelector('.spin').style.display = on ? 'inline-block' : 'none';
+function resetFormAll(){
+  form.reset();
+  KEYS.forEach(clearState);
+  CourseSel.clear();
+  $$('select.control').forEach(s => { if (s.id.startsWith('f-') || s.id.startsWith('wa-')) s.classList.add('ph'); });
+  el('wa-preview').textContent = 'سيُسجَّل الرقم مع المقدمة التي تختارها';
+  refreshLive(); updateProgress();
 }
+
+/* ============ الكونفيتي 🎊 ============ */
+function confettiBurst(){
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cv = document.createElement('canvas');
+  cv.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:400';
+  document.body.appendChild(cv);
+  const x = cv.getContext('2d');
+  const W = cv.width = innerWidth, H = cv.height = innerHeight;
+  const colors = ['#C8872E','#E9B85C','#F2CE83','#3E2C17','#5F7A46','#FFFDF7'];
+  const ps = [];
+  for (let i=0;i<150;i++){
+    ps.push({ x:Math.random()*W, y:-20-Math.random()*H*.3, w:6+Math.random()*7, h:8+Math.random()*10,
+      vy:2.4+Math.random()*3.4, vx:-1.3+Math.random()*2.6, rot:Math.random()*6.28, vr:-.14+Math.random()*.28,
+      col:colors[i%colors.length] });
+  }
+  const t0 = performance.now();
+  (function frame(t){
+    x.clearRect(0,0,W,H);
+    ps.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr;
+      x.save(); x.translate(p.x,p.y); x.rotate(p.rot);
+      x.fillStyle = p.col; x.fillRect(-p.w/2,-p.h/2,p.w,p.h); x.restore();
+    });
+    if (t - t0 < 4000) requestAnimationFrame(frame); else cv.remove();
+  })(t0);
+}
+
+/* ============ شهادة الانتساب PNG 🏅 ============ */
+async function downloadCertificate(rec){
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const W = 1000, H = 700;
+    const c = document.createElement('canvas'); c.width = W; c.height = H;
+    const x = c.getContext('2d');
+    const g = x.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#FFFDF7'); g.addColorStop(1,'#F5E9CC');
+    x.fillStyle = g; x.fillRect(0,0,W,H);
+    x.strokeStyle = '#C8872E'; x.lineWidth = 7; x.strokeRect(26,26,W-52,H-52);
+    x.strokeStyle = '#E9B85C'; x.lineWidth = 2; x.strokeRect(44,44,W-88,H-88);
+    const dia = (cx,cy,s)=>{ x.save(); x.translate(cx,cy); x.rotate(Math.PI/4); x.fillStyle='#C8872E'; x.fillRect(-s/2,-s/2,s,s); x.restore(); };
+    [[56,56],[W-56,56],[56,H-56],[W-56,H-56]].forEach(p => dia(p[0],p[1],18));
+    await new Promise(res => {
+      const img = new Image();
+      img.onload = () => {
+        x.save(); x.beginPath(); x.arc(W/2,146,62,0,7); x.clip();
+        x.drawImage(img, W/2-74, 72, 148, 148); x.restore();
+        x.strokeStyle = '#C8872E'; x.lineWidth = 5;
+        x.beginPath(); x.arc(W/2,146,62,0,7); x.stroke(); res();
+      };
+      img.onerror = () => { x.fillStyle = '#C8872E'; x.beginPath(); x.arc(W/2,146,62,0,7); x.fill(); res(); };
+      img.src = CONFIG.LOGO_URL;
+    });
+    x.textAlign = 'center';
+    x.fillStyle = '#3E2C17';
+    x.font = "800 42px Alexandria, sans-serif";
+    x.fillText('شهادة انتساب', W/2, 272);
+    x.font = '400 19px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#6E5433';
+    x.fillText('مديرية التربية والتعليم — رفح · قسم العلاقات العامة · النقاط التعليمية', W/2, 308);
+    x.font = '300 21px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#5C4A2E';
+    x.fillText('تشهد إدارة القسم بانضمام', W/2, 366);
+    x.font = "800 44px Alexandria, sans-serif";
+    x.fillStyle = '#A56A1B';
+    x.fillText(rec.values[2], W/2, 422);
+    x.font = '400 19px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#5C4A2E';
+    x.fillText(`${rec.values[0]} · ${rec.values[1]}`, W/2, 460);
+    x.strokeStyle = '#C8872E'; x.lineWidth = 2;
+    x.beginPath(); x.moveTo(W/2-140,498); x.lineTo(W/2+140,498); x.stroke();
+    dia(W/2, 498, 11);
+    x.font = '600 20px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#3E2C17';
+    x.fillText('الرقم المرجعي: ' + rec.id, W/2, 546);
+    x.font = '400 17px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#8A7A5C';
+    x.fillText('تاريخ التسجيل: ' + fmtDateTime(rec.sentAt), W/2, 582);
+    x.font = '300 15px "IBM Plex Sans Arabic", sans-serif';
+    x.fillStyle = '#9A8A67';
+    x.fillText('«توثيقًا للأحداث، وإطلاعًا على التطورات أولًا بأول»', W/2, 634);
+    const blob = await new Promise(r => c.toBlob(r, 'image/png'));
+    downloadBlob(blob, `شهادة_انتساب_${rec.values[2].replace(/\s+/g,'_')}.png`);
+  } catch { toast('تعذر إنشاء الشهادة — حاول مجددًا', 'error'); }
+}
+
+/* ============ الإرسال — مع شاشة مراجعة ============ */
 function cloudSend(rec){
   if (!CONFIG.SCRIPT_URL) return Promise.resolve();
-  /* نرسل التاريخ بصيغة ISO ليتعامل معه الجدول والموقع بشكل موحد */
   const payload = { row: [rec.id, rec.sentAt, ...rec.values] };
   const p = fetch(CONFIG.SCRIPT_URL, {
     method: 'POST', mode: 'no-cors',
@@ -1285,7 +1586,70 @@ function cloudSend(rec){
   }).catch(()=>{});
   return Promise.race([p, new Promise(r => setTimeout(r, 8000))]);
 }
-el('btn-submit').addEventListener('click', async ()=>{
+
+function openReviewModal(rec){
+  const rows = HEADERS.map((h,i) => `<div class="kv"><span>${esc(h)}</span><b>${esc(rec.values[i])}</b></div>`).join('');
+  openModal(`
+    <h3>مراجعة نهائية لبياناتك</h3>
+    <p>راجع جميع البيانات التالية بعناية — بعد التأكيد سيصبح التسجيل نهائيًا ولا يمكن تعديله.</p>
+    <div class="kv-grid">${rows}</div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" id="m-back" type="button">رجوع للتعديل</button>
+      <button class="btn btn-gold" id="m-confirm" type="button"><svg class="ic"><use href="#i-send"/></svg> تأكيد وإرسال نهائي</button>
+    </div>`);
+  el('m-back').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
+  el('m-confirm').addEventListener('click', async ()=> {
+    const btn = el('m-confirm');
+    btnBusy(btn, true, 'جارٍ التحقق من رقم الهوية…');
+    const dup = await nidExists(rec.values[3]);
+    if (dup){
+      btnBusy(btn, false);
+      closeModal();
+      setErr('nid','لقد تم التسجيل مسبقًا بهذا الرقم — تواصل مع إدارة القسم عند وجود خطأ');
+      const f = fieldEl('nid');
+      f.scrollIntoView({ behavior:'smooth', block:'center' });
+      f.classList.add('shake'); setTimeout(()=> f.classList.remove('shake'), 500);
+      newCaptcha();
+      toast('لقد تم التسجيل مسبقًا بهذا الرقم', 'error');
+      return;
+    }
+    btnBusy(btn, true, 'جارٍ إرسال البيانات…');
+    await Promise.all([cloudSend(rec), new Promise(r => setTimeout(r, 700))]);
+    const records = loadRecords();
+    records.push(rec);
+    persistRecords(records);
+    localStorage.removeItem(CONFIG.DRAFT_KEY);
+    btnBusy(btn, false);
+    closeModal();
+    confettiBurst();
+    openSuccess(rec);
+    toast('تم استلام استمارتك بنجاح', 'ok');
+    updateLive();
+  });
+}
+
+function openSuccess(rec){
+  openModal(`
+    <div style="text-align:center;padding:6px 4px">
+      <svg class="success-check" viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="24" pathLength="1"/>
+        <path d="M15 27l8 8 15-16" pathLength="1"/>
+      </svg>
+      <h3 style="font-size:24px">تم استلامُ بياناتك بنجاح 🎉</h3>
+      <p>أهلًا بك أ. <b>${esc(rec.values[2])}</b> في فريقِ العلاقاتِ العامة! سيتواصلُ معك القسمُ قريبًا عبرَ رقمِ الواتسابِ المُدخَل، وحمّل شهادةَ انتسابِك وشاركها.</p>
+      <div class="ref-box"><span><small>رقمك المرجعي — احتفظ به</small><b>${esc(rec.id)}</b></span></div>
+      <div class="success-actions">
+        <button class="btn btn-gold" id="m-cert" type="button"><svg class="ic"><use href="#i-award"/></svg> تحميل شهادة الانتساب</button>
+        <button class="btn btn-ghost" id="m-new" type="button">تعبئة استمارة جديدة</button>
+        <button class="btn btn-ghost" id="m-close2" type="button">إغلاق</button>
+      </div>
+    </div>`);
+  el('m-cert').addEventListener('click', ()=> downloadCertificate(rec));
+  el('m-new').addEventListener('click', ()=> { resetFormAll(); newCaptcha(); closeModal(); document.getElementById('form').scrollIntoView({ behavior:'smooth' }); });
+  el('m-close2').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
+}
+
+el('btn-submit').addEventListener('click', ()=>{
   let firstBad = null;
   KEYS.forEach(k => {
     const r = V[k]();
@@ -1319,56 +1683,8 @@ el('btn-submit').addEventListener('click', async ()=>{
   }
 
   const rec = buildRecord();
-  setSending(true, 'جارٍ التحقق من رقم الهوية…');
-  const dup = await nidExists(rec.values[3]);
-  if (dup){
-    setSending(false);
-    setErr('nid','لقد تم التسجيل مسبقًا بهذا الرقم — تواصل مع إدارة القسم عند وجود خطأ');
-    const f = fieldEl('nid');
-    f.scrollIntoView({ behavior:'smooth', block:'center' });
-    f.classList.add('shake'); setTimeout(()=> f.classList.remove('shake'), 500);
-    newCaptcha();
-    toast('لقد تم التسجيل مسبقًا بهذا الرقم', 'error');
-    return;
-  }
-
-  setSending(true, 'جارٍ إرسال البيانات…');
-  await Promise.all([cloudSend(rec), new Promise(r => setTimeout(r, 700))]);
-  const records = loadRecords();
-  records.push(rec);
-  persistRecords(records);
-  localStorage.removeItem(CONFIG.DRAFT_KEY);
-  setSending(false);
-  openSuccess(rec.id);
-  toast('تم استلام استمارتك بنجاح', 'ok');
+  openReviewModal(rec);
 });
-function openSuccess(ref){
-  openModal(`
-    <div style="text-align:center;padding:6px 4px">
-      <svg class="success-check" viewBox="0 0 52 52">
-        <circle cx="26" cy="26" r="24" pathLength="1"/>
-        <path d="M15 27l8 8 15-16" pathLength="1"/>
-      </svg>
-      <h3 style="font-size:24px">تم استلامُ بياناتك بنجاح</h3>
-      <p>شكرًا لانضمامِك إلى فريقِ العلاقاتِ العامة. سيتواصلُ معك القسمُ قريبًا عبرَ رقمِ الواتسابِ المُدخَل، واحتفظْ برقمِك المرجعيّ لأيِّ استفسار.</p>
-      <div class="ref-box"><span><small>رقمك المرجعي</small><b>${esc(ref)}</b></span></div>
-      <div class="success-actions">
-        <button class="btn btn-gold" id="m-new" type="button">تعبئة استمارة جديدة</button>
-        <button class="btn btn-ghost" id="m-close2" type="button">إغلاق</button>
-      </div>
-    </div>`);
-  el('m-new').addEventListener('click', ()=> {
-    form.reset();
-    KEYS.forEach(clearState);
-    $$('select.control').forEach(s => s.classList.add('ph'));
-    el('wa-preview').textContent = 'سيُسجَّل الرقم مع المقدمة التي تختارها';
-    refreshLive(); updateProgress();
-    newCaptcha();
-    closeModal();
-    document.getElementById('form').scrollIntoView({ behavior:'smooth' });
-  });
-  el('m-close2').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
-}
 form.addEventListener('keydown', e => {
   if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA'){ e.preventDefault(); el('btn-submit').click(); }
 });
@@ -1376,6 +1692,23 @@ form.addEventListener('keydown', e => {
 /* ============ لوحة الإدارة ============ */
 function loadRecords(){ try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY)) || []; } catch { return []; } }
 function persistRecords(r){ localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(r)); }
+let META = (() => { try { return JSON.parse(localStorage.getItem(CONFIG.META_KEY)) || {}; } catch { return {}; } })();
+function getMeta(id){ return META[id] || { status:'new', notes:[] }; }
+function saveMetaFor(id, m){ META[id] = m; localStorage.setItem(CONFIG.META_KEY, JSON.stringify(META)); }
+function statusText(id){ const st = STATUS[getMeta(id).status] || STATUS.new; return st.t; }
+
+function mergeCloudRows(rows){
+  const records = loadRecords();
+  let added = 0;
+  rows.forEach(r => {
+    if (r && r.id && Array.isArray(r.values) && r.values.length >= 15){
+      r.sentAt = parseSentAt(r.sentAt);
+      if (!records.some(x => x.id === r.id)){ records.push(r); added++; }
+    }
+  });
+  if (added) persistRecords(records);
+  return added;
+}
 
 el('btn-top').addEventListener('click', ()=> window.scrollTo({ top:0, behavior:'smooth' }));
 el('btn-admin').addEventListener('click', ()=> {
@@ -1396,7 +1729,7 @@ function showAdmin(){
   document.body.classList.add('admin-mode');
   window.scrollTo(0, 0);
   renderAdmin();
-  syncCloud(true);   /* مزامنة تلقائية صامتة من قاعدة البيانات عند الفتح */
+  syncCloud(true);
 }
 function openPassModal(){
   openModal(`<div class="pass-box">
@@ -1423,37 +1756,38 @@ function openPassModal(){
   inp.addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
 }
 
-let filterQ = '', filterSchool = '';
+let filterQ = '', filterSchool = '', filterStatus = '';
 el('ad-q').addEventListener('input', e => { filterQ = e.target.value.trim(); renderTable(); });
 el('ad-school').addEventListener('change', e => { filterSchool = e.target.value; renderTable(); });
+el('ad-status').addEventListener('change', e => { filterStatus = e.target.value; renderTable(); });
 
 function filteredRecords(){
   return loadRecords()
     .filter(r => {
       if (filterSchool && r.values[0] !== filterSchool) return false;
+      if (filterStatus && getMeta(r.id).status !== filterStatus) return false;
       if (filterQ){
         const hay = [r.id, ...r.values].join(' ').toLowerCase();
         if (!hay.includes(filterQ.toLowerCase())) return false;
       }
       return true;
     })
-    .sort((a,b) => new Date(parseSentAt(b.sentAt)) - new Date(parseSentAt(a.sentAt)));  /* الأحدث أولًا */
+    .sort((a,b) => new Date(parseSentAt(b.sentAt)) - new Date(parseSentAt(a.sentAt)));
 }
 function renderAdmin(){ renderStats(); renderTable(); }
 function renderStats(){
   const recs = loadRecords();
-  const schools = new Set(recs.map(r => r.values[0])).size;
   const t = new Date(); const today0 = new Date(t.getFullYear(), t.getMonth(), t.getDate()).getTime();
   const todayCount = recs.filter(r => new Date(parseSentAt(r.sentAt)).getTime() >= today0).length;
+  const pending = recs.filter(r => getMeta(r.id).status === 'new').length;
   const last = recs.length ? relTime(recs[recs.length-1].sentAt) : '—';
   const card = (ic, val, lbl) => `<div class="stat"><span class="stat-ic">${icon(ic)}</span><div><b>${val}</b><span>${lbl}</span></div></div>`;
   el('ad-stats').innerHTML =
     card('users','' + recs.length, 'إجمالي السجلات') +
-    card('school','' + schools, 'مدارس مشاركة') +
+    card('clock', esc(last), 'آخر تسجيل') +
     card('cal','' + todayCount, 'سجلات اليوم') +
-    card('clock', esc(last), 'آخر تسجيل');
+    card('alert','' + pending, 'بانتظار المراجعة');
 }
-/* بناء رأس الجدول بكل الأعمدة */
 function buildThead(){
   el('ad-thead').innerHTML = '<tr>' + COLS.map(c => `<th>${esc(c.h)}</th>`).join('') + '<th>إجراءات</th></tr>';
 }
@@ -1464,22 +1798,26 @@ function renderTable(){
   if (!list.length){
     tb.innerHTML = `<tr><td colspan="${COLS.length+1}"><div class="empty-state">
       ${icon('db')}
-      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — سيتم السحب تلقائيًا من قاعدة البيانات.'}</p>
+      <p>${loadRecords().length ? 'لا توجد نتائج مطابقة لبحثك الحالي.' : 'لا توجد سجلات بعد — تتم المزامنة تلقائيًا من قاعدة البيانات.'}</p>
     </div></td></tr>`;
     return;
   }
-  tb.innerHTML = list.map((r, i) => `
-    <tr data-id="${esc(r.id)}" title="اضغط لعرض التفاصيل">
+  tb.innerHTML = list.map((r, i) => {
+    const st = STATUS[getMeta(r.id).status] || STATUS.new;
+    return `<tr data-id="${esc(r.id)}" title="اضغط لعرض التفاصيل">
       ${COLS.map(c => {
+        if (c.st) return `<td><span class="st-badge ${st.c}">${st.t}</span></td>`;
+        if (c.tag) return `<td><span class="ref-tag">${esc(r.id)}</span></td>`;
         const v = c.v(r, i);
-        const cls = c.tag ? 'ref-tag' : [c.name&&'td-name', c.ltr&&'td-ltr', c.cut&&'td-cut'].filter(Boolean).join(' ');
-        return `<td class="${c.tag ? '' : cls}">${c.tag ? `<span class="ref-tag">${esc(v)}</span>` : `<span class="${cls}" ${c.cut?`title="${esc(v)}"`:''}>${esc(v)}</span>`}</td>`;
+        const cls = [c.name&&'td-name', c.ltr&&'td-ltr', c.cut&&'td-cut'].filter(Boolean).join(' ');
+        return `<td><span class="${cls}" ${c.cut?`title="${esc(v)}"`:''}>${esc(v)}</span></td>`;
       }).join('')}
       <td><div class="row-actions">
         <button class="icon-btn" data-act="view" type="button" title="عرض التفاصيل">${icon('eye')}</button>
         <button class="icon-btn danger" data-act="del" type="button" title="حذف">${icon('trash')}</button>
       </div></td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 el('ad-tbody').addEventListener('click', e => {
   const btn = e.target.closest('[data-act]');
@@ -1490,16 +1828,61 @@ el('ad-tbody').addEventListener('click', e => {
   btn.dataset.act === 'view' ? openRecord(rec) : confirmDelete(rec);
 });
 function openRecord(r){
+  const meta = getMeta(r.id);
   const rows = HEADERS.map((h, i) => `<div class="kv"><span>${esc(h)}</span><b>${esc(r.values[i])}</b></div>`).join('');
+  const notesHtml = (meta.notes || []).map(n => `<div class="note-item">${esc(n.text)}<small>${fmtDateTime(n.at)}</small></div>`).join('') || '<p style="font:300 12px var(--f-body);color:var(--mut)">لا ملاحظات بعد.</p>';
   openModal(`
     <h3>${esc(r.values[2])}</h3>
     <span class="chip">${esc(r.values[0])}</span>
     <div class="kv-grid">${rows}</div>
+    <div class="status-row">
+      <span style="font:700 12.5px var(--f-body);color:var(--brown);align-self:center">الحالة:</span>
+      ${STATUS_ORDER.map(s => `<button class="st-btn ${STATUS[s].c} ${meta.status===s?'on':''}" data-st="${s}" type="button">${STATUS[s].t}</button>`).join('')}
+    </div>
+    <div class="notes-box">
+      <b>ملاحظات الإدارة الداخلية (خاصة — لا تُرسل للمنسوب)</b>
+      <div id="m-notes">${notesHtml}</div>
+      <div class="note-row">
+        <input type="text" id="m-note-in" class="control" placeholder="أضف ملاحظة… مثال: تواصلنا معه 25/9">
+        <button class="btn btn-gold sm" id="m-note-add" type="button">إضافة</button>
+      </div>
+    </div>
+    <div class="wa-tools">
+      <b>رسائل واتساب جاهزة — عدّل بحرية قبل الإرسال</b>
+      <div class="wa-tools-row">
+        <select id="m-wa-tpl" class="control">${Object.entries(WA_TEMPLATES).map(([k,v]) => `<option value="${k}">${esc(v.t)}</option>`).join('')}</select>
+        <button class="btn btn-ghost sm" id="m-wa-copy" type="button">${icon('copy')} نسخ الرسالة</button>
+        <a class="btn btn-ghost sm" id="m-wa-open" target="_blank" rel="noopener" href="https://wa.me/${esc(r.values[11].replace('+',''))}">${icon('whatsapp')} فتح الواتساب</a>
+      </div>
+    </div>
     <div class="modal-foot">
-      <a class="btn btn-ghost sm" target="_blank" rel="noopener" href="https://wa.me/${esc(r.values[11].replace('+',''))}">${icon('whatsapp')} واتساب</a>
-      <a class="btn btn-ghost sm" target="_blank" rel="noopener" href="${esc(r.values[12])}">${icon('fb')} فيسبوك</a>
       <span class="meta">سُجِّل: ${fmtDateTime(parseSentAt(r.sentAt))} · ${esc(r.id)}</span>
     </div>`);
+  $$('#modal-body .st-btn').forEach(b => b.addEventListener('click', ()=>{
+    const m = getMeta(r.id); m.status = b.dataset.st; saveMetaFor(r.id, m);
+    $$('#modal-body .st-btn').forEach(x => x.classList.toggle('on', x === b));
+    renderTable(); renderStats();
+    toast(`تم تحديث الحالة: ${STATUS[m.status].t}`, 'ok');
+  }));
+  const addNote = ()=> {
+    const inp = el('m-note-in');
+    const txt = inp.value.trim();
+    if (!txt) return;
+    const m = getMeta(r.id);
+    m.notes = m.notes || [];
+    m.notes.unshift({ text: txt, at: new Date().toISOString() });
+    saveMetaFor(r.id, m);
+    el('m-notes').innerHTML = m.notes.map(n => `<div class="note-item">${esc(n.text)}<small>${fmtDateTime(n.at)}</small></div>`).join('');
+    inp.value = '';
+    toast('تمت إضافة الملاحظة', 'ok');
+  };
+  el('m-note-add').addEventListener('click', addNote);
+  el('m-note-in').addEventListener('keydown', e => { if (e.key === 'Enter') addNote(); });
+  const curTpl = ()=> WA_TEMPLATES[el('m-wa-tpl').value].f(r);
+  el('m-wa-copy').addEventListener('click', async ()=> {
+    const ok = await copyText(curTpl());
+    toast(ok ? 'تم نسخ الرسالة — الصقها في الواتساب' : 'تعذر النسخ — انسخ يدويًا', ok ? 'ok' : 'error');
+  });
 }
 function confirmDelete(rec){
   openModal(`
@@ -1512,30 +1895,24 @@ function confirmDelete(rec){
   el('m-cancel').addEventListener('click', closeModal);
   el('m-del').addEventListener('click', ()=> {
     persistRecords(loadRecords().filter(x => x.id !== rec.id));
+    delete META[rec.id];
+    localStorage.setItem(CONFIG.META_KEY, JSON.stringify(META));
     closeModal(); renderAdmin();
     toast('تم حذف السجل', 'info');
   });
 }
 
-/* ============ المزامنة مع قاعدة البيانات السحابية ============ */
+/* ============ المزامنة ============ */
 async function syncCloud(silent){
-  if (silent && !CONFIG.SCRIPT_URL) return;
-  if (!silent) btnBusy(el('btn-cloud'), true, 'جارٍ السحب…');
+  if (!CONFIG.SCRIPT_URL) return;
+  if (!silent) btnBusy(el('btn-cloud'), true, 'جارٍ المزامنة…');
   try {
     const res = await fetch(CONFIG.SCRIPT_URL, { cache:'no-store' });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || '');
-    const records = loadRecords();
-    let added = 0;
-    (data.rows || []).forEach(r => {
-      if (r && r.id && Array.isArray(r.values) && r.values.length >= 15){
-        r.sentAt = parseSentAt(r.sentAt);
-        if (!records.some(x => x.id === r.id)){ records.push(r); added++; }
-      }
-    });
-    if (added) persistRecords(records);
+    const added = mergeCloudRows(data.rows || []);
     renderAdmin();
-    if (!silent) toast(added ? `تمت إضافة ${added} سجل من قاعدة البيانات` : 'السجلات محدثة بالكامل', 'ok');
+    if (!silent) toast(added ? `تمت إضافة ${added} سجل جديد` : 'السجلات محدثة بالكامل', 'ok');
     else if (added) toast(`تمت مزامنة ${added} سجل جديد من قاعدة البيانات`, 'ok');
   } catch {
     if (!silent) toast('تعذر الاتصال بقاعدة البيانات السحابية', 'error');
@@ -1545,61 +1922,145 @@ async function syncCloud(silent){
 }
 el('btn-cloud').addEventListener('click', ()=> syncCloud(false));
 
-/* ============ تصدير Excel كامل — مع تحميل المكتبة من عدة مصادر + بديل CSV ============ */
-function downloadBlob(blob, name){
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = name;
-  document.body.appendChild(a); a.click();
-  setTimeout(()=> { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+/* ============ العدّاد الحي ============ */
+function animateCount(node, to){
+  const dur = 1400, t0 = performance.now();
+  (function step(t){
+    const p = Math.min(1, (t - t0)/dur);
+    node.textContent = Math.round(to * (1 - Math.pow(1-p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
 }
+async function updateLive(){
+  const setLocal = ()=> {
+    const recs = loadRecords();
+    animateCount(el('live-count'), recs.length);
+    animateCount(el('live-schools'), new Set(recs.map(r => r.values[0])).size);
+  };
+  if (!CONFIG.SCRIPT_URL){ setLocal(); return; }
+  try {
+    const res = await fetch(CONFIG.SCRIPT_URL, { cache:'no-store' });
+    const d = await res.json();
+    if (d.ok && Array.isArray(d.rows)){
+      animateCount(el('live-count'), d.rows.length);
+      animateCount(el('live-schools'), new Set(d.rows.map(r => r.values && r.values[0]).filter(Boolean)).size);
+      return;
+    }
+    setLocal();
+  } catch { setLocal(); }
+}
+
+/* ============ رمز QR ============ */
+el('btn-qr').addEventListener('click', ()=>{
+  const url = location.href.split('#')[0];
+  openModal(`<div class="qr-box">
+    <h3>رمز QR للاستمارة</h3>
+    <p>اطبع الرمز أو شاركه في المجموعات — يمسحه المنسوب من جواله فيفتح الاستمارة مباشرة</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=14&color=3E2C17&bgcolor=FBF7EC&data=${encodeURIComponent(url)}" alt="رمز QR للاستمارة">
+    <div class="url">${esc(url)}</div>
+    <button class="btn btn-ghost sm" id="m-qr-copy" type="button">${icon('copy')} نسخ الرابط</button>
+  </div>`);
+  el('m-qr-copy').addEventListener('click', async ()=> {
+    const ok = await copyText(url);
+    toast(ok ? 'تم نسخ الرابط' : 'تعذر النسخ', ok ? 'ok' : 'error');
+  });
+});
+
+/* ============ النسخة الاحتياطية والاستعادة ============ */
+el('btn-backup').addEventListener('click', ()=>{
+  openModal(`
+    <h3>النسخ الاحتياطي والاستعادة</h3>
+    <p>حمّل نسخةً كاملةً من جميع السجلات والحالات والملاحظات لحفظها بأمان، أو استعد نسخةً سابقة عند الحاجة.</p>
+    <div class="modal-btns" style="justify-content:center">
+      <button class="btn btn-gold" id="m-bk-dl" type="button">${icon('download')} تنزيل نسخة احتياطية</button>
+      <button class="btn btn-ghost" id="m-bk-rs" type="button">${icon('refresh')} استعادة نسخة</button>
+    </div>`);
+  el('m-bk-dl').addEventListener('click', ()=>{
+    const data = { app:'pr-form', version:1, exportedAt:new Date().toISOString(), records:loadRecords(), meta:META };
+    downloadBlob(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'}), `نسخة_احتياطية_العلاقات_العامة_${new Date().toISOString().slice(0,10)}.json`);
+    toast('تم تنزيل النسخة الاحتياطية — احفظها في مكان آمن', 'ok');
+  });
+  el('m-bk-rs').addEventListener('click', ()=> el('restore-file').click());
+});
+el('restore-file').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const rd = new FileReader();
+  rd.onload = ()=> {
+    try {
+      const d = JSON.parse(rd.result);
+      if (!Array.isArray(d.records)) throw 0;
+      const records = loadRecords();
+      let aR = 0, aM = 0;
+      d.records.forEach(r => { if (r && r.id && Array.isArray(r.values) && !records.some(x => x.id === r.id)){ records.push(r); aR++; } });
+      persistRecords(records);
+      if (d.meta && typeof d.meta === 'object'){
+        Object.entries(d.meta).forEach(([id, m]) => { if (!META[id]){ META[id] = m; aM++; } });
+        localStorage.setItem(CONFIG.META_KEY, JSON.stringify(META));
+      }
+      closeModal(); renderAdmin();
+      toast(`تمت الاستعادة: ${aR} سجل و${aM} حالة إضافية`, 'ok');
+    } catch { toast('ملف الاستعادة غير صالح', 'error'); }
+  };
+  rd.readAsText(f);
+  e.target.value = '';
+});
+
+/* ============ تصدير Excel كامل ============ */
 function exportCSV(list){
   const q = v => '"' + String(v ?? '').replace(/"/g,'""') + '"';
-  const rows = [ ['م','رقم المرجع','تاريخ الإرسال', ...HEADERS], ...list.map((r,i)=>[i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), ...r.values]) ];
+  const rows = [ ['م','رقم المرجع','تاريخ الإرسال','الحالة الإدارية','ملاحظات الإدارة', ...HEADERS],
+    ...list.map((r,i)=>[i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), statusText(r.id),
+      (getMeta(r.id).notes||[]).map(n=>n.text).join(' | '), ...r.values]) ];
   const csv = '\uFEFF' + rows.map(row => row.map(q).join(',')).join('\r\n');
   downloadBlob(new Blob([csv], {type:'text/csv;charset=utf-8;'}), `سجلات_العلاقات_العامة_كاملة_${new Date().toISOString().slice(0,10)}.csv`);
 }
 el('btn-export').addEventListener('click', async ()=>{
   const list = loadRecords();
-  if (!list.length){ toast('لا توجد سجلات لتصديرها — اسحب من قاعدة البيانات أولًا', 'error'); return; }
+  if (!list.length){ toast('لا توجد سجلات لتصديرها — امزامن من قاعدة البيانات أولًا', 'error'); return; }
   btnBusy(el('btn-export'), true, 'جارٍ تجهيز الملف…');
   const ok = await loadLib('xlsx', CDN_XLSX, 'XLSX');
   btnBusy(el('btn-export'), false);
   if (!ok){
-    /* بديل ذكي: CSV بترميز عربي سليم يفتح في Excel مباشرة */
     exportCSV(list);
     toast('تعذر تحميل مكتبة Excel — تم التصدير بصيغة CSV متوافقة مع Excel', 'info');
     return;
   }
-  const header = ['م', 'رقم المرجع', 'تاريخ الإرسال', ...HEADERS];
-  const rows = list.map((r, i) => [i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), ...r.values]);
+  const header = ['م', 'رقم المرجع', 'تاريخ الإرسال', 'الحالة الإدارية', 'ملاحظات الإدارة', ...HEADERS];
+  const rows = list.map((r, i) => [i+1, r.id, fmtDateTime(parseSentAt(r.sentAt)), statusText(r.id),
+    (getMeta(r.id).notes||[]).map(n=>n.text).join(' | '), ...r.values]);
   const ws = XLSX.utils.aoa_to_sheet([header, ...rows]);
-  ws['!cols'] = [{ wch:5 }, { wch:15 }, { wch:19 }, ...HEADERS.map(() => ({ wch:24 }))];
+  ws['!cols'] = [{ wch:5 }, { wch:15 }, { wch:19 }, { wch:15 }, { wch:30 }, ...HEADERS.map(() => ({ wch:24 }))];
   const wb = XLSX.utils.book_new();
   wb.Workbook = { Views: [{ RTL: true }] };
   XLSX.utils.book_append_sheet(wb, ws, 'سجلات العلاقات العامة');
   XLSX.writeFile(wb, `سجلات_العلاقات_العامة_كاملة_${new Date().toISOString().slice(0,10)}.xlsx`);
-  toast(`تم تصدير ${list.length} سجل بكل البيانات (${header.length} عمود)`, 'ok');
+  toast(`تم تصدير ${list.length} سجل بكل البيانات والحالات`, 'ok');
 });
 
-/* ============ تصدير PDF ملوّن — مع إصلاح مشكلة الملف الفارغ ============ */
+/* ============ تصدير PDF ملوّن ============ */
 function buildPdfDoc(list){
   const schools = new Set(list.map(r => r.values[0])).size;
   const d = new Date(); const t0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
   const todayCount = list.filter(r => new Date(parseSentAt(r.sentAt)).getTime() >= t0).length;
-  const FULL = [9, 12, 14];
+  const FULL = [9, 12, 13, 14];
   const kv = (h, v, full) => `<div class="pdf-kv${full ? ' full' : ''}"><span>${esc(h)}</span><b>${esc(v)}</b></div>`;
-  const cards = list.map((r, i) => `
+  const cards = list.map((r, i) => {
+    const meta = getMeta(r.id);
+    const notes = (meta.notes||[]).length ? ` &nbsp;·&nbsp; 🗒️ ${meta.notes.length} ملاحظة` : '';
+    return `
     <div class="pdf-card">
       <div class="pdf-card-head">
         <span>${i+1}. ${esc(r.values[2])} — ${esc(r.values[0])}</span>
+        <span class="st">${STATUS[meta.status].t}</span>
         <span class="ref">${esc(r.id)}</span>
       </div>
       <div class="pdf-grid">
         ${HEADERS.map((h, idx) => kv(h, r.values[idx], FULL.includes(idx))).join('')}
       </div>
-      <div class="pdf-card-foot">سُجِّل بتاريخ: ${fmtDateTime(parseSentAt(r.sentAt))} &nbsp;·&nbsp; واتساب: ${esc(r.values[11])} &nbsp;·&nbsp; جوال: ${esc(r.values[10])}</div>
-    </div>`).join('');
+      <div class="pdf-card-foot">سُجِّل: ${fmtDateTime(parseSentAt(r.sentAt))} &nbsp;·&nbsp; واتساب: ${esc(r.values[11])} &nbsp;·&nbsp; جوال: ${esc(r.values[10])}${notes}</div>
+    </div>`;
+  }).join('');
   const node = document.createElement('div');
   node.className = 'pdf-doc';
   node.innerHTML = `
@@ -1615,7 +2076,7 @@ function buildPdfDoc(list){
       <div class="pdf-stat"><b>${list.length}</b><span>إجمالي السجلات</span></div>
       <div class="pdf-stat"><b>${schools}</b><span>مدارس مشاركة</span></div>
       <div class="pdf-stat"><b>${todayCount}</b><span>سجلات اليوم</span></div>
-      <div class="pdf-stat"><b>${ARENAS.length}</b><span>ساحات العمل</span></div>
+      <div class="pdf-stat"><b>${list.filter(r=>getMeta(r.id).status==='new').length}</b><span>بانتظار المراجعة</span></div>
     </div>
     <div class="pdf-title">قائمة المنسوبين المسجلين — بيانات كاملة (${list.length} سجل)</div>
     ${cards}
@@ -1628,17 +2089,16 @@ function buildPdfDoc(list){
 }
 el('btn-pdf').addEventListener('click', async ()=>{
   const list = loadRecords();
-  if (!list.length){ toast('لا توجد سجلات لإنشاء التقرير — اسحب من قاعدة البيانات أولًا', 'error'); return; }
+  if (!list.length){ toast('لا توجد سجلات لإنشاء التقرير — امزامن من قاعدة البيانات أولًا', 'error'); return; }
   btnBusy(el('btn-pdf'), true, 'جارٍ إنشاء ملف PDF…');
   const ok = await loadLib('pdf', CDN_PDF, 'html2pdf');
   if (!ok){
     btnBusy(el('btn-pdf'), false);
-    toast('تعذر تحميل مكتبة PDF — تحقق من الاتصال بالإنترنت وحاول مجددًا', 'error');
+    toast('تعذر تحميل مكتبة PDF — تحقق من الاتصال وحاول مجددًا', 'error');
     return;
   }
   let node = null;
   try {
-    /* انتظار تحميل الخطوط العربية قبل الالتقاط — يمنع النص الفارغ */
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     window.scrollTo(0, 0);
     node = buildPdfDoc(list);
@@ -1664,9 +2124,10 @@ el('btn-pdf').addEventListener('click', async ()=>{
 el('year').textContent = '© ' + new Date().getFullYear() + ' — جميع الحقوق محفوظة';
 buildThead();
 applyDraft();
+CourseSel.render();
 refreshLive();
 updateProgress();
-/* تحميل المكتبات مسبقًا في الخلفية بعد فتح الصفحة — ليكون التصدير فوريًا */
+updateLive();
 addEventListener('load', ()=> setTimeout(()=> { loadLib('xlsx', CDN_XLSX, 'XLSX'); loadLib('pdf', CDN_PDF, 'html2pdf'); }, 2000));
 </script>
 </body>
