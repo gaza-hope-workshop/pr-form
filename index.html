@@ -1026,15 +1026,21 @@ function toast(msg, type='info'){
   el('toasts').appendChild(t);
   setTimeout(()=>{ t.classList.add('out'); setTimeout(()=>t.remove(), 320); }, 3800);
 }
+let modalCleanupTimer = null;
 function openModal(html){
+  /* إلغاء أي مسح مجدول من إغلاق سابق — يمنع اختفاء رسالة النجاح */
+  if (modalCleanupTimer){ clearTimeout(modalCleanupTimer); modalCleanupTimer = null; }
   el('modal-body').innerHTML = html;
-  el('overlay').hidden = false;
-  requestAnimationFrame(()=> el('overlay').classList.add('show'));
+  const o = el('overlay');
+  o.classList.remove('show');
+  o.hidden = false;
+  void o.offsetWidth;
+  requestAnimationFrame(()=> o.classList.add('show'));
 }
 function closeModal(){
   const o = el('overlay');
   o.classList.remove('show');
-  setTimeout(()=>{ o.hidden = true; el('modal-body').innerHTML=''; }, 210);
+  modalCleanupTimer = setTimeout(()=>{ o.hidden = true; el('modal-body').innerHTML=''; modalCleanupTimer = null; }, 210);
 }
 el('modal-close').addEventListener('click', closeModal);
 el('overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
@@ -1637,13 +1643,17 @@ function openSuccess(rec){
       </svg>
       <h3 style="font-size:24px">تم استلامُ بياناتك بنجاح 🎉</h3>
       <p>أهلًا بك أ. <b>${esc(rec.values[2])}</b> في فريقِ العلاقاتِ العامة! سيتواصلُ معك القسمُ قريبًا عبرَ رقمِ الواتسابِ المُدخَل، وحمّل شهادةَ انتسابِك وشاركها.</p>
-      <div class="ref-box"><span><small>رقمك المرجعي — احتفظ به</small><b>${esc(rec.id)}</b></span></div>
+      <div class="ref-box"><span><small>رقمك المرجعي — احتفظ به</small><b>${esc(rec.id)}</b></span><button class="icon-btn" id="m-copy-ref" type="button" title="نسخ الرقم" style="width:38px;height:38px">${icon('copy')}</button></div>
       <div class="success-actions">
         <button class="btn btn-gold" id="m-cert" type="button"><svg class="ic"><use href="#i-award"/></svg> تحميل شهادة الانتساب</button>
         <button class="btn btn-ghost" id="m-new" type="button">تعبئة استمارة جديدة</button>
         <button class="btn btn-ghost" id="m-close2" type="button">إغلاق</button>
       </div>
     </div>`);
+    el('m-copy-ref').addEventListener('click', async ()=> {
+    const ok = await copyText(rec.id);
+    toast(ok ? 'تم نسخ الرقم المرجعي' : 'تعذر النسخ', ok ? 'ok' : 'error');
+  });
   el('m-cert').addEventListener('click', ()=> downloadCertificate(rec));
   el('m-new').addEventListener('click', ()=> { resetFormAll(); newCaptcha(); closeModal(); document.getElementById('form').scrollIntoView({ behavior:'smooth' }); });
   el('m-close2').addEventListener('click', ()=>{ closeModal(); newCaptcha(); });
